@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ 
+<!-- ......... ......... ......... ......... ......... ......... ......... -->
+<!-- Ant build file.                                                       -->
+<!-- Builds the deliveries for the Okronos applications.                   -->
+<!--                                                                       -->
+<!-- * the target 'save-sources' produces a zip file with the sources.     -->
+<!-- * the target 'package-unix' produces a zip file with an unix-ready    -->
+<!--     application.                                                      -->
+<!-- * the target 'package-windows' produces a zip file with a             -->
+<!--     windows-ready application.                                        -->
+<!-- * the target 'all' calls all these targets.                           -->
+<!--                                                                       -->
+<!-- Output directory: target/build/dist                                   -->
+<!-- ......... ......... ......... ......... ......... ......... ......... -->
+
+<project 
+  name="oKronos Application" 
+  default="all"
+  basedir="../../.."
+  xmlns:fx="javafx:com.sun.javafx.tools.ant">
+ 
+  <!-- ......... ......... ......... .........  -->
+  <!-- Application version - Set by maven.     -->
+  <!-- ......... ......... ......... .........  -->  
+  <property name="app.version" value="last"/>
+
+  <!-- ......... ......... ......... .........  -->
+  <!-- Plateform dependant - subject to change. -->
+  <!-- ......... ......... ......... .........  -->
+  <condition property="platform" value="windows">
+    <os family="windows" />
+  </condition>
+  <condition property="platform" value="linux">
+    <os family="unix" />
+  </condition>
+	
+  <!-- ......... ......... ......... .........  -->
+  <!-- Should not be changed.                   -->
+  <!-- ......... ......... ......... .........  -->
+  <property name="dir.src.java" value="src/main/java"/>
+  <property name="dir.src.resources" value="src/main/resources"/>
+  <property name="dir.src.build" value="src/main/build"/>
+  <property name="dir.src.javafx.unix" value="../resources/linux/javafx-sdk-11.0.2"/>
+  <property name="dir.src.javafx.windows" value="../resources/windows/javafx-sdk-11.0.2"/>
+  <property name="dir.src.dataset" value="src/main/dataset"/>
+  <property name="dir.src.doc" value="../doc/gen"/>
+  <property name="dir.src.lib" value="lib"/>
+  <property name="dir.gen.target" value="target"/>
+  <property name="dir.gen.dist" value="target/dist"/>
+  <property name="dir.gen.tmp" value="target/tmp"/>
+  <property name="dir.gen.dist.unix" value="${dir.gen.dist}/okronos-unix-${app.version}"/>
+  <property name="dir.gen.dist.windows" value="${dir.gen.dist}/okronos-win-${app.version}"/>
+  <property name="file.src.jar" value="${dir.gen.target}/okronos-application-${app.version}.jar"/>
+  <property name="file.gen.jar" value="okronos.jar"/>
+  <property name="dir.launch4j" location="../resources/${platform}/launch4j" />
+	
+  <!-- Puts in the library path all the jar files contains into the 'lib' directory. -->
+  <path id="env.libpath">
+    <fileset dir="lib" casesensitive="yes">
+      <include name="*.jar"/>
+    </fileset>  
+  </path>
+
+  <!-- Puts in the javafx library path all the jar files contains into the javafx 'lib' directory. -->
+  <path id="env.fxlibpath">
+    <fileset dir="${dir.src.javafx}/lib" casesensitive="yes">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <!-- Classpath for java compilation. -->
+  <path id="env.classpath">
+    <path refid="env.libpath" />
+    <path refid="env.fxlibpath" />
+  </path>
+  
+  <!-- Classpath for execution. -->
+  <path id="env.runlibpath">
+    <pathelement path="okronos.jar"/>
+  </path>
+    
+  <!-- launch4j produces a windows executable. -->
+	<echo message="dir.launch4j=${dir.launch4j}"/>
+	  <taskdef name="launch4j"
+	    classname="net.sf.launch4j.ant.Launch4jTask"
+	    classpath="${dir.launch4j}/launch4j.jar:${dir.launch4j}/lib/xstream.jar" />
+
+  <!-- Saves sources and builds. -->
+  <target name="all" depends="package"/>
+  <target name="package" depends="clean, package-unix, package-windows"/>
+ 
+  <!-- Removes destination directories. -->
+  <target name="clean">
+    <delete dir="${dir.gen.dist}"/>
+    <delete dir="${dir.gen.tmp}"/>
+  </target>
+
+  <!-- Packages the application - this part is commmmon to unix and windows build. -->
+  <target name="package-common">
+  <echo message="Build delivery in ${dest}"/>
+    <!-- Copies the dataset. -->
+    <copy todir="${dest}">
+      <fileset dir="${dir.src.dataset}"/>
+    </copy>
+    <!-- Copies jar generated file. -->
+  	<copy file="${file.src.jar}" tofile="${dest}/${file.gen.jar}"/>    
+    <!-- Copies the documentation. -->
+    <copy todir="${dest}/doc">
+      <fileset dir="${dir.src.doc}"/>
+    </copy>
+    <!-- Copies the libraries. -->
+  	<mkdir dir="lib" />
+    <copy todir="${dest}/lib">
+      <fileset dir="lib"/>
+    </copy>
+  </target>
+  
+  <!-- Builds an unix ready delivery. -->
+  <target name="package-unix">
+    <antcall target="package-common">
+      <param name="dest" value="${dir.gen.dist.unix}"/>
+    </antcall>
+    <!-- Copies the shell executable and the icone. -->
+    <copy todir="${dir.gen.dist.unix}">
+      <fileset file="src/main/build/okronos.sh"/>
+      <fileset file="src/main/build/okronos256.png"/>
+    </copy>
+    <!-- Builds the classpath and writes the classpath into the launcher file. -->
+  <pathconvert targetos="unix" property="env.gen.path.unix" refid="env.runlibpath">
+    <map from="${basedir}/" to=""/>
+    </pathconvert>
+    <replace file="${dir.gen.dist.unix}/okronos.sh" token="$${libpath}" value="${env.gen.path.unix}"/>
+    <!-- Allows execution of the launcher. -->
+    <chmod file="${dir.gen.dist.unix}/okronos.sh" perm="ugo+rx"/>
+    <!-- Copies the javafx libraries. --> 
+    <copy todir="${dir.gen.dist.unix}/javafx-sdk">
+      <fileset dir="${dir.src.javafx.unix}"/>
+    </copy>
+    <!-- Zip the delivery. -->
+    <zip destfile="${dir.gen.dist.unix}.zip"
+      basedir="${dir.gen.dist.unix}"/>
+  </target>
+
+  
+  <!-- Builds a windows ready delivery. -->
+  <target name="package-windows">
+    <antcall target="package-common">
+      <param name="dest" value="${dir.gen.dist.windows}"/>
+    </antcall>
+    <copy todir="${dir.gen.dist.windows}">
+      <fileset file="src/main/build/okronos.bat"/>
+      <fileset file="okronos256.ico"/>
+    </copy>
+    
+    <!-- Builds the classpath and writes it into the batch file. -->
+  <pathconvert targetos="windows" property="env.gen.path.windows" refid="env.runlibpath">
+     <map from="${basedir}/" to=""/>
+  </pathconvert>
+    <replace file="${dir.gen.dist.windows}/okronos.bat" token="$${libpath}" value="${env.gen.path.windows}"/>
+    <!-- Copies the javafx libraries. -->
+    <copy todir="${dir.gen.dist.windows}/javafx-sdk">
+      <fileset dir="${dir.src.javafx.windows}"/>
+    </copy>
+  	
+    <!-- Builds a windows executable with launch4j. -->
+    <!-- Builds the classpath for launch4j and write it into the launch4j build file. -->
+  <pathconvert property="env.gen.classpath.log4j" refid="env.runlibpath" pathsep="">
+    <mapper>
+      <globmapper from="${basedir}/*" to="      &lt;cp&gt;*&lt;/cp&gt;${line.separator}" handledirsep="no"/>
+    </mapper>
+  </pathconvert>
+    <mkdir dir="${dir.gen.tmp}" />
+    <copy todir="${dir.gen.tmp}">
+        <fileset file="${dir.src.build}/launch4j.xml" />
+        <fileset file="${dir.src.build}/okronos256.ico" />
+    </copy>
+    <replace file="${dir.gen.tmp}/launch4j.xml" token="$${libpath}" value="${env.gen.classpath.log4j}"/>
+    <launch4j 
+        configFile="${dir.gen.tmp}/launch4j.xml"
+      outfile="${dir.gen.dist.windows}/okronos.exe"/>
+    
+    <!-- Builds a delivery compressed file. -->
+    <zip destfile="${dir.gen.dist.windows}.zip"
+      basedir="${dir.gen.dist.windows}"/>
+  </target>
+
+</project>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ 
+<!-- ......... ......... ......... ......... ......... ......... ......... -->
+<!-- launch4j build file.                                                  -->
+<!-- Creates a windows executable that launches the application.           -->
+<!--                                                                       -->
+<!-- Before execution, the variable ${libpath} shall be replaced with the  -->
+<!-- set of libraries as "<cp>lib/lib1.jar</cp> ... <cp>lib/libN.jar</cp>" -->
+<!-- This substitution is performed by the ant script.                     -->
+<!--                                                                       -->
+<!-- At runtime, the executrable checks that the java executable is on the -->
+<!-- path and that its version is 11 or greater.                           -->
+<!-- ......... ......... ......... ......... ......... ......... ......... -->
+
+<launch4jConfig>
+  <headerType>gui</headerType>
+  <outfile>oKronos.exe</outfile>
+  <dontWrapJar>true</dontWrapJar>
+  <errTitle>oKronos</errTitle>
+  <downloadUrl>https://jdk.java.net/java-se-ri/11</downloadUrl>
+<!--  <supportUrl>url</supportUrl> -->
+  <cmdLine></cmdLine>
+  <chdir>../../target/dist/okronos-windows</chdir>
+  <priority>normal</priority>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <icon>okronos256.ico</icon>
+<!--
+  <obj>header object file</obj>
+  <lib>w32api lib</lib>
+  <var>var=text (%VAR%)</var>
+-->
+  <classPath>
+    <mainClass>tz.okronos.KronoApp</mainClass>
+${libpath}
+  </classPath>
+  <singleInstance>
+    <mutexName>okronos</mutexName>
+    <windowTitle>oKronos</windowTitle>
+  </singleInstance> 
+  <jre>
+    <!-- Specify path or minVersion or both. -->
+    <!-- <path>bundled JRE path (%VAR%)</path> -->
+    <path>jdk-11.0.6</path>
+    <minVersion>11</minVersion>
+    <opt>--module-path "javafx-sdk/lib"</opt>
+    <opt>--add-modules=ALL-MODULE-PATH</opt>
+  </jre>
+<!--
+  <splash>
+    <file></file>
+    <waitForWindow>true|false</waitForWindow>
+    <timeout>seconds [60]</timeout>
+    <timeoutErr>true|false</timeoutErr>
+  </splash>
+  <versionInfo>
+    <fileVersion>x.x.x.x</fileVersion>
+    <txtFileVersion>text</txtFileVersion>
+    <fileDescription>text</fileDescription>
+    <copyright>text</copyright>
+    <productVersion>x.x.x.x</productVersion>
+    <txtProductVersion>text</txtProductVersion>
+    <productName>text</productName>
+    <companyName>text</companyName>
+    <internalName>filename</internalName>
+    <originalFilename>filename.exe</originalFilename>
+    <trademarks>text</trademarks>
+    <language>
+    </language>
+  </versionInfo>
+-->
+  <messages>
+    <startupErr>Erreur d'execution</startupErr>
+    <bundledJreErr>Java non trouve</bundledJreErr>
+    <jreVersionErr>La version de java doit etre au minimum</jreVersionErr>
+    <launcherErr>Erreur de lancement</launcherErr>
+    <!-- Used by console header only. -->
+    <instanceAlreadyExistsMsg>L'application est deja demarree</instanceAlreadyExistsMsg>
+  </messages>
+</launch4jConfig>
+

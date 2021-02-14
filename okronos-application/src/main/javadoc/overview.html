@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>General presentation</h1>
+<h2>The readme file</h2>
+See the README.md file for a general presentation of the tool, the build process and the way of customizations.
+<h2>Technical background</h2>
+<p>
+oKronos is written in java with the help of javafx graphics packages, the spring framework for dependency injection and other external libraries.
+</p>
+<p>
+Any 64 bits modern O.S. can be used.
+</p>
+<p>
+The project uses maven to build the sources and can create a delivery for the Windows systemsS and another for Linux systems.
+</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Basic knowledges on java 11,</li>
+<li>Basic knowledges on javafx 11.</li>
+<li>Basic knowledges on spring dependency injection.</li>
+</ul>
+<h2>Project structure</h2>
+<ul>
+<li>okronos-parent: parent maven projet, contains no code by itself.</li>
+<li>okronos-annotations: defines annotations and annotation processors used by the project.</li>
+<li>okronos-application: contains the appliation core.</li>
+<li>resources: contains graphical resources, tools used to build the application as well as external libraries (javafx).</li>
+<li>doc: the user documentation sources and generated files.</li>
+</ul>
+<h1>General design</h1>
+<h2>Instances and spring framework</h2>
+The application uses the spring framework to create and wave the links between instances. 
+<h2>Scenes and javafx controllers</h2>
+<p>
+The graphical aspect of the application is handled by the javafx library.
+The screens (scenes in javafx terminology) are described with the fxml language into a dedicated file. 
+They are associated with a javafx controller named XxxSceneController (Xxx denotes the scene the controller is in charge of)
+into the package tz.okronos.scene.
+</p>
+<p>
+Each controller is built by the javafx framwork when the fxml file is read, this is why the controller are instantiated with the
+help of builder instances. Builders are singleton spring instances and controllers are prototype instances.
+</p>
+<h2>Data controllers and data model</h2>
+<p>
+The data model is managed by some data controllers that handle a part of the model. Each data controller is named
+XxxModelController and is located into the package tz.okronos.controller  (Xxx denode the functional part the controller is in charge of, 
+by example, the controller that manages the pay time is called PlayTimeSceneController).
+</p>
+<p>
+The XxxModelController is the only class that modify the data model it is in charge of.
+Each controller contains an instance of a container class that holds the data as javafx.beans.property wrappers.
+The controller exposes the content of the wrapper as read-only objects as spring bean properties (@Bean). These properties can be retrieves
+by the other controllers or by the views with the spring mechanism (@Autowired).
+</p>
+<p>
+It is important to notice that the model controller does not contains directly the data but that it holds a container that itself contains the data.
+This it done to allow cross reference between controllers and data, i.e if a controller 1 contains the property 1.1, if the controller 2 contains the property 2.1,
+then the controller 1 can use the value of the property 2.1 whereas the controller 2 can use the value of the property 1.2.
+If the controllers would contain directly the properties, spring will detect a loop between the dependencies and the application would fail to start.
+Cross reference between dependencies is discourage, but their is cases where they are functionally necessary. By example the time controller shall know
+if we are on a play time (this property is managed by the period controller), and the period controller shall know if the time is running
+(this property is managed by the time controller).
+<p/>
+<p>
+The scene controllers can also bind a property with a javafx controls with the help of javafx property binding.
+In this way the control will be automatically synchronized with the data.
+</p>
+<h2>Events</h2>
+<p>
+The application uses an event bus that helps to reduce the dependencies between classes.
+Their is two categories of events. A 'request' event requests some actions. A 'notif' event notifies of some
+change.
+</p>
+<p>
+A typical use case is: 1) A scene controller requests some change, by example to stop the play time.
+2) The model controller handles the request, here: the PlayTimeModelController. 3) The model 
+controller notifies of the change into the data model, here: the time is suspending. 4) The scene controller
+reacts to this change, here: it changes the look of the play time clock.
+</p>
+Here the model controller can be notified of the change by the event, or by the change of the javafx
+shared property 'playTimeRunning'. A good practice is to use the event, except when the change can be handled
+by the target javafx control thanks to a binding, in that case the use of the binding is encourage.
+<p>
+<h2>Context</h2>
+The class KronoContext contains all data that the controllers shall have in common. It gives access, among other, to:
+<ul>
+  <li>the configuration properties,</li>
+  <li>the event bus.</li>
+</ul>
+The context contains also some shortcut methods, among other for property access, event sending, and file retrieval.
+The context is injected to the controllers by spring framework.
+</body>
+</html>
