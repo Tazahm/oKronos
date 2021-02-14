@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import tz.okronos.scene.control.NumberKeyboard ?>
+<?import tz.okronos.scene.control.IntegerField ?>
+
+
+<BorderPane
+   id="mainPane"
+   fx:controller="tz.okronos.scene.operator.PeriodDurationInputController"
+   xmlns="http://javafx.com/javafx/11.0.1"
+   xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <GridPane
+         hgap="30"
+         vgap="10">
+         <!-- Row 0 : team -->
+         <padding>
+            <Insets
+               bottom="20.0"
+               left="20.0"
+               right="20.0"
+               top="20.0" />
+         </padding>
+         <!-- current time -->
+         <Label
+            text="%period.duration"
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="0"
+            GridPane.halignment="LEFT" />
+         <IntegerField
+            fx:id="durationField"
+            prefColumnCount="2"
+            text=" 0"
+            styleClass="field"
+            GridPane.columnIndex="1"
+            GridPane.rowIndex="0"
+            GridPane.halignment="LEFT" />
+         <NumberKeyboard
+            fx:id="keyboard"
+            GridPane.columnIndex="1"
+            GridPane.rowIndex="1"
+            GridPane.halignment="LEFT" />
+      </GridPane>
+   </center>
+   <bottom>
+      <!-- buttons -->
+      <HBox
+         id="buttonPane"
+         GridPane.columnIndex="0"
+         GridPane.rowIndex="5"
+         GridPane.columnSpan="2"
+         alignment="center">
+         <Button
+            styleClass="main-button"
+            HBox.hgrow="ALWAYS"
+            maxWidth="1000"
+            maxHeight="1000"
+            text="%modal.validate"
+            onAction="#validateAction" />
+         <Button
+            styleClass="main-button"
+            HBox.hgrow="ALWAYS"
+            maxWidth="1000"
+            maxHeight="1000"
+            text="%modal.cancel"
+            onAction="#cancelAction" />
+      </HBox>
+   </bottom>
+   <stylesheets>
+      <URL value="@modals.css" />
+   </stylesheets>
+</BorderPane>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import tz.okronos.scene.control.NumberKeyboard ?>
+<?import tz.okronos.scene.control.IntegerField ?>
+<?import tz.okronos.scene.control.PlayerSelector ?>
+<?import tz.okronos.scene.control.TimeField ?>
+
+
+<BorderPane
+   id="mainPane"
+   fx:controller="tz.okronos.scene.operator.PenaltyInputController"
+   xmlns="http://javafx.com/javafx/11.0.1"
+   xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <GridPane
+         hgap="10"
+         vgap="10">
+         <padding>
+            <Insets
+               bottom="20.0"
+               left="20.0"
+               right="20.0"
+               top="20.0" />
+         </padding>
+         <!-- period -->
+         <Label
+            fx:id="periodLabel"
+            text="%penalty.period"
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="0"
+            GridPane.halignment="LEFT"
+            GridPane.valignment="CENTER" />
+         <HBox
+            GridPane.columnIndex="1"
+	        GridPane.rowIndex="0"
+            GridPane.halignment="LEFT">            
+	         <IntegerField
+	            fx:id="periodField"
+	            prefColumnCount="1"            
+	            digits="1"
+	            styleClass="field" />
+	     </HBox>
+	     <!-- times -->
+         <Label
+            fx:id="startLabel"
+            text="%penalty.start"
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="1"
+            GridPane.halignment="LEFT"
+            GridPane.valignment="CENTER" />
+ 		 <HBox
+            GridPane.columnIndex="1"
+	        GridPane.rowIndex="1"
+            GridPane.halignment="LEFT"
+            spacing="10"
+            alignment="CENTER_LEFT" >             
+	         <!-- start time -->
+	         <TimeField
+	            fx:id="startField"
+	            HBox.hgrow="NEVER"
+	            styleClass="field" />
+	         <!-- stop time -->
+	         <Label
+	            fx:id="stopLabel"
+	            text="%penalty.stop"
+	            GridPane.columnIndex="0" />
+	         <TimeField
+	            fx:id="stopField"
+	            text="  00:00"
+	            styleClass="field" />
+	     </HBox>
+         <!-- player -->
+         <Label
+            text="%penalty.player"
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="3"
+            GridPane.halignment="LEFT"
+            GridPane.valignment="CENTER" />
+         <PlayerSelector 
+            fx:id="playerSelector"
+            GridPane.columnIndex="1"
+            GridPane.rowIndex="3" />
+         <!-- Code -->
+         <Label
+            text="%penalty.code"
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="4"
+            GridPane.halignment="LEFT"
+            GridPane.valignment="CENTER" />
+         <ChoiceBox
+            fx:id="codeChoiceBox"
+            GridPane.columnIndex="1"
+            GridPane.rowIndex="4" />
+         <!-- duration -->
+         <Label
+            text="%penalty.duration"
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="5"
+            GridPane.halignment="LEFT" />
+         <HBox
+            spacing="10"
+            GridPane.columnIndex="1"
+            GridPane.rowIndex="5"
+            GridPane.halignment="LEFT">
+            <fx:define>
+               <ToggleGroup fx:id="durationGroup" />
+            </fx:define>
+            <ToggleButton
+               mnemonicParsing="false"
+               text="2"
+               selected="true"
+               toggleGroup="$durationGroup"
+               styleClass="toggle">
+            </ToggleButton>
+            <ToggleButton
+               mnemonicParsing="false"
+               text="4"
+               toggleGroup="$durationGroup"
+               styleClass="toggle" />
+            <ToggleButton
+               mnemonicParsing="false"
+               text="5"
+               toggleGroup="$durationGroup"
+               styleClass="toggle" />
+            <ToggleButton
+               mnemonicParsing="false"
+               text="10"
+               toggleGroup="$durationGroup"
+               styleClass="toggle" />
+         </HBox>
+         <Button
+            fx:id = "timeButton"
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="6"
+            GridPane.rowSpan="2"
+            GridPane.valignment="BOTTOM"
+            styleClass="secondaryButton"
+            text="%penalty.time"
+            onAction="#modifRemainigAction" />
+         <CheckBox
+            fx:id="onStoppageCheckbox"
+            text="%penalty.onStoppage"
+            GridPane.columnIndex="1"
+            GridPane.rowIndex="6" />
+         <CheckBox
+            fx:id="pendingCheckbox"
+            text="%penalty.pending"
+            GridPane.columnIndex="1"
+            GridPane.rowIndex="7" />
+      </GridPane>
+   </center>
+   <bottom>
+      <!-- buttons -->
+      <GridPane
+         id="buttonPane"
+         GridPane.columnIndex="0"
+         GridPane.rowIndex="8"
+         GridPane.columnSpan="2"
+         alignment="center">
+         <Button
+            fx:id="validateButton"
+            styleClass="main-button"
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="0"
+            GridPane.hgrow="ALWAYS"
+            HBox.hgrow="ALWAYS"
+            maxWidth="1000"
+            maxHeight="1000"
+            text="%modal.validate"
+            onAction="#validateAction" />
+         <Button
+            styleClass="main-button"
+            GridPane.columnIndex="1"
+            GridPane.rowIndex="0"
+            GridPane.hgrow="ALWAYS"
+            HBox.hgrow="ALWAYS"
+            maxWidth="1000"
+            maxHeight="1000"
+            text="%modal.cancel"
+            onAction="#cancelAction" />
+         <Button
+            fx:id="completeButton"
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="1"
+            GridPane.hgrow="ALWAYS"
+            styleClass="main-button"
+            HBox.hgrow="ALWAYS"
+            maxWidth="1000"
+            maxHeight="1000"
+            text="%penalty.complete"
+            onAction="#completeAction" />
+         <Button
+            fx:id="deleteButton"
+            GridPane.columnIndex="1"
+            GridPane.rowIndex="1"
+            GridPane.hgrow="ALWAYS"
+            styleClass="main-button"
+            HBox.hgrow="ALWAYS"
+            maxWidth="1000"
+            maxHeight="1000"
+            text="%penalty.delete"
+            onAction="#deleteAction" />
+      </GridPane>
+   </bottom>
+   <stylesheets>
+      <URL value="@modals.css" />
+   </stylesheets>
+</BorderPane>

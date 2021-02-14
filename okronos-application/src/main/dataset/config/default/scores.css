@@ -1,0 +1,78 @@
+root { 
+    display: block;
+}
+
+.root {
+	-fx-background-color: black;
+}
+
+.label {
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: yellow;
+}
+
+.clock {
+	-fx-font-size: 150px;
+    -fx-label-padding: 20 40 20 40;
+}
+
+.period {
+	-fx-font-size: 100px;
+	-fx-text-fill: skyblue;
+}
+
+.penalty-time {
+	-fx-font-size: 60px;
+}
+
+.penalty-player {
+	-fx-font-size: 60px;
+	-fx-text-fill: skyblue;
+}
+
+.score {
+	-fx-font-size: 150px;
+	-fx-text-fill: skyblue;
+}
+
+.team {
+	-fx-font-size: 50px;
+	-fx-text-fill: skyblue;
+}
+
+.pending {
+	-fx-background-color: yellow;
+	-fx-text-fill: black;
+    -fx-background-radius: 10 10 10 10;
+}
+
+/* for layout debug
+#teamAndPeriodPanel {
+	-fx-background-color: red;	
+}
+#scoreAndClockPanel {
+	-fx-background-color: blue;	
+}
+#penaltiesPanel {
+	-fx-background-color: green;	
+}
+#clock {
+	-fx-background-color: white;	
+}
+#scoreLeft {
+	-fx-background-color: grey;	
+}
+#scoreRight {
+	-fx-background-color: grey;	
+}
+#teamLeftPanel {
+	-fx-background-color: lightblue;	
+}
+#period {
+	-fx-background-color: lightgreen;	
+}
+#teamRightPanel {
+	-fx-background-color: lightblue;	
+}
+*/

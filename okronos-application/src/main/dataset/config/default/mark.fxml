@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import tz.okronos.scene.control.NumberKeyboard ?>
+<?import tz.okronos.scene.control.IntegerField ?>
+<?import tz.okronos.scene.control.PlayerSelector ?>
+<?import tz.okronos.scene.control.TimeField ?>
+
+
+<BorderPane
+   id="mainPane"
+   fx:controller="tz.okronos.scene.operator.MarkInputController"
+   xmlns="http://javafx.com/javafx/11.0.1"
+   xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <HBox 
+         fx:id="topContainer"
+         alignment="CENTER_LEFT"
+         spacing = "10">
+         <padding>
+            <Insets bottom="0.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <Label
+            fx:id="periodLabel"
+            text="%mark.period" />
+	     <IntegerField
+            fx:id="periodField"            
+            prefColumnCount="1"            
+            digits="1"
+            styleClass="field" />
+         <Label
+            fx:id="timeLabel"
+            text="%mark.time">
+            <HBox.margin>
+               <Insets bottom="0.0" left="40.0" right="0.0" top="0.0" />
+            </HBox.margin>
+         </Label>
+ 		 <TimeField
+	            fx:id="timeField"
+	            HBox.hgrow="NEVER"
+	            styleClass="field" />
+       </HBox>
+   </top>
+   <center>
+      <GridPane
+         hgap="20"
+         vgap="10">
+         <padding>
+            <Insets
+               bottom="20.0"
+               left="20.0"
+               right="20.0"
+               top="20.0" />
+         </padding>
+         <!-- scorer -->
+         <Label
+            text="%mark.scorer"
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="0"
+            GridPane.halignment="CENTER" />
+         <PlayerSelector 
+            fx:id="scorerSelector"
+            GridPane.columnIndex="0"
+            GridPane.rowIndex="1" />
+         <!-- assistant 1 -->
+         <Label
+            text="%mark.assist1"
+            GridPane.columnIndex="1"
+            GridPane.rowIndex="0"
+            GridPane.halignment="CENTER" />
+         <PlayerSelector 
+            fx:id="assist1Selector"
+            GridPane.columnIndex="1"
+            GridPane.rowIndex="1" />
+         <!-- assistant 2 -->
+         <Label
+            text="%mark.assist2"
+            GridPane.columnIndex="2"
+            GridPane.rowIndex="0"
+            GridPane.halignment="CENTER" />
+        <PlayerSelector 
+            fx:id="assist2Selector"
+            GridPane.columnIndex="2"
+            GridPane.rowIndex="1" />
+      </GridPane>
+   </center>
+   <bottom>
+      <!-- buttons -->
+      <HBox
+         id="buttonPane"
+         GridPane.columnIndex="0"
+         GridPane.rowIndex="4"
+         GridPane.columnSpan="2"
+         GridPane.halignment="CENTER"
+         alignment="center">
+         <Button
+            styleClass="main-button"
+            HBox.hgrow="ALWAYS"
+            maxWidth="1000"
+            maxHeight="1000"
+            text="%modal.validate"
+            onAction="#validateAction" />
+          <Button
+            fx:id="deleteButton"
+            styleClass="main-button"
+            HBox.hgrow="ALWAYS"
+            maxWidth="1000"
+            maxHeight="1000"
+            text="%mark.delete"
+            onAction="#deleteAction" />
+         <Button
+            styleClass="main-button"
+            HBox.hgrow="ALWAYS"
+            maxWidth="1000"
+            maxHeight="1000"
+            text="%modal.cancel"
+            onAction="#cancelAction" />
+      </HBox>
+   </bottom>
+   <stylesheets>
+      <URL value="@modals.css" />
+   </stylesheets>
+</BorderPane>

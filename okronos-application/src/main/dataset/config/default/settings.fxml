@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import org.controlsfx.control.PropertySheet ?>
+
+
+<BorderPane
+   id="mainPane"
+   fx:controller="tz.okronos.scene.operator.SettingsInputController"
+   xmlns="http://javafx.com/javafx/11.0.1"
+   xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+         <PropertySheet fx:id="propertySheet" />
+   </center>
+   <bottom>
+      <!-- buttons -->
+      <HBox
+            id="buttonPane"
+            alignment="center">
+         <Button
+            styleClass="main-button"
+            HBox.hgrow="ALWAYS"
+            maxWidth="1000"
+            maxHeight="1000"
+            text="%modal.validate"
+            onAction="#validateAction" />
+         <Button
+            styleClass="main-button"
+            HBox.hgrow="ALWAYS"
+            maxWidth="1000"
+            maxHeight="1000"
+            text="%modal.cancel"
+            onAction="#cancelAction" />
+         <Button
+            styleClass="main-button"
+            HBox.hgrow="ALWAYS"
+            maxWidth="1000"
+            maxHeight="1000"
+            text="%settings.load"
+            onAction="#loadAction" />
+      </HBox>
+   </bottom>
+   <stylesheets>
+      <URL value="@settings.css" />
+   </stylesheets>
+</BorderPane>

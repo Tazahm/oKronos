@@ -1,0 +1,14 @@
+
+
+.main-button {
+	-fx-font-size: 20px;
+	-fx-padding: 20px 0px 20px 0px;
+    -fx-border-radius: 0 0 0 0;
+    -fx-background-radius: 0 0 0 0;
+    -fx-background-color: -fx-body-color;
+    -fx-border-color: #e2e2e2;
+}
+
+.main-button:focused {
+    -fx-background-color: -fx-body-color;
+ }

@@ -1,0 +1,112 @@
+
+.label {
+    -fx-border-color: transparent;
+    -fx-border-radius: 5 5 5 5;
+    -fx-background-radius: 5 5 5 5;
+}
+
+.clock1 {
+	-fx-font-size: 100px;
+}
+
+.clock2, .clock3 {
+	-fx-font-size: 40px;
+}
+
+.period {
+	-fx-font-size: 30px;
+}
+
+.penalty {
+	-fx-font-size: 100px;
+}
+
+.score {
+	-fx-font-size: 60px;
+}
+
+.team {
+	-fx-font-size: 20px;
+}
+
+.button, .toggle-button {
+	-fx-font-size: 20px;
+	-fx-cursor: hand;
+}
+
+.secondary-button {
+    -fx-font-size: 16px;
+	-fx-cursor: hand;
+}
+
+.bottom-table .cell {
+  -fx-font-size: 30px;
+  -fx-cursor: hand;
+}
+
+.side-table .cell {
+  -fx-font-size: 14px;
+}
+
+.correction {
+	-fx-text-fill: red;
+}
+
+.pending {
+	-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #ffff00 0%, #ffe700 100%);
+	-fx-text-fill: black;
+}
+
+.alert {
+	-fx-text-fill: red;
+}
+
+.selectable:hover {
+    -fx-border-color: #729fcf;
+    -fx-cursor: hand;
+}
+
+.selectable:pressed {
+	-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #eeeeee 0%, #d3d3d3 100%);
+	-fx-cursor: hand;
+}
+
+
+/** for layout debug
+#mainPanel {
+	-fx-background-color: blue;
+}
+#topMainPanel {
+	-fx-background-color: lightblue;
+}
+#bottomMainPanel{
+	-fx-background-color: lightblue;
+}
+#penaltyTablesPanel{
+	-fx-background-color: red;
+}
+#periodAndTeamPanel {
+    -fx-background-color: orange;
+}
+#clocksPanel {
+    -fx-background-color: red;
+}
+
+#topButtonsPanel {
+	-fx-background-color: yellow;
+}
+#bottomButtonsPanel {
+	-fx-background-color: yellow;
+}
+*/
+/* 
+#topButtonsLeftPanel {
+	-fx-background-color: orange;
+}
+#topButtonsCenterPanel {
+	-fx-background-color: yellow;
+}
+#topButtonsRightPanel {
+	-fx-background-color: orange;
+}
+*/

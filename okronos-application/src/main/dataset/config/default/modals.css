@@ -1,0 +1,78 @@
+
+
+.button {
+	-fx-font-size: 20px;
+}
+
+.secondaryButton {
+	-fx-font-size: 15px;
+}
+
+.main-button {
+	-fx-padding: 20px 0px 20px 0px;
+    -fx-border-radius: 0 0 0 0;
+    -fx-background-radius: 0 0 0 0;
+    -fx-background-color: -fx-body-color;
+    -fx-border-color: #e2e2e2;
+}
+
+.main-button:focused {
+    -fx-background-color: -fx-body-color;
+ }
+
+
+.label {
+	-fx-font-size: 20px;
+}
+
+.number {
+	-fx-font-size: 40px;
+}
+
+.text-field {
+	-fx-font-size: 30px;
+}
+
+.toggle {
+	-fx-font-size: 25px;
+}
+
+.field {
+	-fx-font-size: 20px;
+	-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #efefef 0%, #e3e3e3 100%);
+	-fx-label-padding: 2 20 2 20;
+	-fx-border-color: #e2e2e2;
+}
+
+.selected-field {
+	-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #eeeeee 0%, #d3d3d3 100%);
+	-fx-border-color: #444444;
+}
+
+.number-key {
+	-fx-font-size: 30px;
+	-fx-label-padding: 2 10 2 10;
+}
+
+.number-key-bg {
+	-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #eeeeee 0%, #d3d3d3 100%);
+    -fx-border-color: #e2e2e2;
+}
+
+.number-key-bg:pressed {
+	-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #cccccc 0%, #939393 100%);
+	-fx-cursor: hand;
+}
+
+.number-key-bg:hover {
+    -fx-border-color: #939393;
+    -fx-cursor: hand;
+}
+
+.number-keyboard {
+	-fx-border-color: #cfcfcf;
+}
+
+#buttonPane {
+	-fx-background-color: #eeeeee;
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.media.MediaView?>
+
+
+<BorderPane id="mediaViewPane" fx:id="mediaViewPane"
+      xmlns="http://javafx.com/javafx/11.0.1" 
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tz.okronos.scene.score.AnimationSceneController" 
+      maxHeight="-Infinity" maxWidth="-Infinity" 
+      minHeight="-Infinity" minWidth="-Infinity">
+   <center>
+      <MediaView fx:id="mediaView" 
+      mouseTransparent="true" 
+      BorderPane.alignment="CENTER" 
+      fitHeight="${mediaViewPane.height}"
+      fitWidth="${mediaViewPane.width}" />
+   </center>
+
+   <stylesheets>
+      <URL value="@animation.css" />
+   </stylesheets>
+</BorderPane>

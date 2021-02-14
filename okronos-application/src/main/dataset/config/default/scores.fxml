@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.ImageView?>
+<?import tz.okronos.scene.control.PenaltyControl?>
+
+
+<GridPane
+	fx:controller="tz.okronos.scene.score.ScoreSceneController"
+	xmlns:fx="http://javafx.com/fxml" 
+	styleClass="root">
+	<rowConstraints>
+		<RowConstraints percentHeight="33.0" />
+		<RowConstraints percentHeight="34.0" />
+		<RowConstraints percentHeight="33.0" />
+	</rowConstraints>
+	<columnConstraints>
+		<ColumnConstraints percentWidth="100.0" />
+	</columnConstraints>
+	<padding>
+		<Insets top="10" right="40" bottom="10" left="40" />
+	</padding>
+	<GridPane id="teamAndPeriodPanel"
+	        GridPane.columnIndex="0" 
+            GridPane.rowIndex="0"
+            GridPane.valignment="TOP">
+		<rowConstraints>
+			<RowConstraints percentHeight="100.0" />
+		</rowConstraints>
+		<columnConstraints>
+			<ColumnConstraints percentWidth="40.0" />
+			<ColumnConstraints percentWidth="20.0" />
+			<ColumnConstraints percentWidth="40.0" />
+		</columnConstraints>
+           <VBox id="teamLeftPanel"
+                       alignment="TOP_CENTER"
+                       spacing="2.0"
+                       GridPane.columnIndex="0" 
+                       GridPane.rowIndex="0"
+                       GridPane.halignment="LEFT">
+              <children>
+                 <Label id="teamLeftLabel"
+                       fx:id="teamLeftLabel" 
+                       text="Home"
+                       styleClass="team" />
+                 <Label id="teamLeftImageLabel">
+                    <graphic>
+                       <ImageView id="teamLeftImageView"
+                              fx:id="teamLeftImageView"
+                              fitHeight="200.0" 
+                              fitWidth="200.0" 
+                              pickOnBounds="true" 
+                              preserveRatio="true" />
+                    </graphic>
+                 </Label>
+			 </children>
+           </VBox>
+		   <Label id="period"  fx:id="period" text="E" styleClass="period"
+			     GridPane.columnIndex="1" 
+			     GridPane.rowIndex="0"
+			     GridPane.halignment="CENTER" />
+           <VBox id="teamRightPanel"
+                  alignment="TOP_CENTER"
+                  spacing="2.0"
+                  GridPane.columnIndex="2" 
+                  GridPane.rowIndex="0"
+                  GridPane.halignment="RIGHT">
+              <children>
+                 <Label id="teamRightLabel"
+                       fx:id="teamRightLabel"
+                       text="Visiteurs"
+                       styleClass="team" />
+                <Label id="teamRightImageLabel">
+                    <graphic>
+                       <ImageView id="teamRightImageView"
+                             fx:id="teamRightImageView"
+                             fitHeight="200.0" 
+                             fitWidth="200.0" 
+                             pickOnBounds="true" 
+                             preserveRatio="true" />
+                    </graphic>
+                 </Label>
+              </children>
+           </VBox>
+	</GridPane>
+	<GridPane id="scoreAndClockPanel"
+	        GridPane.columnIndex="0" 
+            GridPane.rowIndex="1"
+            GridPane.valignment="TOP">
+		<rowConstraints>
+			<RowConstraints percentHeight="100.0" />
+		</rowConstraints>
+		<columnConstraints>
+			<ColumnConstraints percentWidth="20.0" />
+			<ColumnConstraints percentWidth="60.0" />
+			<ColumnConstraints percentWidth="20.0" />
+		</columnConstraints>
+
+		<Label id="scoreLeft" fx:id="scoreLeft" text="0" styleClass="score"
+			GridPane.columnIndex="0" GridPane.rowIndex="0"
+			GridPane.halignment="CENTER" />
+		<Label id="clock" fx:id="clock" text="00:00" styleClass="clock"
+			GridPane.columnIndex="1" GridPane.rowIndex="0"
+			GridPane.halignment="CENTER"
+			onMouseClicked="#clockAction" />
+		<Label id="scoreRight" fx:id="scoreRight" text="0" styleClass="score"
+			GridPane.columnIndex="2" GridPane.rowIndex="0"
+			GridPane.halignment="CENTER" />
+	</GridPane>
+	<GridPane id="penaltiesPanel"
+	        GridPane.columnIndex="0" 
+            GridPane.rowIndex="2"
+            GridPane.valignment="TOP">
+		<rowConstraints>
+			<RowConstraints percentHeight="50.0" />
+			<RowConstraints percentHeight="50.0" />
+		</rowConstraints>
+		<columnConstraints>
+			<ColumnConstraints percentWidth="25.0" />
+			<ColumnConstraints percentWidth="25.0" />
+			<ColumnConstraints percentWidth="25.0" />
+			<ColumnConstraints percentWidth="25.0" />
+		</columnConstraints>
+		<PenaltyControl fx:id="penaltyLeft1"
+		      GridPane.columnIndex="0"
+		      GridPane.rowIndex="0"
+		      alignment="CENTER_LEFT"
+		      spacing="10" />
+		<PenaltyControl fx:id="penaltyLeft2"
+		      GridPane.columnIndex="0"
+		      GridPane.rowIndex="1"
+		      alignment="CENTER_LEFT"
+		      spacing="10" />
+		<PenaltyControl fx:id="penaltyLeft3"
+		      GridPane.columnIndex="1"
+		      GridPane.rowIndex="0"
+		      alignment="CENTER_LEFT"
+		      spacing="10" />
+		<PenaltyControl fx:id="penaltyLeft4"
+		      GridPane.columnIndex="1"
+		      GridPane.rowIndex="1"
+		      alignment="CENTER_LEFT"
+		      spacing="10" />
+		
+		<PenaltyControl fx:id="penaltyRight3"
+		      GridPane.columnIndex="2"
+		      GridPane.rowIndex="0"
+		      alignment="CENTER_RIGHT"
+		      spacing="10" />
+		<PenaltyControl fx:id="penaltyRight4"
+		      GridPane.columnIndex="2"
+		      GridPane.rowIndex="1"
+		      alignment="CENTER_RIGHT"
+		      spacing="10" />
+		<PenaltyControl fx:id="penaltyRight1"
+		      GridPane.columnIndex="3"
+		      GridPane.rowIndex="0"
+		      alignment="CENTER_RIGHT"
+		      spacing="10" />
+		<PenaltyControl fx:id="penaltyRight2"
+		      GridPane.columnIndex="3"
+		      GridPane.rowIndex="1"
+		      alignment="CENTER_RIGHT"
+		      spacing="10" />
+	</GridPane>
+
+	<stylesheets>
+		<URL value="@scores.css" />
+	</stylesheets>
+
+</GridPane>
