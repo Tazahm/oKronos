@@ -25,14 +25,24 @@ and another for the Linux system.
 
 ## Build
 
-The application uses maven.
+Before any build, you shall install some resources into the folder 'resources' :
+- the javafx sdk 11.0.2 (https://gluonhq.com/products/javafx/)
+    - for Linux: into resources/linux/javafx-sdk-11.0.2
+    - for Windows: into resources/windows/javafx-sdk-11.0.2
+- the launch4j cross-platform Java executable wrapper (https://sourceforge.net/projects/launch4j/files/launch4j-3/3.13/).
+     - for Linux: into resources/linux/launch4j (required only to build on a Linux system).
+     - for Windows: into resources/windows/launch4j (required only to build on a Windows system).
+
+The application uses maven. Maven download some java library: you shall have got a valid connection to internet.
+Build commands: 
+- Into the directory okronos-parent: mvn clean install
+- Into the directory okronos-annotations: mvn clean install
+- Into the directory okronos-application: mvn clean package -DskipTests
+
 The final delivery is generated into the folder okronos-application/dist .
- 
-- Go into the directory 'okronos-parent'.
-- Use the command 'mvn clean package'.
 
 ## Installation
-Once build, the delivery is contains into files names okronos-\<system\>-\<version\>.zip
+Once build, the delivery is contain into files names okronos-\<system\>-\<version\>.zip
 Simply unzip the file.
 
 ## Execution

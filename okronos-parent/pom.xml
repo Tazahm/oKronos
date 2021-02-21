@@ -38,13 +38,12 @@
 		<okronos.application.version>${project.version}</okronos.application.version>
 		<okronos-annotations.version>${project.version}</okronos-annotations.version>		
 	</properties>
-
 <!-- 
 	<modules>
       <module>../okronos-annotations</module>
       <module>../okronos-application</module>
     </modules>
- -->
+-->
     <build>
 		<plugins>
     			<plugin>

@@ -11,7 +11,6 @@
 <!--     windows-ready application.                                        -->
 <!-- * the target 'all' calls all these targets.                           -->
 <!--                                                                       -->
-<!-- Output directory: target/build/dist                                   -->
 <!-- ......... ......... ......... ......... ......... ......... ......... -->
 
 <project 
@@ -54,7 +53,7 @@
   <property name="file.src.jar" value="${dir.gen.target}/okronos-application-${app.version}.jar"/>
   <property name="file.gen.jar" value="okronos.jar"/>
   <property name="dir.launch4j" location="../resources/${platform}/launch4j" />
-	
+
   <!-- Puts in the library path all the jar files contains into the 'lib' directory. -->
   <path id="env.libpath">
     <fileset dir="lib" casesensitive="yes">
@@ -81,10 +80,9 @@
   </path>
     
   <!-- launch4j produces a windows executable. -->
-	<echo message="dir.launch4j=${dir.launch4j}"/>
-	  <taskdef name="launch4j"
-	    classname="net.sf.launch4j.ant.Launch4jTask"
-	    classpath="${dir.launch4j}/launch4j.jar:${dir.launch4j}/lib/xstream.jar" />
+  <taskdef name="launch4j"
+    classname="net.sf.launch4j.ant.Launch4jTask"
+    classpath="${dir.launch4j}/launch4j.jar:${dir.launch4j}/lib/xstream.jar" />
 
   <!-- Saves sources and builds. -->
   <target name="all" depends="package"/>
