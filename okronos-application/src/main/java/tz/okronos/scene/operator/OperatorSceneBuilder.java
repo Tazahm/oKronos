@@ -1,6 +1,8 @@
 package tz.okronos.scene.operator;
 
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,5 +33,10 @@ public class OperatorSceneBuilder {
     	context.getPrimaryStage().setOnCloseRequest(e -> sceneBuilderHelper.handleCloseWindowEvent(e, context.getPrimaryStage()));
         return controller;
     }
-
+	
+	// Causes Circular reference
+	//	@PostConstruct public void init() throws Exception {
+	//		OperatorSceneController operatorSceneController = operatorSceneController();
+	//		operatorSceneController.getStage().show();
+	//	}
 }

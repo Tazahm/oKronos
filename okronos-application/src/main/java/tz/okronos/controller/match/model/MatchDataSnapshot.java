@@ -6,7 +6,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import tz.okronos.core.TwoSide;
+import tz.okronos.core.SimpleLateralizedPair;
 
 
 @Setter @Getter
@@ -50,8 +50,8 @@ public class MatchDataSnapshot implements MatchDataContract {
 	private boolean reservesBeforeMatch;
 	private boolean claim;
 	private boolean incidentReport;
-	private TwoSide<TeamDataSnapshot> team 
-		= new TwoSide<>(new TeamDataSnapshot(), new TeamDataSnapshot());
+	private SimpleLateralizedPair<TeamDataSnapshot> team 
+		= new SimpleLateralizedPair<>(new TeamDataSnapshot(), new TeamDataSnapshot());
 	private OfficialSnapshot referee1 = OfficialSnapshot.builder().build();
 	private OfficialSnapshot referee2 =  OfficialSnapshot.builder().build();
 	private OfficialSnapshot marker =  OfficialSnapshot.builder().build();

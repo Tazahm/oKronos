@@ -31,7 +31,7 @@
   <var>var=text (%VAR%)</var>
 -->
   <classPath>
-    <mainClass>tz.okronos.KronoApp</mainClass>
+    <mainClass>tz.okronos.application.KronoApp</mainClass>
 ${libpath}
   </classPath>
   <singleInstance>

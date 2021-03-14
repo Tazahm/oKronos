@@ -19,8 +19,8 @@ import tz.okronos.controller.playtime.event.request.PlayTimeModifyRequest;
 import tz.okronos.controller.playtime.event.request.PlayTimeStartRequest;
 import tz.okronos.controller.timeout.event.request.TimeoutStartRequest;
 import tz.okronos.core.AbstractController;
+import tz.okronos.core.PhaseOfPlay;
 import tz.okronos.core.PlayPosition;
-import tz.okronos.model.container.PhaseOfPlay;
 
 /**
  *  Handles a timeout request.

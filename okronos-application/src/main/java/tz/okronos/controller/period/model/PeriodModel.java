@@ -10,7 +10,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import lombok.Getter;
-import tz.okronos.model.container.PhaseOfPlay;
+import tz.okronos.core.PhaseOfPlay;
 
 
 @Component

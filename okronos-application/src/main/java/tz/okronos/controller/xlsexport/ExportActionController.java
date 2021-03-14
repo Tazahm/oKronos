@@ -41,7 +41,7 @@ import tz.okronos.controller.team.model.PlayerSnapshot;
 import tz.okronos.controller.xlsexport.event.request.ExportXlsRequest;
 import tz.okronos.core.AbstractController;
 import tz.okronos.core.KronoHelper;
-import tz.okronos.core.TwoSide;
+import tz.okronos.core.SimpleLateralizedPair;
 import tz.okronos.core.KronoContext.ResourceType;
 
 /**
@@ -64,14 +64,14 @@ public class ExportActionController extends AbstractController {
 	
 	
 	@Autowired private MatchDataVolatile matchData;
-	@Autowired @Qualifier("playerListPropertyTwoSide") 
-	private TwoSide<ReadOnlyListProperty<PlayerSnapshot>> playerListProperties;
-	@Autowired @Qualifier("penaltyHistoryListPropertyTwoSide")
-    private TwoSide<ReadOnlyListProperty<PenaltyVolatile>> penaltyHistoryListProperties;
-	@Autowired @Qualifier("scoreListPropertyTwoSide")
-    private TwoSide<ReadOnlyListProperty<ScoreVolatile>> scoreListProperties;
-	@Autowired @Qualifier("teamNamePropertyTwoSide")
-    private TwoSide<ReadOnlyStringProperty> teamNameProperties;
+	@Autowired @Qualifier("playerListPropertyLateralized") 
+	private SimpleLateralizedPair<ReadOnlyListProperty<PlayerSnapshot>> playerListProperties;
+	@Autowired @Qualifier("penaltyHistoryListPropertyLateralized")
+    private SimpleLateralizedPair<ReadOnlyListProperty<PenaltyVolatile>> penaltyHistoryListProperties;
+	@Autowired @Qualifier("scoreListPropertyLateralized")
+    private SimpleLateralizedPair<ReadOnlyListProperty<ScoreVolatile>> scoreListProperties;
+	@Autowired @Qualifier("teamNamePropertyLateralized")
+    private SimpleLateralizedPair<ReadOnlyStringProperty> teamNameProperties;
 	
 	private Map<String, Supplier<String>> stringProviders = new HashMap<>();
 	private Map<String, Supplier<Double>> doubleProviders = new HashMap<>();

@@ -1,7 +1,13 @@
 package tz.okronos.controller.music.event.request;
 
-import tz.okronos.event.request.MediaRequest;
+import java.net.URL;
 
-public class MusicRequest extends MediaRequest {
-	
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
+@Accessors(chain = true)
+@Getter @Setter
+public class MusicRequest {
+	private URL url;
 }

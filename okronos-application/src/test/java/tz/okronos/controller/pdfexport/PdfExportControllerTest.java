@@ -32,7 +32,7 @@ import tz.okronos.controller.team.model.TeamReport;
 import tz.okronos.core.KronoContext;
 import tz.okronos.core.KronoHelper;
 import tz.okronos.core.PlayPosition;
-import tz.okronos.core.TwoSide;
+import tz.okronos.core.SimpleLateralizedPair;
 
 /**
  *  Produces a PDF report from a test file (in XML format). 
@@ -279,7 +279,7 @@ public class PdfExportControllerTest{
 		content.setReferee1(referee1);		
 		content.setReferee2(referee2);
 		content.setReservesBeforeMatch(false);
-		content.setTeam(new TwoSide<TeamDataSnapshot>(teamA, teamB));
+		content.setTeam(new SimpleLateralizedPair<TeamDataSnapshot>(teamA, teamB));
 		
 		return content;
 	}

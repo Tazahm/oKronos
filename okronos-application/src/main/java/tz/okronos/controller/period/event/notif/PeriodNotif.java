@@ -3,7 +3,7 @@ package tz.okronos.controller.period.event.notif;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import tz.okronos.model.container.PhaseOfPlay;
+import tz.okronos.core.PhaseOfPlay;
 
 @Accessors(chain = true)
 @Getter @Setter

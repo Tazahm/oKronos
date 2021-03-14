@@ -19,11 +19,11 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.google.common.eventbus.Subscribe;
 
 import lombok.extern.slf4j.Slf4j;
+import tz.okronos.application.ResetPlayRequest;
 import tz.okronos.controller.breach.model.BreachDesc;
 import tz.okronos.controller.breach.model.BreachModel;
 import tz.okronos.core.AbstractModelController;
 import tz.okronos.core.KronoContext.ResourceType;
-import tz.okronos.event.request.ResetPlayRequest;
 
 
 /**

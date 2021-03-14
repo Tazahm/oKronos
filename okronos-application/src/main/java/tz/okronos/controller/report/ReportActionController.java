@@ -6,6 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
@@ -21,6 +25,7 @@ import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import lombok.extern.slf4j.Slf4j;
+import tz.okronos.application.ResetPlayRequest;
 import tz.okronos.controller.report.event.ReportEvent;
 import tz.okronos.controller.report.event.notif.ReportBuildAnswer;
 import tz.okronos.controller.report.event.notif.ReportFileNotif;
@@ -35,8 +40,6 @@ import tz.okronos.controller.shutdown.event.notif.ShutdownVetoNotif;
 import tz.okronos.controller.shutdown.event.request.ShutdownRequest;
 import tz.okronos.core.AbstractController;
 import tz.okronos.core.KronoHelper;
-import tz.okronos.core.TimerEnabler;
-import tz.okronos.event.request.ResetPlayRequest;
 
 
 /**
@@ -64,8 +67,10 @@ public class ReportActionController extends AbstractController {
 	
 	private static SimpleDateFormat fileNameDateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-S");
 	private static SimpleDateFormat friendlyDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-	private TimerEnabler requestTimer;
-	private TimerEnabler buildTimer;
+	
+	private ScheduledExecutorService scheduler;
+	ScheduledFuture<?> reportRequester = null;
+	ScheduledFuture<?> reportBuilder = null;
 	private File reportFile;
 	private File secondFile;
 	private Date resetDate;
@@ -78,12 +83,13 @@ public class ReportActionController extends AbstractController {
 
     
     @PostConstruct 
-    public void init()  {
-    	context.registerEventListener(this);
-		
+    public void init()  {		
 		JacksonXmlModule xmlModule = new JacksonXmlModule();
 		xmlModule.setDefaultUseWrapper(true);
 		mapper = new XmlMapper(xmlModule);
+		scheduler = Executors.newSingleThreadScheduledExecutor();
+		
+    	context.registerEventListener(this);
 	}
 
 	@Subscribe public void onResetPlayRequest(final ResetPlayRequest event) {
@@ -95,18 +101,20 @@ public class ReportActionController extends AbstractController {
 		context.postEvent(new ShutdownVetoNotif()
 				.setRequester(this.getClass().getName()).setLock(true));
 		
-		removeTimers();
+		removeAllTimers();
 		requestContent();
 	}
 
 	@Subscribe public void onEvent(final Object event) {
-		if (! (event instanceof ReportEvent)) {
+		if (! (event instanceof ReportEvent) 	&& ! (event instanceof ShutdownVetoNotif)) {
 			armRequestTimer();	
 		}
 	}
 
 	@Subscribe public void onReportBuildAnswer(final ReportBuildAnswer answer) {
-		reportRoot.add(answer);
+		if (reportRoot != null) {
+			reportRoot.add(answer);
+		}
 	}
 
 	@Subscribe public void onReportImmediateBuildRequest(final ReportImmediateBuildRequest request) {
@@ -144,26 +152,49 @@ public class ReportActionController extends AbstractController {
     	return loadReportInProgressWrapper.getReadOnlyProperty();
     }
 
-	private  void armRequestTimer() {
-		if (requestTimer == null) {
-			log.debug("Arm the request timer");
-			requestTimer = new TimerEnabler();
-			int delay = context.getIntProperty("reportDelay", 10);
-		    requestTimer.schedule(() -> requestContent(), delay * 1000);
+	private void armRequestTimer() {
+		synchronized(scheduler) {
+			if (reportRequester == null) {
+				log.debug("Arm the request timer");
+				int delay = context.getIntProperty("reportDelay", 10);
+				reportRequester = scheduler.schedule(() -> requestContent(), delay, TimeUnit.SECONDS);
+			}
+		}
+	}
+
+	private void armBuildTimer() {
+		synchronized(scheduler) {
+			if (reportBuilder == null) {
+				log.debug("Arm the build timer");
+				int delay = context.getIntProperty("reportBuildDelay", 1);
+				reportBuilder = scheduler.schedule(() -> buildContentNoException(), delay, TimeUnit.SECONDS);
+			}
+		}
+	}
+
+	private void removeAllTimers() {
+		synchronized(scheduler) {
+			if (reportRequester != null) {
+				log.debug("Remove the request timer");
+				reportRequester.cancel(false);
+				reportRequester = null;
+			}
+			
+			if (reportBuilder != null) {
+				log.debug("Remove the build timer");
+				reportBuilder.cancel(false);
+				reportBuilder = null;
+			}
 		}
 	}
 	
-	private  void removeTimers() {
-		if (requestTimer != null) {
-			log.debug("Remove the request timer");
-			requestTimer.cancel();
-			requestTimer = null;
-		}
-		
-		if (buildTimer != null) {
-			log.debug("Remove the build timer");
-			buildTimer.cancel();
-			buildTimer = null;
+	private void removeBuildTimer() {
+		synchronized(scheduler) {			
+			if (reportBuilder != null) {
+				log.debug("Remove the build timer");
+				reportBuilder.cancel(false);
+				reportBuilder = null;
+			}
 		}
 	}
 	
@@ -171,14 +202,12 @@ public class ReportActionController extends AbstractController {
 		log.debug("Request content");
 		if (reportFile == null) return;
 		
-		removeTimers();
+		removeAllTimers();
 		reportRoot = new ReportRoot();
 		
 		context.postEvent(new ReportBuildRequest()
 				.setRequestId(++lastRequestId));
-		
-		buildTimer = new TimerEnabler();
-		buildTimer.schedule(() -> buildContentNoException(), context.getIntProperty("reportBuildDelay", 1) * 1000);
+		armBuildTimer();
 	}
 	
 	private void buildContentNoException() {
@@ -211,8 +240,7 @@ public class ReportActionController extends AbstractController {
 		mapper.writerWithDefaultPrettyPrinter().writeValue(reportFile, reportRoot);
 		
 		reportRoot = null;
-		buildTimer.cancel();
-		buildTimer = null;
+		removeBuildTimer();
 		
 		// Notifies.
 		context.postEvent(new ReportFileNotif()
@@ -221,6 +249,7 @@ public class ReportActionController extends AbstractController {
 
 		// Handles shutdown if needed.
 		if (shutdownInProgress) {
+			removeAllTimers();
 			context.postEvent(new ShutdownVetoNotif()
 				.setRequester(this.getClass().getName()).setLock(false));
 		}
@@ -235,7 +264,7 @@ public class ReportActionController extends AbstractController {
 	
 	private  void reset() {
 		log.debug("Reset");
-		removeTimers();
+		removeAllTimers();
 		
 		reportFile = null;
 		resetDate = new Date();

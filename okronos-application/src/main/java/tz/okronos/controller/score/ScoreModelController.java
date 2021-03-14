@@ -13,9 +13,10 @@ import com.google.common.eventbus.Subscribe;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyListProperty;
 import lombok.Getter;
-import tz.okronos.annotation.twosidebeans.TwoSideBean;
-import tz.okronos.annotation.twosidebeans.TwoSideConfiguration;
-import tz.okronos.annotation.twosidebeans.TwoSidePostConstruct;
+import tz.okronos.annotation.lateralizedbean.LateralizedBean;
+import tz.okronos.annotation.lateralizedbean.LateralizedConfiguration;
+import tz.okronos.annotation.lateralizedbean.LateralizedPostConstruct;
+import tz.okronos.application.ResetPlayRequest;
 import tz.okronos.controller.report.event.notif.ReportBuildAnswer;
 import tz.okronos.controller.report.event.request.ReportBuildRequest;
 import tz.okronos.controller.report.event.request.ReportReinitRequest;
@@ -34,10 +35,9 @@ import tz.okronos.core.KronoHelper;
 import tz.okronos.core.Lateralized;
 import tz.okronos.core.PlayPosition;
 import tz.okronos.core.SideAware;
-import tz.okronos.event.request.ResetPlayRequest;
 
 
-@TwoSideConfiguration
+@LateralizedConfiguration
 public class ScoreModelController
     extends AbstractModelController<ScoreModel>
     implements Lateralized, SideAware {
@@ -61,18 +61,18 @@ public class ScoreModelController
 		return new ScoreModel();
 	}
 		
-	@TwoSidePostConstruct 
+	@LateralizedPostConstruct 
 	public void init() {
 		model = scoreModel(); 
 		context.registerEventListener(this);
 	}
 
-	@TwoSideBean
+	@LateralizedBean
     public ReadOnlyListProperty<ScoreVolatile> scoreListProperty() {
     	return model.getScoreListWrapper().getReadOnlyProperty();
     }
 
-	@TwoSideBean
+	@LateralizedBean
 	public ReadOnlyIntegerProperty scoreProperty() {
 		return model.getScoreWrapper().getReadOnlyProperty();
 	}	

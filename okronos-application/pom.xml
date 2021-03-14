@@ -128,7 +128,7 @@
 
 		<dependency>
 			<groupId>tz.okronos</groupId>
-			<artifactId>okronos-annotations</artifactId>
+			<artifactId>okronos-core</artifactId>
 			<version>${okronos-annotations.version}</version>
 		</dependency>
 
@@ -156,7 +156,7 @@
 							<addClasspath>true</addClasspath>
 							<classpathPrefix></classpathPrefix>
 							<mainClass>
-								tz.okronos.KronoApp
+								tz.okronos.application.KronoApp
 							</mainClass>
 						</manifest>
 					</archive>
@@ -168,7 +168,7 @@
 				<artifactId>javafx-maven-plugin</artifactId>
 				<version>0.0.4</version>
 				<configuration>
-					<mainClass>tz.okronos.KronoApp</mainClass>
+					<mainClass>tz.okronos.application.KronoApp</mainClass>
 				</configuration>
 			</plugin>
 

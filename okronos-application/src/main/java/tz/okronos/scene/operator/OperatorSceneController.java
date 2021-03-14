@@ -37,6 +37,7 @@ import javafx.scene.media.AudioClip;
 import javafx.stage.FileChooser;
 import lombok.extern.slf4j.Slf4j;
 import tz.okronos.annotation.fxsubscribe.FxSubscribe;
+import tz.okronos.application.ResetPlayRequest;
 import tz.okronos.controller.animation.event.request.AnimationRequest;
 import tz.okronos.controller.animation.event.request.AnimationStartRequest;
 import tz.okronos.controller.animation.event.request.AnimationStopRequest;
@@ -59,6 +60,7 @@ import tz.okronos.controller.period.event.request.PeriodIncrementRequest;
 import tz.okronos.controller.playtime.event.notif.PlayTimeStartOrStopNotif;
 import tz.okronos.controller.playtime.event.request.PlayTimeModifyRequest;
 import tz.okronos.controller.playtime.event.request.PlayTimeStartOrStopRequest;
+import tz.okronos.controller.record.model.EventRecord;
 import tz.okronos.controller.report.event.request.ReportLoadRequest;
 import tz.okronos.controller.report.event.request.ReportSaveAsRequest;
 import tz.okronos.controller.score.event.notif.ScoreNotif;
@@ -69,6 +71,7 @@ import tz.okronos.controller.score.event.request.ScoreModificationRequest;
 import tz.okronos.controller.score.event.request.ScoreRequest;
 import tz.okronos.controller.score.model.ScoreSnapshot;
 import tz.okronos.controller.score.model.ScoreVolatile;
+import tz.okronos.controller.shutdown.event.request.ShutdownRequest;
 import tz.okronos.controller.team.event.notif.TeamPlayerNotif;
 import tz.okronos.controller.team.event.request.TeamExportRequest;
 import tz.okronos.controller.team.event.request.TeamImageModificationRequest;
@@ -83,12 +86,10 @@ import tz.okronos.controller.team.model.PlayerSnapshot;
 import tz.okronos.controller.timeout.event.request.TimeoutStartRequest;
 import tz.okronos.controller.xlsexport.event.request.ExportXlsRequest;
 import tz.okronos.core.KronoContext.ResourceType;
+import tz.okronos.core.property.BindingHelper;
 import tz.okronos.core.KronoHelper;
 import tz.okronos.core.PlayPosition;
-import tz.okronos.core.TwoSide;
-import tz.okronos.core.property.BindingHelper;
-import tz.okronos.event.request.ResetPlayRequest;
-import tz.okronos.model.container.EventRecord;
+import tz.okronos.core.SimpleLateralizedPair;
 import tz.okronos.scene.AbstractSceneController;
 import tz.okronos.scene.control.HighlightableTableCell;
 import tz.okronos.scene.operator.PenaltyInputController.InputMode;
@@ -123,39 +124,39 @@ public class OperatorSceneController extends AbstractSceneController {
     private ReadOnlyIntegerProperty backwardTimeProperty;
     @Autowired @Qualifier("cumulativeTimeProperty")
     private ReadOnlyIntegerProperty cumulativeTimeProperty;
-    @Autowired @Qualifier("teamNamePropertyTwoSide")
-    private TwoSide<ReadOnlyStringProperty> teamNameProperties;
-    @Autowired @Qualifier("teamImagePropertyTwoSide")
-    private TwoSide<ReadOnlyObjectProperty<Image>> teamImageProperties;
-    @Autowired @Qualifier("scorePropertyTwoSide")
-    private TwoSide<ReadOnlyIntegerProperty> scoreProperties;
+    @Autowired @Qualifier("teamNamePropertyLateralized")
+    private SimpleLateralizedPair<ReadOnlyStringProperty> teamNameProperties;
+    @Autowired @Qualifier("teamImagePropertyLateralized")
+    private SimpleLateralizedPair<ReadOnlyObjectProperty<Image>> teamImageProperties;
+    @Autowired @Qualifier("scorePropertyLateralized")
+    private SimpleLateralizedPair<ReadOnlyIntegerProperty> scoreProperties;
     @Autowired @Qualifier("periodLabelProperty")
     private ReadOnlyStringProperty periodLabelProperty;
     @Autowired @Qualifier("historyListProperty")
     private ReadOnlyListProperty<EventRecord<?>> historyListProperty;
-    @Autowired @Qualifier("scoreListPropertyTwoSide")
-    private TwoSide<ReadOnlyListProperty<ScoreVolatile>> scoreListProperties;
-    @Autowired @Qualifier("penaltyHistoryListPropertyTwoSide")
-    private TwoSide<ReadOnlyListProperty<PenaltyVolatile>> penaltyHistoryListProperties;
-    @Autowired @Qualifier("penaltyLiveListPropertyTwoSide")
-    private TwoSide<ReadOnlyListProperty<PenaltyVolatile>> penaltyLiveListProperties;
-    @Autowired @Qualifier("playerListPropertyTwoSide")
-    private TwoSide<ReadOnlyListProperty<PlayerSnapshot>> playerListProperties;
+    @Autowired @Qualifier("scoreListPropertyLateralized")
+    private SimpleLateralizedPair<ReadOnlyListProperty<ScoreVolatile>> scoreListProperties;
+    @Autowired @Qualifier("penaltyHistoryListPropertyLateralized")
+    private SimpleLateralizedPair<ReadOnlyListProperty<PenaltyVolatile>> penaltyHistoryListProperties;
+    @Autowired @Qualifier("penaltyLiveListPropertyLateralized")
+    private SimpleLateralizedPair<ReadOnlyListProperty<PenaltyVolatile>> penaltyLiveListProperties;
+    @Autowired @Qualifier("playerListPropertyLateralized")
+    private SimpleLateralizedPair<ReadOnlyListProperty<PlayerSnapshot>> playerListProperties;
     @Autowired @Qualifier("breachListProperty")
     private ReadOnlyListProperty<BreachDesc> breachListProperty;
     
-    private TwoSide<SimpleBooleanProperty> scoreDecAlloweds;
-    private TwoSide<SimpleBooleanProperty> scoreIncAlloweds;
+    private SimpleLateralizedPair<SimpleBooleanProperty> scoreDecAlloweds;
+    private SimpleLateralizedPair<SimpleBooleanProperty> scoreIncAlloweds;
     private SimpleBooleanProperty phaseDecAllowed;
     private SimpleBooleanProperty phaseIncAllowed;
 	private SimpleBooleanProperty correctionProperty;
-	private TwoSide<TableView<PenaltyVolatile>> penaltyTables;
-	private TwoSide<TableView<PenaltyVolatile>> allPenaltyTables;
-	private TwoSide<TableView<PlayerSnapshot>> playerTables;
+	private SimpleLateralizedPair<TableView<PenaltyVolatile>> penaltyTables;
+	private SimpleLateralizedPair<TableView<PenaltyVolatile>> allPenaltyTables;
+	private SimpleLateralizedPair<TableView<PlayerSnapshot>> playerTables;
 	
-	private TwoSide<BooleanBinding> scoreSelectBindings;
+	private SimpleLateralizedPair<BooleanBinding> scoreSelectBindings;
 	private BooleanBinding phaseSelectBinding;
-	private TwoSide<Label> scoreLabels;
+	private SimpleLateralizedPair<Label> scoreLabels;
 	
     @FXML private Label clock1;
     @FXML private Label clock2;
@@ -225,20 +226,20 @@ public class OperatorSceneController extends AbstractSceneController {
     	scoreLeftTable.setItems(scoreListProperties.getLeft());
     	scoreRightTable.setItems(scoreListProperties.getRight());
     	
-    	penaltyTables = new TwoSide<>(leftPenaltyTable, rightPenaltyTable);
+    	penaltyTables = new SimpleLateralizedPair<>(leftPenaltyTable, rightPenaltyTable);
        	leftPenaltyTable.setItems(penaltyLiveListProperties.getLeft());
        	rightPenaltyTable.setItems(penaltyLiveListProperties.getRight());
        	
-        allPenaltyTables = new TwoSide<>(allPenaltyLeftTable, allPenaltyRightTable);
+        allPenaltyTables = new SimpleLateralizedPair<>(allPenaltyLeftTable, allPenaltyRightTable);
        	allPenaltyLeftTable.setItems(penaltyHistoryListProperties.getLeft());
        	allPenaltyRightTable.setItems(penaltyHistoryListProperties.getRight());
        	
-       	playerTables = new TwoSide<TableView<PlayerSnapshot>>(playersLeftTable, playersRightTable);
+       	playerTables = new SimpleLateralizedPair<TableView<PlayerSnapshot>>(playersLeftTable, playersRightTable);
        	playersLeftTable.setItems(playerListProperties.getLeft());
        	playersRightTable.setItems(playerListProperties.getRight());
        	
        	correctionProperty = new SimpleBooleanProperty();
-       	scoreLabels = new TwoSide<>(scoreLeft, scoreRight);
+       	scoreLabels = new SimpleLateralizedPair<>(scoreLeft, scoreRight);
        	
        	customizePenaltyColumn(leftPenaltyTable);
 		customizePenaltyColumn(rightPenaltyTable);
@@ -287,7 +288,11 @@ public class OperatorSceneController extends AbstractSceneController {
 	@FxSubscribe public void onPhaseModificationNotif(PeriodModificationNotif event) {
   		updatePhase(event);
   	}
-  	  	
+
+	@FxSubscribe public void onShutdownRequest(final ShutdownRequest event) {
+		getStage().hide();
+	}
+	
 	@FXML private void addPenaltyRightAction(ActionEvent event) {
     	addPenaltyAction(event, PlayPosition.RIGHT);
     }
@@ -632,15 +637,15 @@ public class OperatorSceneController extends AbstractSceneController {
 	}
 
     private void updatePenaltyTable(PenaltyNotif event) {
-    	final TableView<PenaltyVolatile> liveTable = penaltyTables.getPosition(event.getSide());
+    	final TableView<PenaltyVolatile> liveTable = penaltyTables.getFromPosition(event.getSide());
     	liveTable.refresh();
     	
-    	final TableView<PenaltyVolatile> historyTable =  allPenaltyTables.getPosition(event.getSide());
+    	final TableView<PenaltyVolatile> historyTable =  allPenaltyTables.getFromPosition(event.getSide());
     	historyTable.refresh();
 	}
     
   	private void updatePlayerTable(TeamPlayerNotif event) {
-  		final TableView<PlayerSnapshot> playerTable = playerTables.getPosition(event.getSide());
+  		final TableView<PlayerSnapshot> playerTable = playerTables.getFromPosition(event.getSide());
     	playerTable.refresh();
 	}
     
@@ -673,7 +678,7 @@ public class OperatorSceneController extends AbstractSceneController {
     
     private void addPenaltyAction(ActionEvent event, PlayPosition position) {
     	penaltyInputController.setInputMode(InputMode.CREATION);
-    	penaltyInputController.setPlayers(playerListProperties.getPosition(position));
+    	penaltyInputController.setPlayers(playerListProperties.getFromPosition(position));
     	PenaltyVolatile penaltyVolatile = new PenaltyVolatile(0);
     	penaltyVolatile.setTeam(position);
     	penaltyVolatile.setDuration(2);
@@ -703,7 +708,7 @@ public class OperatorSceneController extends AbstractSceneController {
     }
 
     private void teamAction(PlayPosition position) {
-     	teamInputController.setTeamName(teamNameProperties.getPosition(position).get());
+     	teamInputController.setTeamName(teamNameProperties.getFromPosition(position).get());
     	teamInputController.showModal();    	
     	if (! teamInputController.isCancelled()) {
     		context.postEvent(new TeamNameModificationRequest()
@@ -713,8 +718,8 @@ public class OperatorSceneController extends AbstractSceneController {
     }
 
     private void scoreEvent(ScoreNotif event) {    	
- 		scoreDecAlloweds.getPosition(event.getMark().getTeam()).set(event.isScoreDecAllowed());
- 		scoreIncAlloweds.getPosition(event.getMark().getTeam()).set(event.isScoreIncAllowed());
+ 		scoreDecAlloweds.getFromPosition(event.getMark().getTeam()).set(event.isScoreDecAllowed());
+ 		scoreIncAlloweds.getFromPosition(event.getMark().getTeam()).set(event.isScoreIncAllowed());
  		TableView<ScoreVolatile> table = (event.getMark().getTeam() == PlayPosition.LEFT) ? scoreLeftTable : scoreRightTable;
  		table.refresh();
     }
@@ -726,18 +731,18 @@ public class OperatorSceneController extends AbstractSceneController {
     
     private void handleScoreSelectability(final PlayPosition position) {
     	BooleanBinding binding = Bindings.or(
-    	    Bindings.not(correctionProperty).and(scoreIncAlloweds.getPosition(position)),
-    		correctionProperty.and(scoreDecAlloweds.getPosition(position))
+    	    Bindings.not(correctionProperty).and(scoreIncAlloweds.getFromPosition(position)),
+    		correctionProperty.and(scoreDecAlloweds.getFromPosition(position))
     	);
-    	scoreSelectBindings.setPosition(binding, position);
+    	scoreSelectBindings.setFromPosition(binding, position);
     	binding.addListener(observable -> 
-	    	setSelectabilityStyle(scoreLabels.getPosition(position), scoreSelectBindings.getPosition(position).get()));
+	    	setSelectabilityStyle(scoreLabels.getFromPosition(position), scoreSelectBindings.getFromPosition(position).get()));
     }
     
     private void handleScoreSelectability() {
-    	scoreDecAlloweds = new TwoSide<>(new SimpleBooleanProperty(), new SimpleBooleanProperty());
-    	scoreIncAlloweds = new TwoSide<>(new SimpleBooleanProperty(), new SimpleBooleanProperty());
-    	scoreSelectBindings = new TwoSide<BooleanBinding>();
+    	scoreDecAlloweds = new SimpleLateralizedPair<>(new SimpleBooleanProperty(), new SimpleBooleanProperty());
+    	scoreIncAlloweds = new SimpleLateralizedPair<>(new SimpleBooleanProperty(), new SimpleBooleanProperty());
+    	scoreSelectBindings = new SimpleLateralizedPair<BooleanBinding>();
     	handleScoreSelectability(PlayPosition.LEFT);
     	handleScoreSelectability(PlayPosition.RIGHT);
     }
@@ -772,7 +777,7 @@ public class OperatorSceneController extends AbstractSceneController {
     
 	private void scoreAction(PlayPosition position) {
 		// Checks that the processing is allowed.
-		if (! scoreSelectBindings.getPosition(position).get()) return;
+		if (! scoreSelectBindings.getFromPosition(position).get()) return;
 		
 		if (correctionProperty.get()) requestScoreDec(position);
 		else requestScoreInc(position);
@@ -781,10 +786,10 @@ public class OperatorSceneController extends AbstractSceneController {
 	private void requestScoreInc(PlayPosition position) {
 		ScoreSnapshot mark;
 		if (context.getBooleanProperty("markInput", true)
-				&& ! playerListProperties.getPosition(position).isEmpty()) {
+				&& ! playerListProperties.getFromPosition(position).isEmpty()) {
 			markInputController.clear();
 			markInputController.setInputMode(MarkInputController.InputMode.CREATION);
-			markInputController.setPlayers(playerListProperties.getPosition(position));
+			markInputController.setPlayers(playerListProperties.getFromPosition(position));
 			markInputController.showModal();
 	    	if (markInputController.isCancelled()) return;
 	    	mark = markInputController.getMark();
@@ -827,7 +832,7 @@ public class OperatorSceneController extends AbstractSceneController {
     	
     	PenaltySnapshot oldValue = PenaltySnapshot.of(penaltyVolatile);
     	penaltyInputController.setInputMode(isLiveTable ? InputMode.LIVE_MODIF : InputMode.VALID_MODIF);
-    	penaltyInputController.setPlayers(playerListProperties.getPosition(position));
+    	penaltyInputController.setPlayers(playerListProperties.getFromPosition(position));
     	penaltyInputController.setPenalty(penaltyVolatile);
     	penaltyInputController.showModal();
     	PenaltySnapshot newValue = penaltyInputController.getPenalty();
@@ -850,7 +855,7 @@ public class OperatorSceneController extends AbstractSceneController {
     	if (scoreVolatile == null) return;
     	
     	markInputController.setInputMode(MarkInputController.InputMode.MODIFICATION);
-		markInputController.setPlayers(playerListProperties.getPosition(position));
+		markInputController.setPlayers(playerListProperties.getFromPosition(position));
     	markInputController.setMark(scoreVolatile);
     	markInputController.showModal();
     	if (markInputController.isCancelled()) return;

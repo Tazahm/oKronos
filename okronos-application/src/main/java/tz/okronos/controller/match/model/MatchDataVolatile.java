@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import tz.okronos.core.KronoHelper;
-import tz.okronos.core.TwoSide;
+import tz.okronos.core.SimpleLateralizedPair;
 
 
 @Component
@@ -98,8 +98,8 @@ public class MatchDataVolatile implements MatchDataContract {
 	private SimpleBooleanProperty  reservesBeforeMatch = new SimpleBooleanProperty();
 	private SimpleBooleanProperty claim = new SimpleBooleanProperty();
 	private SimpleBooleanProperty incidentReport = new SimpleBooleanProperty();
-//	private TwoSideReadOnly<TeamData> team = new TwoSide<>(new TeamData(), new TeamData()).buildReadOnlyWrapper();
-	private TwoSide<TeamData> team = new TwoSide<>(new TeamData(), new TeamData());
+//	private LateralizedPairReadOnlyWrapper<TeamData> team = new SimpleLateralizedPair<>(new TeamData(), new TeamData()).buildReadOnlyWrapper();
+	private SimpleLateralizedPair<TeamData> team = new SimpleLateralizedPair<>(new TeamData(), new TeamData());
 	private Official referee1 = new Official();
 	private Official referee2 = new Official();
 	private Official marker = new Official();
@@ -184,10 +184,10 @@ public class MatchDataVolatile implements MatchDataContract {
 		this.incidentReport.set(incidentReport);
 	}
 	@SuppressWarnings("unchecked")
-	public TwoSide<TeamData> getTeam() {
+	public SimpleLateralizedPair<TeamData> getTeam() {
 		return team;
 	}
-//	public TwoSideReadOnly<TeamData> getTeam() {
+//	public LateralizedPairReadOnlyWrapper<TeamData> getTeam() {
 //		return team;
 //	}
 	

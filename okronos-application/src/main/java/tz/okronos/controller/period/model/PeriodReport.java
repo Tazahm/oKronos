@@ -2,7 +2,7 @@ package tz.okronos.controller.period.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import tz.okronos.model.container.PhaseOfPlay;
+import tz.okronos.core.PhaseOfPlay;
 
 @Setter @Getter
 public class PeriodReport {

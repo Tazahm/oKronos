@@ -18,9 +18,11 @@ import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
 import tz.okronos.annotation.fxsubscribe.FxSubscribe;
+import tz.okronos.application.ResetPlayRequest;
 import tz.okronos.controller.penalty.event.notif.PenaltyStartNotif;
 import tz.okronos.controller.penalty.event.notif.PenaltyStopNotif;
 import tz.okronos.controller.playtime.event.notif.PlayTimeStartOrStopNotif;
+import tz.okronos.controller.record.model.EventRecord;
 import tz.okronos.controller.record.model.EventRecordSnapshot;
 import tz.okronos.controller.report.event.notif.ReportBuildAnswer;
 import tz.okronos.controller.report.event.request.ReportBuildRequest;
@@ -29,10 +31,8 @@ import tz.okronos.controller.score.event.notif.ScoreNotif;
 import tz.okronos.controller.score.model.ScoreSnapshot;
 import tz.okronos.core.AbstractModelController;
 import tz.okronos.core.KronoHelper;
-import tz.okronos.core.TwoSide;
-import tz.okronos.event.request.ResetPlayRequest;
-import tz.okronos.model.container.EventRecord;
-import tz.okronos.model.container.PhaseOfPlay;
+import tz.okronos.core.PhaseOfPlay;
+import tz.okronos.core.SimpleLateralizedPair;
 
 
 /**
@@ -43,7 +43,7 @@ import tz.okronos.model.container.PhaseOfPlay;
 public class EventRecordModelController extends AbstractModelController<EventRecordModel>  {
 	public static final String ReportId = "record";
 		
-	@Autowired @Qualifier("teamNamePropertyTwoSide") private TwoSide<ReadOnlyStringProperty> teamNameProperties;
+	@Autowired @Qualifier("teamNamePropertyLateralized") private SimpleLateralizedPair<ReadOnlyStringProperty> teamNameProperties;
 	@Autowired @Qualifier("phaseProperty") private ReadOnlyObjectProperty<PhaseOfPlay> phaseProperty;
 	@Autowired @Qualifier("phaseDurationProperty") private ReadOnlyIntegerProperty phaseDurationProperty;
     @Autowired @Qualifier("forwardTimeProperty") private ReadOnlyIntegerProperty forwardTimeProperty;
@@ -135,7 +135,7 @@ public class EventRecordModelController extends AbstractModelController<EventRec
     	    .map(i -> Integer.toString(i))
     	    .collect(Collectors.joining("/"));
     	if (scorers.length() > 0) scorers = " (" + scorers + ")";
-  		msg = msg + " " + teamNameProperties.getPosition(mark.getTeam()).get() + scorers;
+  		msg = msg + " " + teamNameProperties.getFromPosition(mark.getTeam()).get() + scorers;
   		
   		add(new EventRecord<ScoreNotif>()
   				.setEvent(notif)

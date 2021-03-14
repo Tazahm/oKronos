@@ -28,9 +28,10 @@ import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import tz.okronos.annotation.twosidebeans.TwoSideBean;
-import tz.okronos.annotation.twosidebeans.TwoSideConfiguration;
-import tz.okronos.annotation.twosidebeans.TwoSidePostConstruct;
+import tz.okronos.annotation.lateralizedbean.LateralizedBean;
+import tz.okronos.annotation.lateralizedbean.LateralizedConfiguration;
+import tz.okronos.annotation.lateralizedbean.LateralizedPostConstruct;
+import tz.okronos.application.ResetPlayRequest;
 import tz.okronos.controller.report.event.notif.ReportBuildAnswer;
 import tz.okronos.controller.report.event.request.ReportBuildRequest;
 import tz.okronos.controller.report.event.request.ReportReinitRequest;
@@ -52,13 +53,12 @@ import tz.okronos.core.KronoHelper;
 import tz.okronos.core.Lateralized;
 import tz.okronos.core.PlayPosition;
 import tz.okronos.core.SideAware;
-import tz.okronos.event.request.ResetPlayRequest;
 
 
 /**
  *  Handles data related to a a team : team name and image, players.
  */
-@TwoSideConfiguration
+@LateralizedConfiguration
 @Slf4j
 public class TeamModelController 
 	extends AbstractModelController<TeamModel>
@@ -80,24 +80,24 @@ public class TeamModelController
 	public TeamModelController() {		
 	}
 	 
-	@TwoSidePostConstruct
+	@LateralizedPostConstruct
 	public void init() {
 		model = teamModel();
 		resetTeamName();
 		context.registerEventListener(this);
 	}
 
-	@TwoSideBean
+	@LateralizedBean
 	public ReadOnlyStringProperty teamNameProperty() {
 		return model.getTeamNameWrapper().getReadOnlyProperty();
 	}	
 	
-	@TwoSideBean
+	@LateralizedBean
 	public ReadOnlyObjectProperty<Image> teamImageProperty() {
 		return model.getTeamImageWrapper().getReadOnlyProperty();
 	}
 	
-	@TwoSideBean
+	@LateralizedBean
     public ReadOnlyListProperty<PlayerSnapshot> playerListProperty() {
     	return model.getPlayerSortedListWrapper().getReadOnlyProperty();
     }

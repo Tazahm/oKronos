@@ -16,7 +16,7 @@
 		
 		<maven-jar-plugin.version>3.0.0</maven-jar-plugin.version>
 		<maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
-		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 		<maven-assembly-plugin.version>2.5.3</maven-assembly-plugin.version>
 		
 		<java.version>11</java.version>		
@@ -40,7 +40,7 @@
 	</properties>
 <!-- 
 	<modules>
-      <module>../okronos-annotations</module>
+      <module>../okronos-core</module>
       <module>../okronos-application</module>
     </modules>
 -->

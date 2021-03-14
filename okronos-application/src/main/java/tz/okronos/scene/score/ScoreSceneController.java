@@ -24,7 +24,8 @@ import tz.okronos.controller.animation.AnimationActionController;
 import tz.okronos.controller.penalty.event.notif.PenaltyNotif;
 import tz.okronos.controller.penalty.model.PenaltyVolatile;
 import tz.okronos.controller.playtime.event.notif.PlayTimeStartOrStopNotif;
-import tz.okronos.core.TwoSide;
+import tz.okronos.controller.shutdown.event.request.ShutdownRequest;
+import tz.okronos.core.SimpleLateralizedPair;
 import tz.okronos.core.property.BindingHelper;
 import tz.okronos.scene.AbstractSceneController;
 import tz.okronos.scene.control.PenaltyControl;
@@ -50,28 +51,28 @@ public class ScoreSceneController extends AbstractSceneController {
     @FXML private ImageView teamLeftImageView;
     @FXML private ImageView teamRightImageView;
     
-    @Autowired @Qualifier("penaltyScoreListPropertyTwoSide") 
-    private TwoSide<ReadOnlyListProperty<PenaltyVolatile>> penaltyScoreListProperties;
+    @Autowired @Qualifier("penaltyScoreListPropertyLateralized") 
+    private SimpleLateralizedPair<ReadOnlyListProperty<PenaltyVolatile>> penaltyScoreListProperties;
     @Autowired @Qualifier("playTimeRunningProperty") 
     private ReadOnlyBooleanProperty playTimeRunningProperty;  
     @Autowired @Qualifier("backwardTimeProperty") 
     private ReadOnlyIntegerProperty backwardTimeProperty;
-    @Autowired @Qualifier("scorePropertyTwoSide") 
-    private TwoSide<ReadOnlyIntegerProperty> scoreProperties;
-    @Autowired @Qualifier("teamNamePropertyTwoSide") 
-    private TwoSide<ReadOnlyStringProperty> teamNameProperties;
+    @Autowired @Qualifier("scorePropertyLateralized") 
+    private SimpleLateralizedPair<ReadOnlyIntegerProperty> scoreProperties;
+    @Autowired @Qualifier("teamNamePropertyLateralized") 
+    private SimpleLateralizedPair<ReadOnlyStringProperty> teamNameProperties;
     @Autowired @Qualifier("periodLabelProperty") 
     private ReadOnlyStringProperty periodLabelProperty;
-    @Autowired @Qualifier("teamImagePropertyTwoSide") 
-    private TwoSide<ReadOnlyObjectProperty<Image>> teamImageProperties;
+    @Autowired @Qualifier("teamImagePropertyLateralized") 
+    private SimpleLateralizedPair<ReadOnlyObjectProperty<Image>> teamImageProperties;
     @Autowired AnimationActionController animationActionController;
 
-    private TwoSide<List<PenaltyControl>> penaltyControls;
+    private SimpleLateralizedPair<List<PenaltyControl>> penaltyControls;
     
     
     @PostConstruct 
     public void init()  {
-		penaltyControls = new TwoSide<>(
+		penaltyControls = new SimpleLateralizedPair<>(
 			Stream.of(penaltyLeft1, penaltyLeft2, penaltyLeft3, penaltyLeft4)
 			    .filter(p -> p != null)
 			    .collect(Collectors.toList()), 
@@ -103,10 +104,10 @@ public class ScoreSceneController extends AbstractSceneController {
  	@FxSubscribe public void onPenaltyNotif(PenaltyNotif event) {
   		bindScores();
   	}
-      	
-//  	@Subscribe public void onShutdownRequest(ShutdownRequest event) {
-//  		Platform.runLater(() -> stage.hide());
-//  	}
+
+ 	@FxSubscribe public void onShutdownRequest(final ShutdownRequest event) {
+		getStage().hide();
+	}
   	
     private void timeResumed() {
     	if (playTimeRunningProperty.get()) clock.getStyleClass().remove("pending"); 

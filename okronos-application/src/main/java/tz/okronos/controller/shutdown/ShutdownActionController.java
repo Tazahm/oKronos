@@ -1,15 +1,16 @@
 package tz.okronos.controller.shutdown;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Component;
 
+import com.google.common.eventbus.Subscribe;
+
 import javafx.application.Platform;
 import lombok.extern.slf4j.Slf4j;
-import tz.okronos.annotation.fxsubscribe.FxSubscribe;
 import tz.okronos.controller.shutdown.event.notif.ShutdownVetoNotif;
 import tz.okronos.controller.shutdown.event.request.ShutdownRequest;
 import tz.okronos.core.AbstractController;
@@ -31,38 +32,40 @@ public class ShutdownActionController  extends AbstractController {
     private int tryCount;
 
     private void process() {
-    	context.getScoreSceneController().getStage().hide();
-    	context.getOperatorSceneController().getStage().hide();
-    	
     	tryCount ++;
-    	if (! vetoMap.isEmpty() && tryCount > 10) {
-    		log.info("Force exit");
-    	} else if (! vetoMap.isEmpty()) {
-    		log.info("Cannot exit due to shutdown locks");
-    		return;
-    	}
+    	log.info("Process shutdown, try count: " + tryCount);
+    	 if (! vetoMap.isEmpty() && tryCount <= 10) {
+     		log.info("Cannot exit due to shutdown locks");
+     		return;
+     	}
+    	 
     	log.info("Exit the platform");
-    	Platform.exit(); 
+    	Platform.exit();
     	log.info("Exit the jvm");
     	System.exit(0);
     }
 
     @PostConstruct 
     public void init()  {
-		vetoMap = new HashMap<>();
+		vetoMap = new ConcurrentHashMap<>();
 		context.registerEventListener(this);
 	}
 
-	@FxSubscribe public void onShutdownRequest(final ShutdownRequest event) {
+	@Subscribe
+	public void onShutdownRequest(final ShutdownRequest event) {
+		log.info("Start shutdown");
 		timer = new TimerEnabler();
-		timer.fxSchedule(() -> process(), 1000, 1000);
+		timer.schedule(() -> process(), 1000, 1000);
 	}
-	
-	@FxSubscribe public void onShutdownAnswer(final ShutdownVetoNotif event) {
+
+	@Subscribe
+	public void onShutdownAnswer(final ShutdownVetoNotif event) {
 		final String src = event.getRequester();
 		if (event.isLock()) {
+			log.info("Shutdown veto by " + src);
 			vetoMap.put(src, event);
 		} else {
+			log.info("Veto removal by " + src);
 			if (vetoMap.remove(src) == null) {
 				log.warn("No matching veto for " + src);
 			};

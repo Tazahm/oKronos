@@ -1,6 +1,6 @@
 package tz.okronos.controller.match.model;
 
-import tz.okronos.core.TwoSide;
+import tz.okronos.core.SimpleLateralizedPair;
 
 
 public interface MatchDataContract {
@@ -49,8 +49,8 @@ public interface MatchDataContract {
 	public void setClaim(boolean claim);
 	public boolean isIncidentReport();
 	public void setIncidentReport(boolean incidentReport);
-	public <T extends TeamDataContract> TwoSide<T> getTeam();
-//	public <T extends TeamDataContract> TwoSideReadOnly<T> getTeam();
+	public <T extends TeamDataContract> SimpleLateralizedPair<T> getTeam();
+//	public <T extends TeamDataContract> LateralizedPairReadOnlyWrapper<T> getTeam();
 	public <F extends OfficialContract> F getReferee1();
 	public <F extends OfficialContract> F getReferee2();
 	public <F extends OfficialContract> F getMarker();

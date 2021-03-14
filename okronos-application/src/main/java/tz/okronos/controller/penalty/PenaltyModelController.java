@@ -13,9 +13,10 @@ import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import tz.okronos.annotation.fxsubscribe.FxSubscribe;
-import tz.okronos.annotation.twosidebeans.TwoSideBean;
-import tz.okronos.annotation.twosidebeans.TwoSideConfiguration;
-import tz.okronos.annotation.twosidebeans.TwoSidePostConstruct;
+import tz.okronos.annotation.lateralizedbean.LateralizedBean;
+import tz.okronos.annotation.lateralizedbean.LateralizedConfiguration;
+import tz.okronos.annotation.lateralizedbean.LateralizedPostConstruct;
+import tz.okronos.application.ResetPlayRequest;
 import tz.okronos.controller.penalty.event.notif.PenaltyCreationNotif;
 import tz.okronos.controller.penalty.event.notif.PenaltyListNotif;
 import tz.okronos.controller.penalty.event.notif.PenaltyModificationNotif;
@@ -38,15 +39,14 @@ import tz.okronos.controller.report.event.request.ReportReinitRequest;
 import tz.okronos.core.AbstractModelController;
 import tz.okronos.core.KronoHelper;
 import tz.okronos.core.Lateralized;
+import tz.okronos.core.PhaseOfPlay;
 import tz.okronos.core.PlayPosition;
 import tz.okronos.core.SideAware;
-import tz.okronos.event.request.ResetPlayRequest;
-import tz.okronos.model.container.PhaseOfPlay;
 
 /**
  *  Handles penalties creation and modification, for one team (left or right).
  */
-@TwoSideConfiguration
+@LateralizedConfiguration
 public class PenaltyModelController 
 	extends AbstractModelController<PenaltyModel>
 	implements Lateralized, SideAware {
@@ -69,23 +69,23 @@ public class PenaltyModelController
 	public PenaltyModelController() {	
 	}
 		
-	@TwoSidePostConstruct
+	@LateralizedPostConstruct
 	public void init() {
 		model = new PenaltyModel();
 		context.registerEventListener(this);
 	}
 	
-	@TwoSideBean
+	@LateralizedBean
 	ReadOnlyListProperty<PenaltyVolatile> penaltyHistoryListProperty() {
     	return model.penaltyHistoryListProperty();
     }
 	
-	@TwoSideBean
+	@LateralizedBean
 	ReadOnlyListProperty<PenaltyVolatile> penaltyLiveListProperty() {
     	return model.penaltyLiveListProperty();
     }
 	
-	@TwoSideBean
+	@LateralizedBean
 	ReadOnlyListProperty<PenaltyVolatile> penaltyScoreListProperty() {
     	return model.penaltyScoreListProperty();
     }

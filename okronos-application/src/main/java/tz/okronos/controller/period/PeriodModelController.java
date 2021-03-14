@@ -15,6 +15,7 @@ import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import tz.okronos.application.ResetPlayRequest;
 import tz.okronos.controller.period.event.notif.PeriodDurationNotif;
 import tz.okronos.controller.period.event.notif.PeriodEndNotif;
 import tz.okronos.controller.period.event.notif.PeriodModificationNotif;
@@ -31,9 +32,8 @@ import tz.okronos.controller.report.event.notif.ReportBuildAnswer;
 import tz.okronos.controller.report.event.request.ReportBuildRequest;
 import tz.okronos.controller.report.event.request.ReportReinitRequest;
 import tz.okronos.core.AbstractModelController;
+import tz.okronos.core.PhaseOfPlay;
 import tz.okronos.core.PlayPosition;
-import tz.okronos.event.request.ResetPlayRequest;
-import tz.okronos.model.container.PhaseOfPlay;
 
 
 @Component

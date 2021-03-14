@@ -7,7 +7,6 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import lombok.Getter;
 import lombok.Setter;
-import tz.okronos.model.container.EventRecord;
 
 @Setter @Getter
 public class EventRecordSnapshot {

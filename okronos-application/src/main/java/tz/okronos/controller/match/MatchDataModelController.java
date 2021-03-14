@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import com.google.common.eventbus.Subscribe;
 
 import lombok.extern.slf4j.Slf4j;
+import tz.okronos.application.ResetPlayRequest;
 import tz.okronos.controller.match.model.MatchDataContract;
 import tz.okronos.controller.match.model.MatchDataSnapshot;
 import tz.okronos.controller.match.model.MatchDataVolatile;
@@ -23,8 +24,7 @@ import tz.okronos.controller.report.event.notif.ReportBuildAnswer;
 import tz.okronos.controller.report.event.request.ReportBuildRequest;
 import tz.okronos.controller.report.event.request.ReportReinitRequest;
 import tz.okronos.core.AbstractModelController;
-import tz.okronos.event.request.ResetPlayRequest;
-import tz.okronos.model.container.PhaseOfPlay;
+import tz.okronos.core.PhaseOfPlay;
 
 
 /**
@@ -71,7 +71,7 @@ public class MatchDataModelController extends AbstractModelController<MatchDataV
   	}
 
 	private void handleTimeoutStart(PeriodModificationNotif notif) {
-		TeamData team = matchData.getTeam().getPosition(notif.getRequester());
+		TeamData team = matchData.getTeam().getFromPosition(notif.getRequester());
 		if (notif.getPeriod() == 1) {
 			if (team.getTimeoutPeriod1() != 0) {
 				log.warn("Rewrite period 1");

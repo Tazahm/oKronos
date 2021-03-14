@@ -35,7 +35,6 @@ public class ScoreSceneBuilder {
 	
 	@PostConstruct public void init() throws Exception {
     	ScoreSceneController scoreSceneController = scoresSceneController();
-    	context.setScoreSceneController(scoreSceneController);
     	scoreSceneController.getStage().show();
 	}
 
