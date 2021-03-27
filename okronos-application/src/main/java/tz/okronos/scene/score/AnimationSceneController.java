@@ -1,5 +1,8 @@
 package tz.okronos.scene.score;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.media.MediaView;
@@ -9,6 +12,8 @@ import tz.okronos.scene.AbstractSceneController;
 /**
  *  Displays an animation clip into the score stage.
  */
+@Component
+@Scope("prototype")
 public class AnimationSceneController extends AbstractSceneController {    
    @FXML @Getter private MediaView mediaView;
     

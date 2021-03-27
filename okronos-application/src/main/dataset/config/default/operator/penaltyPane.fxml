@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import tz.okronos.scene.control.ValueFactoryTransformer?>
+
+
+<TableView id="allPenaltyTable"
+	fx:id="allPenaltyTable" styleClass="side-table" prefWidth="195"
+	onMouseClicked="#allPenaltyTableAction"
+	xmlns="http://javafx.com/javafx/11.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="tz.okronos.scene.operator.PenaltySceneController">
+	<columns>
+		<TableColumn text="%operator.penalties.header.period"
+			prefWidth="30">
+			<cellValueFactory>
+				<ValueFactoryTransformer property="period"
+					converter="tz.okronos.core.property.IntToStringConverter" />
+			</cellValueFactory>
+		</TableColumn>
+		<TableColumn text="%operator.penalties.header.begin"
+			prefWidth="60">
+			<cellValueFactory>
+				<ValueFactoryTransformer
+					property="startTime"
+					converter="tz.okronos.core.property.SecondsToTimeConverter" />
+			</cellValueFactory>
+		</TableColumn>
+		<TableColumn text="%operator.penalties.header.end"
+			prefWidth="60">
+			<cellValueFactory>
+				<ValueFactoryTransformer property="stopTime"
+					converter="tz.okronos.core.property.SecondsToTimeConverter" />
+			</cellValueFactory>
+		</TableColumn>
+		<TableColumn text="%operator.penalties.header.duration"
+			prefWidth="60">
+			<cellValueFactory>
+				<ValueFactoryTransformer property="duration"
+					converter="tz.okronos.core.property.IntToStringConverter" />
+			</cellValueFactory>
+		</TableColumn>
+		<TableColumn text="%operator.penalties.header.code"
+			prefWidth="60">
+			<cellValueFactory>
+				<PropertyValueFactory property="code" />
+			</cellValueFactory>
+		</TableColumn>
+		<TableColumn text="%operator.penalties.header.player"
+			prefWidth="75">
+			<cellValueFactory>
+				<ValueFactoryTransformer property="player"
+					converter="tz.okronos.core.property.IntToStringConverter" />
+			</cellValueFactory>
+		</TableColumn>
+	</columns>
+</TableView>
+  

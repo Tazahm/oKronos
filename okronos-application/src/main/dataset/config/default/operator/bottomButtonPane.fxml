@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Font?>
+<?import tz.okronos.scene.control.ValueFactoryTransformer?>
+<?import tz.okronos.scene.control.PenaltySAValueFactory?>
+<?import tz.okronos.scene.control.PlayerGOValueFactory?>
+<?import org.controlsfx.control.PropertySheet?>
+
+
+<GridPane fx:id="bottomButtonPane"
+	xmlns="http://javafx.com/javafx/11.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="tz.okronos.scene.operator.BottomButtonsSceneController"
+	BorderPane.alignment="CENTER">
+	<columnConstraints>
+		<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+			percentWidth="33.0" />
+		<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+			percentWidth="34.0" />
+		<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+			percentWidth="33.0" />
+	</columnConstraints>
+	<rowConstraints>
+		<RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+	</rowConstraints>
+	<children>
+		<HBox id="bottomButtonsLeftPanel" spacing="5.0">
+			<children>
+				<Button id="resetButton" mnemonicParsing="false"
+					onAction="#onResetAction">
+					<graphic>
+						<ImageView pickOnBounds="true" preserveRatio="true">
+							<image>
+								<Image url="@../reset32.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</Button>
+			</children>
+		</HBox>
+		<HBox id="bottomButtonsCenterPanel" alignment="TOP_CENTER"
+			spacing="5.0" GridPane.columnIndex="1" />
+		<HBox id="bottomButtonsRightPanel" alignment="TOP_RIGHT"
+			spacing="5.0" GridPane.columnIndex="2">
+			<children>
+				<ToggleButton id="musicBottomButton"
+					fx:id="musicBottomButton" mnemonicParsing="false">
+					<graphic>
+						<ImageView pickOnBounds="true" preserveRatio="true">
+							<image>
+								<Image url="@../music32.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</ToggleButton>
+				<ToggleButton id="animationBottomButton"
+					fx:id="animationBottomButton" mnemonicParsing="false">
+					<graphic>
+						<ImageView pickOnBounds="true" preserveRatio="true">
+							<image>
+								<Image url="@../animation32.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</ToggleButton>
+			</children>
+		</HBox>
+	</children>
+	<padding>
+		<Insets top="5.0" />
+	</padding>
+</GridPane>
+	

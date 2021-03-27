@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import tz.okronos.scene.control.ValueFactoryTransformer?>
+<?import tz.okronos.scene.control.PlayerGOValueFactory?>
+
+
+<BorderPane 
+    id="playerPane" 
+    fx:id="playerPane"
+	xmlns="http://javafx.com/javafx/11.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="tz.okronos.scene.operator.PlayerSceneController">
+	<padding>
+		<Insets bottom="0.0" left="0.0" right="0.0" top="0.0" />
+	</padding>
+	<center>
+		<TableView id="playerTable" fx:id="playerTable"
+			styleClass="side-table" prefWidth="195"
+			onMouseClicked="#playerTableAction">
+			<columns>
+				<TableColumn text="%operator.players.header.goalkeeper"
+					prefWidth="30">
+					<cellValueFactory>
+						<PlayerGOValueFactory />
+					</cellValueFactory>
+				</TableColumn>
+				<TableColumn text="%operator.players.header.name"
+					prefWidth="180">
+					<cellValueFactory>
+						<PropertyValueFactory property="name" />
+					</cellValueFactory>
+				</TableColumn>
+				<TableColumn text="%operator.players.header.licence"
+					prefWidth="80">
+					<cellValueFactory>
+						<PropertyValueFactory property="licence" />
+					</cellValueFactory>
+				</TableColumn>
+				<TableColumn text="%operator.players.header.shirt"
+					prefWidth="60">
+					<cellValueFactory>
+						<ValueFactoryTransformer property="shirt"
+							converter="tz.okronos.core.property.IntToStringConverter" />
+					</cellValueFactory>
+				</TableColumn>
+			</columns>
+		</TableView>
+	</center>
+	<bottom>
+		<!-- buttons -->
+		<GridPane id="playerButtonPane" GridPane.columnIndex="0"
+			GridPane.rowIndex="5" GridPane.columnSpan="2" alignment="center">
+			<Button fx:id="addPlayerButton"
+				styleClass="secondary-button" GridPane.columnIndex="0"
+				GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" HBox.hgrow="ALWAYS"
+				maxWidth="1000" maxHeight="1000"
+				text="%operator.players.button.addPlayer"
+				onAction="#addPlayerAction" />
+			<Button styleClass="secondary-button" GridPane.columnIndex="1"
+				GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" HBox.hgrow="ALWAYS"
+				maxWidth="1000" maxHeight="1000"
+				text="%operator.players.button.import"
+				onAction="#importPlayerAction" />
+			<Button styleClass="secondary-button" GridPane.columnIndex="2"
+				GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" HBox.hgrow="ALWAYS"
+				maxWidth="1000" maxHeight="1000"
+				text="%operator.players.button.export"
+				onAction="#exportPlayerAction" />
+		</GridPane>
+	</bottom>
+</BorderPane>
+                   

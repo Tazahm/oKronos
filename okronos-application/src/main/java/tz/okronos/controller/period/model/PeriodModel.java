@@ -3,6 +3,8 @@ package tz.okronos.controller.period.model;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -23,6 +25,8 @@ public class PeriodModel {
 	@Getter private ReadOnlyIntegerWrapper phaseDurationWrapper;
 	@Getter private ReadOnlyStringWrapper periodLabelWrapper;
 	@Getter private ReadOnlyIntegerWrapper periodCountWrapper;
+	@Getter private ReadOnlyBooleanWrapper phaseDecAllowedWrapper;
+	@Getter private ReadOnlyBooleanWrapper phaseIncAllowedWrapper;
 	
 	
 	public PeriodModel() {
@@ -34,6 +38,8 @@ public class PeriodModel {
 		halfTimeDurationWrapper = new ReadOnlyIntegerWrapper();
 		timeoutDurationWrapper = new ReadOnlyIntegerWrapper();
 		warmupDurationWrapper = new ReadOnlyIntegerWrapper();
+		phaseDecAllowedWrapper = new ReadOnlyBooleanWrapper();
+		phaseIncAllowedWrapper = new ReadOnlyBooleanWrapper();
 	}
 	
 	@Bean
@@ -75,4 +81,14 @@ public class PeriodModel {
 	public ReadOnlyIntegerProperty periodCountProperty() {
 		return periodCountWrapper.getReadOnlyProperty();
 	}
+	
+	@Bean
+	public ReadOnlyBooleanProperty phaseDecAllowedProperty() {
+		return phaseDecAllowedWrapper.getReadOnlyProperty();
+	}	
+	
+	@Bean
+	public ReadOnlyBooleanProperty phaseIncAllowedProperty() {
+		return phaseIncAllowedWrapper.getReadOnlyProperty();
+	}	
 }

@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>okronos-core</artifactId>
-	<name>okronos-annotations</name>
+	<name>okronos-core</name>
 
 	<parent>
 		<groupId>tz.okronos</groupId>

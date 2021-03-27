@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Font?>
+<?import tz.okronos.scene.control.ValueFactoryTransformer?>
+<?import tz.okronos.scene.control.PenaltySAValueFactory?>
+<?import tz.okronos.scene.control.PlayerGOValueFactory?>
+<?import org.controlsfx.control.PropertySheet?>
+
+
+<BorderPane fx:id="topMainPane"
+	xmlns="http://javafx.com/javafx/11.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="tz.okronos.scene.operator.TopMainSceneController">
+	<top>
+		<VBox spacing="2.0">
+			<HBox id="TeamNamePanel" spacing="20.0" alignment="CENTER">
+				<Label id="teamLeftLabel" fx:id="teamLeftLabel" text="Locaux"
+					HBox.hgrow="SOMETIMES" onMouseClicked="#teamLeftAction"
+					styleClass="team" />
+				<VBox HBox.hgrow="ALWAYS"></VBox>
+				<Label id="teamRightLabel" fx:id="teamRightLabel"
+					text="Visiteurs" HBox.hgrow="SOMETIMES"
+					onMouseClicked="#teamRightAction" styleClass="team" />
+			</HBox>
+			<BorderPane id="periodAndTeamImagePanel"
+				BorderPane.alignment="CENTER">
+				<center>
+					<Label id="period" fx:id="period" text="E"
+						BorderPane.alignment="CENTER" onMouseClicked="#onPeriodAction"
+						styleClass="period">
+						<padding>
+							<Insets bottom="2.0" left="20.0" right="20.0" top="2.0" />
+						</padding>
+					</Label>
+				</center>
+				<left>
+					<Label id="teamLeftImageLabel" fx:id="teamLeftImageLabel"
+						onMouseClicked="#onTeamLeftImageAction" styleClass="team">
+						<graphic>
+							<ImageView id="teamLeftImageView"
+								fx:id="teamLeftImageView" fitHeight="100.0" fitWidth="100.0"
+								pickOnBounds="true" preserveRatio="true" />
+						</graphic>
+					</Label>
+				</left>
+				<right>
+					<Label id="teamRightImageLabel" fx:id="teamRightImageLabel"
+						onMouseClicked="#onTeamRightImageAction" styleClass="team">
+						<graphic>
+							<ImageView id="teamRightImageView"
+								fx:id="teamRightImageView" fitHeight="100.0" fitWidth="100.0"
+								pickOnBounds="true" preserveRatio="true" />
+						</graphic>
+					</Label>
+				</right>
+			</BorderPane>
+		</VBox>
+	</top>
+	<left>
+		<Label id="scoreLeft" fx:id="scoreLeft" text="0"
+			onMouseClicked="#scoreLeftAction" styleClass="score"
+			BorderPane.alignment="CENTER">
+			<BorderPane.margin>
+				<Insets left="40.0" />
+			</BorderPane.margin>
+			<padding>
+				<Insets bottom="2.0" left="20.0" right="20.0" top="2.0" />
+			</padding>
+		</Label>
+	</left>
+	<right>
+		<Label id="scoreRight" fx:id="scoreRight" text="0"
+			onMouseClicked="#scoreRightAction" styleClass="score"
+			BorderPane.alignment="CENTER">
+			<BorderPane.margin>
+				<Insets right="40.0" />
+			</BorderPane.margin>
+			<padding>
+				<Insets bottom="2.0" left="20.0" right="20.0" top="2.0" />
+			</padding>
+		</Label>
+	</right>
+	<center>
+		<VBox id="clocksPanel" alignment="CENTER"
+			BorderPane.alignment="CENTER">
+			<children>
+				<Label id="clock1" fx:id="clock1" alignment="CENTER"
+					contentDisplay="CENTER" styleClass="clock1" text="00:00"
+					onMouseClicked="#clockAction">
+					<!-- <VBox.margin> <Insets left="20.0" right="20.0" top="20.0" /> </VBox.margin> -->
+					<padding>
+						<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+					</padding>
+				</Label>
+				<HBox alignment="CENTER" spacing="30.0">
+					<children>
+						<Label id="clock2" fx:id="clock2" text="00:00"
+							styleClass="clock2" onMouseClicked="#timeModificationAction">
+							<!-- <HBox.margin> <Insets bottom="20.0" left="20.0" /> </HBox.margin -->
+							>
+							<padding>
+								<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+							</padding>
+						</Label>
+						<Label id="clock3" fx:id="clock3" text="00:00"
+							styleClass="clock3" onMouseClicked="#durationAction">
+							<!-- <HBox.margin> <Insets bottom="20.0" right="20.0" /> </HBox.margin> -->
+							<padding>
+								<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+							</padding>
+						</Label>
+					</children>
+				</HBox>
+			</children>
+		</VBox>
+	</center>
+	<padding>
+		<Insets left="10.0" right="10.0" top="10.0" bottom="5.0" />
+	</padding>
+</BorderPane>

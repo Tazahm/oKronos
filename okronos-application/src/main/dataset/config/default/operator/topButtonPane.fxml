@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Font?>
+<?import tz.okronos.scene.control.ValueFactoryTransformer?>
+<?import tz.okronos.scene.control.PenaltySAValueFactory?>
+<?import tz.okronos.scene.control.PlayerGOValueFactory?>
+<?import org.controlsfx.control.PropertySheet?>
+
+<GridPane fx:id="topButtonsPane" BorderPane.alignment="CENTER"
+	xmlns="http://javafx.com/javafx/11.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="tz.okronos.scene.operator.TopButtonsSceneController">
+	<columnConstraints>
+		<ColumnConstraints hgrow="SOMETIMES" />
+		<ColumnConstraints hgrow="SOMETIMES" />
+		<ColumnConstraints hgrow="SOMETIMES" />
+	</columnConstraints>
+	<rowConstraints>
+		<RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+	</rowConstraints>
+	<children>
+		<HBox id="topButtonsLeftPanel" spacing="5.0">
+			<children>
+				<Button id="addPenaltyLeft" fx:id="addPenaltyLeft"
+					mnemonicParsing="false" onAction="#addPenaltyLeftAction">
+					<graphic>
+						<ImageView pickOnBounds="true" preserveRatio="true">
+							<image>
+								<Image url="@../penalty32.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</Button>
+				<Button id="timeoutLeftButton" mnemonicParsing="false"
+					onAction="#timeoutLeftAction">
+					<graphic>
+						<ImageView pickOnBounds="true" preserveRatio="true">
+							<image>
+								<Image url="@../timeout32.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</Button>
+				<ToggleButton id="musicLeftButton"
+					fx:id="musicLeftButton" mnemonicParsing="false">
+					<graphic>
+						<ImageView pickOnBounds="true" preserveRatio="true">
+							<image>
+								<Image url="@../music32.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</ToggleButton>
+				<ToggleButton id="animationLeftButton"
+					fx:id="animationLeftButton" mnemonicParsing="false">
+					<graphic>
+						<ImageView pickOnBounds="true" preserveRatio="true">
+							<image>
+								<Image url="@../animation32.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</ToggleButton>
+			</children>
+		</HBox>
+		<HBox id="topButtonsCenterPanel" alignment="TOP_CENTER"
+			spacing="5.0" GridPane.columnIndex="1">
+			<children>
+				<Button mnemonicParsing="false" fx:id="correctionButton"
+					onAction="#correctionAction" alignment="CENTER">
+					<graphic>
+						<ImageView pickOnBounds="true" preserveRatio="true">
+							<image>
+								<Image url="@../correction32.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</Button>
+				<Button id="beep" mnemonicParsing="false"
+					onAction="#beepAction" alignment="CENTER">
+					<graphic>
+						<ImageView pickOnBounds="true" preserveRatio="true">
+							<image>
+								<Image url="@../beep32.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</Button>
+			</children>
+			<padding>
+				<Insets left="15.0" right="15.0" top="0.0" bottom="0.0" />
+			</padding>
+		</HBox>
+		<HBox id="topButtonsRightPanel" alignment="TOP_RIGHT"
+			spacing="5.0" GridPane.columnIndex="2">
+			<children>
+				<ToggleButton id="animationRightButton"
+					fx:id="animationRightButton" mnemonicParsing="false">
+					<graphic>
+						<ImageView pickOnBounds="true" preserveRatio="true">
+							<image>
+								<Image url="@../animation32.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</ToggleButton>
+				<ToggleButton id="musicRightButton"
+					fx:id="musicRightButton" mnemonicParsing="false">
+					<graphic>
+						<ImageView pickOnBounds="true" preserveRatio="true">
+							<image>
+								<Image url="@../music32.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</ToggleButton>
+				<Button id="timeoutRightButton" mnemonicParsing="false"
+					onAction="#timeoutRightAction">
+					<graphic>
+						<ImageView pickOnBounds="true" preserveRatio="true">
+							<image>
+								<Image url="@../timeout32.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</Button>
+				<Button id="addPenaltyRight" fx:id="addPenaltyRight"
+					mnemonicParsing="false" onAction="#addPenaltyRightAction">
+					<graphic>
+						<ImageView pickOnBounds="true" preserveRatio="true">
+							<image>
+								<Image url="@../penalty32.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</Button>
+			</children>
+		</HBox>
+	</children>
+	<padding>
+		<Insets bottom="5.0" top="5.0" />
+	</padding>
+</GridPane>

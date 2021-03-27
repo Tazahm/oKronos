@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Callback;
 import tz.okronos.controller.shutdown.event.request.ShutdownRequest;
 import tz.okronos.core.KronoContext;
 import tz.okronos.core.KronoContext.ResourceType;
@@ -33,9 +34,9 @@ public class SceneBuilderHelper {
      * @return the controller.
      * @throws Exception on any errors.
      */
-    public <T extends AbstractSceneController> T buildStageAndController(Stage stage, String rscr, String titleKey) 
+    public <T extends AbstractSceneController> T buildStageAndController(Stage stage, String rscr, String titleKey, Callback<Class<?>, Object> controllerFactory) 
     		throws Exception {
-    	T controller = buildSceneAndController(rscr);
+    	T controller = buildSceneAndController(rscr, controllerFactory);
     	
     	if (stage == null) stage = new Stage();
         stage.setScene(controller.getScene());    
@@ -45,6 +46,11 @@ public class SceneBuilderHelper {
         return controller;
     }
 
+    public <T extends AbstractSceneController> T buildStageAndController(Stage stage, String rscr, String titleKey) 
+    		throws Exception {
+    	return buildStageAndController(stage, rscr, titleKey, null);
+    }
+    
     /**
      * Utility to build a scene and controller.
      * @param <T> the type of the controller.
@@ -52,12 +58,13 @@ public class SceneBuilderHelper {
      * @return the controller.
      * @throws Exception on any errors.
      */
-    public <T extends AbstractSceneController> T buildSceneAndController(String rscr) 
+    public <T extends AbstractSceneController> T buildSceneAndController(String rscr, Callback<Class<?>, Object> controllerFactory) 
     		throws Exception {
     	
     	final FXMLLoader fxmlLoader = new FXMLLoader();
     	fxmlLoader.setLocation(context.getResource(rscr, ResourceType.CONFIG));
     	fxmlLoader.setResources(context.getResourceBundle());
+    	fxmlLoader.setControllerFactory(controllerFactory);
     	final Parent root = fxmlLoader.load();
     	final T ctrl = fxmlLoader.getController();
     	
@@ -66,6 +73,10 @@ public class SceneBuilderHelper {
         return ctrl;
     }
     
+    public <T extends AbstractSceneController> T buildSceneAndController(String rscr) 
+    		throws Exception {
+    	return buildSceneAndController(rscr, null) ;
+    }
     /**
      * Shortcut when no stage exists.
      * @param <T> the type of the controller.
@@ -74,9 +85,14 @@ public class SceneBuilderHelper {
      * @return the controller.
      * @throws Exception on any errors.
      */
+    public <T extends AbstractSceneController> T buildStageAndController(String rscr, String titleKey, Callback<Class<?>, Object> controllerFactory) 
+    		throws Exception {
+    	return buildStageAndController(null, rscr, titleKey, controllerFactory);
+    }
+    
     public <T extends AbstractSceneController> T buildStageAndController(String rscr, String titleKey) 
     		throws Exception {
-    	return buildStageAndController(null, rscr, titleKey);
+    	return buildStageAndController(null, rscr, titleKey, null);
     }
     
     /**
@@ -90,7 +106,7 @@ public class SceneBuilderHelper {
      */
     public <T extends ModalController> T buildModalStage(Stage primary, String rscr, String titleKey) 
     		throws Exception {
-    	final T ctrl = buildStageAndController(rscr, titleKey);
+    	final T ctrl = buildStageAndController(rscr, titleKey, null);
     	
         Stage stage = ctrl.getStage();
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -106,7 +122,7 @@ public class SceneBuilderHelper {
      */
     public void handleCloseWindowEvent(final WindowEvent event, final Stage stage) {
         if (KronoHelper.requestUser(context, "operator.onExitAction.title", 
-        		"operator.onExitAction.message", stage)) {
+        		"operator.onExitAction.message", context.getPrimaryStage())) {
         	LOGGER.info("Stop oKronos");
         	context.postEvent(new ShutdownRequest());
         } else {

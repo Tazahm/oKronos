@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Scope;
 
 import com.google.common.eventbus.Subscribe;
 
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyListProperty;
 import lombok.Getter;
@@ -72,6 +73,16 @@ public class ScoreModelController
     	return model.getScoreListWrapper().getReadOnlyProperty();
     }
 
+	@LateralizedBean
+	public ReadOnlyBooleanProperty scoreDecAllowedProperty() {
+		return model.getScoreDecAllowedWrapper().getReadOnlyProperty();
+	}	
+		
+	@LateralizedBean
+	public ReadOnlyBooleanProperty scoreIncAllowedProperty() {
+		return model.getScoreIncAllowedWrapper().getReadOnlyProperty();
+	}	
+		
 	@LateralizedBean
 	public ReadOnlyIntegerProperty scoreProperty() {
 		return model.getScoreWrapper().getReadOnlyProperty();
@@ -144,6 +155,8 @@ public class ScoreModelController
 		model.getScoreListWrapper().clear();
 		int previouScore = model.getScoreWrapper().get();
 		model.getScoreWrapper().set(0);
+		model.getScoreIncAllowedWrapper().set(true);
+		model.getScoreDecAllowedWrapper().set(false);
 		notifyScoreChange(null, previouScore, true);		
 	}
 	
@@ -151,13 +164,13 @@ public class ScoreModelController
 		ScoreVolatile scoreVolatile = ScoreVolatile.of(request.getMark());
 		scoreVolatile.setTime(forwardTimeProperty.get());
 		scoreVolatile.setPeriod(periodCountProperty.get());
-		model.getScoreListWrapper().add(scoreVolatile);
+		model.getScoreListWrapper().add(scoreVolatile);		
 		updateScore(scoreVolatile, 1);
 	}
 	
 	private void decScore(ScoreRequest request) {
 		if (model.getScoreWrapper().get() <= 0) return;
-		ScoreVolatile scoreVolatile = model.getScoreListWrapper().remove(model.getScoreListWrapper().getSize() - 1); 
+		ScoreVolatile scoreVolatile = model.getScoreListWrapper().remove(model.getScoreListWrapper().getSize() - 1);
 		updateScore(scoreVolatile, -1);
 	}
 
@@ -183,6 +196,7 @@ public class ScoreModelController
 	private void updateScore(ScoreVolatile scoreVolatile, int diff) {
 		int previous = model.getScoreWrapper().get();
 		model.getScoreWrapper().set(previous + diff);
+		model.getScoreDecAllowedWrapper().set(model.getScoreWrapper().get() > 0);
 		notifyScoreChange(scoreVolatile, previous, false);
 	}
 	
@@ -196,8 +210,8 @@ public class ScoreModelController
 			.setPreviousScore(previous)
 			.setScore(model.getScoreWrapper().get())
 			.setReset(reset)
-			.setScoreIncAllowed(true)
-			.setScoreDecAllowed(model.getScoreWrapper().get() > 0)
+			.setScoreIncAllowed(model.getScoreIncAllowedWrapper().get())
+			.setScoreDecAllowed(model.getScoreDecAllowedWrapper().get())
 			.setMark(mark));
 	}
 

@@ -27,6 +27,7 @@ import ch.qos.logback.core.util.StatusPrinter;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import tz.okronos.annotation.fxsubscribe.FxSubcriberController;
 import tz.okronos.annotation.fxsubscribe.FxSubscribe;
 
@@ -41,6 +42,7 @@ import tz.okronos.annotation.fxsubscribe.FxSubscribe;
  * Contains equally some shortcut methods, among other for property access,
  * event sending, file retrieval.
  */
+@Slf4j
 public class KronoContext {
 	// Do not create logger before log configuration. See KronoApp class.
 	private static final Logger LOGGER = LoggerFactory.getLogger(KronoContext.class);	
@@ -429,7 +431,10 @@ public class KronoContext {
     	
     	for (String configName : configNames) {
     		File configFile = findInPath(ResourceType.CONFIG.getPaths(), configName);
-    		if (configFile != null) {
+    		if (configFile == null) {
+    			log.warn("Configuration file not found: " + configName);
+    		}
+    		else {
     			this.properties.load(new FileReader(configFile));
     		}
     	}

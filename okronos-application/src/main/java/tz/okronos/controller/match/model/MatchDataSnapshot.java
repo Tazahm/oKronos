@@ -3,15 +3,17 @@ package tz.okronos.controller.match.model;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tz.okronos.core.SimpleLateralizedPair;
 
 
 @Setter @Getter
 public class MatchDataSnapshot implements MatchDataContract {
-	@Setter @Getter @Builder
+	@Setter @Getter @Builder @NoArgsConstructor @AllArgsConstructor
 	public static class  OfficialSnapshot implements OfficialContract {
 		private String licence;
 		private String name;

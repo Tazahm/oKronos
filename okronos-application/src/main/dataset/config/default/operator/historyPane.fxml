@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import tz.okronos.scene.control.ValueFactoryTransformer?>
+
+
+<TableView fx:id="historyTable"
+	xmlns="http://javafx.com/javafx/11.0.1"
+	xmlns:fx="http://javafx.com/fxml/1" prefWidth="195"
+	fx:controller="tz.okronos.scene.operator.HistorySceneController">
+	<columns>
+		<TableColumn text="%operator.history.header.hour"
+			prefWidth="60">
+			<cellValueFactory>
+				<ValueFactoryTransformer
+					property="systemTime"
+					converter="tz.okronos.core.property.SystemTimeToHourConverter" />
+			</cellValueFactory>
+		</TableColumn>
+		<TableColumn text="%operator.history.header.period"
+			prefWidth="30">
+			<cellValueFactory>
+				<ValueFactoryTransformer property="period"
+					converter="tz.okronos.core.property.IntToStringConverter" />
+				<PropertyValueFactory property="period" />
+			</cellValueFactory>
+		</TableColumn>
+		<TableColumn text="%operator.history.header.time"
+			prefWidth="60">
+			<cellValueFactory>
+				<ValueFactoryTransformer property="playTime"
+					converter="tz.okronos.core.property.SecondsToTimeConverter" />
+			</cellValueFactory>
+		</TableColumn>
+		<TableColumn text="%operator.history.header.event"
+			prefWidth="200">
+			<cellValueFactory>
+				<PropertyValueFactory property="desc" />
+			</cellValueFactory>
+		</TableColumn>
+	</columns>
+</TableView>
+

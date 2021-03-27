@@ -8,6 +8,8 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
@@ -33,6 +35,8 @@ import tz.okronos.scene.control.PenaltyControl;
 /**
  *  Handles the display of the score stage.
  */
+@Component
+@Scope("prototype")
 public class ScoreSceneController extends AbstractSceneController {	
     @FXML private Label clock;
     @FXML private Label period;

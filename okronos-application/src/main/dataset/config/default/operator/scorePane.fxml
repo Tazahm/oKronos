@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import tz.okronos.scene.control.ValueFactoryTransformer?>
+
+
+<TableView fx:id="scoreTable"
+	xmlns="http://javafx.com/javafx/11.0.1"
+	xmlns:fx="http://javafx.com/fxml/1" styleClass="side-table"
+	prefWidth="195" onMouseClicked="#scoreTableAction"
+	fx:controller="tz.okronos.scene.operator.ScoreListSceneController">
+	<columns>
+		<TableColumn text="%operator.scores.header.period"
+			prefWidth="30">
+			<cellValueFactory>
+				<ValueFactoryTransformer property="period"
+					converter="tz.okronos.core.property.IntToStringConverter" />
+			</cellValueFactory>
+		</TableColumn>
+		<TableColumn text="%operator.scores.header.time"
+			prefWidth="60">
+			<cellValueFactory>
+				<ValueFactoryTransformer property="time"
+					converter="tz.okronos.core.property.SecondsToTimeConverter" />
+			</cellValueFactory>
+		</TableColumn>
+		<TableColumn text="%operator.scores.header.player1"
+			prefWidth="85">
+			<cellValueFactory>
+				<ValueFactoryTransformer property="scorer"
+					converter="tz.okronos.core.property.IntToStringConverter" />
+			</cellValueFactory>
+		</TableColumn>
+		<TableColumn text="%operator.scores.header.player2"
+			prefWidth="85">
+			<cellValueFactory>
+				<ValueFactoryTransformer property="assist1"
+					converter="tz.okronos.core.property.IntToStringConverter" />
+			</cellValueFactory>
+		</TableColumn>
+		<TableColumn text="%operator.scores.header.player3"
+			prefWidth="85">
+			<cellValueFactory>
+				<ValueFactoryTransformer property="assist2"
+					converter="tz.okronos.core.property.IntToStringConverter" />
+			</cellValueFactory>
+		</TableColumn>
+	</columns>
+</TableView>
+ 

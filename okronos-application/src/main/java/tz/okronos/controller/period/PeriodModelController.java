@@ -64,7 +64,7 @@ public class PeriodModelController extends AbstractModelController<PeriodModel> 
         protected String computeValue() {
  			return computePhaseLabelValue();
         }
-    };
+    }
 
     private class PhaseOfPlayListener implements ChangeListener<PhaseOfPlay>  {
 
@@ -72,6 +72,8 @@ public class PeriodModelController extends AbstractModelController<PeriodModel> 
 		public void changed(ObservableValue<? extends PhaseOfPlay> observable, PhaseOfPlay oldValue,
 				PhaseOfPlay newValue) {
 			synchronizePhaseDuration();
+			periodModel.getPhaseIncAllowedWrapper().set(true);
+			periodModel.getPhaseDecAllowedWrapper().set(newValue != PhaseOfPlay.WARMUP);
 			
 			PeriodModificationNotif notif = buildPhaseNotif(new PeriodModificationNotif());
 			notif.setPreviousPhaseOfPlay(oldValue);
