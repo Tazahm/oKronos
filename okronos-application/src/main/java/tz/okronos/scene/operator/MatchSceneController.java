@@ -3,7 +3,10 @@ package tz.okronos.scene.operator;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Comparator;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.TreeMap;
 
 import org.controlsfx.control.PropertySheet;
 import org.controlsfx.property.editor.PropertyEditor;
@@ -73,8 +76,20 @@ public class MatchSceneController extends AbstractSceneController implements Ini
 		matchSheet.setMode(PropertySheet.Mode.CATEGORY);
     	matchSheet.setModeSwitcherVisible(false);
     	matchSheet.setSearchBoxVisible(false);
-		
-		String categoryGeneral = context.getItString("match.category.general");		
+
+    	final String categoryGeneral = context.getItString("match.category.general");	
+    	final String categoryOfficiels = context.getItString("match.category.officiels");	
+    	final String categoryTeamLeft = context.getItString("match.category.teamLeft");
+    	final String categoryTeamRight = context.getItString("match.category.teamRight");
+
+    	final Map<String, Integer> comparatorMap = new TreeMap<>();
+    	comparatorMap.put(categoryGeneral, 1);
+    	comparatorMap.put(categoryOfficiels, 2);
+    	comparatorMap.put(categoryTeamLeft, 3);
+    	comparatorMap.put(categoryTeamRight, 4);
+    	Comparator<String> categoryComparator = (a, b) -> comparatorMap.get(a) -  comparatorMap.get(b);    	
+    	matchSheet.setCategoryComparator(categoryComparator);
+
 		addProperty(matchData.matchNumber(), context.getItString("match.number"), categoryGeneral);
 		addProperty(matchData.location(), context.getItString("match.location"), categoryGeneral);		
 		addProperty(matchData.competition(), context.getItString("match.competition"), categoryGeneral);
@@ -86,8 +101,7 @@ public class MatchSceneController extends AbstractSceneController implements Ini
 		addProperty(matchData.reservesBeforeMatch(), context.getItString("match.reserves"), categoryGeneral);
 		addProperty(matchData.claim(), context.getItString("match.claim"), categoryGeneral);
 		addProperty(matchData.incidentReport(), context.getItString("match.report"), categoryGeneral);
-    
-		String categoryOfficiels = context.getItString("match.category.officiels");	
+    		
 		addProperty(matchData.getReferee1().name(), context.getItString("match.referre.name") + " 1", categoryOfficiels);		
 		addProperty(matchData.getReferee1().licence(), context.getItString("match.referre.licence") + " 2", categoryOfficiels);		
 		addProperty(matchData.getReferee2().name(), context.getItString("match.referre.name") + " 1", categoryOfficiels);		
@@ -97,9 +111,7 @@ public class MatchSceneController extends AbstractSceneController implements Ini
 		addProperty(matchData.getChrono().name(), context.getItString("match.chrono.name"), categoryOfficiels);		
 		addProperty(matchData.getChrono().licence(), context.getItString("match.chrono.licence"), categoryOfficiels);		
     
-		String categoryTeamLeft = context.getItString("match.category.teamLeft");	
-		addTeamData(matchData.getTeam().getLeft(), categoryTeamLeft);		
-		String categoryTeamRight = context.getItString("match.category.teamRight");	
+		addTeamData(matchData.getTeam().getLeft(), categoryTeamLeft);	
 		addTeamData(matchData.getTeam().getRight(), categoryTeamRight);
     }
     

@@ -26,6 +26,7 @@ import tz.okronos.controller.penalty.event.notif.PenaltyStopNotif;
 import tz.okronos.controller.penalty.event.request.PenaltyAddRequest;
 import tz.okronos.controller.penalty.event.request.PenaltyCompleteRequest;
 import tz.okronos.controller.penalty.event.request.PenaltyModifRequest;
+import tz.okronos.controller.penalty.event.request.PenaltyModifRequest.ModifMode;
 import tz.okronos.controller.penalty.event.request.PenaltyRemoveRequest;
 import tz.okronos.controller.penalty.model.PenaltyModel;
 import tz.okronos.controller.penalty.model.PenaltyReport;
@@ -121,12 +122,12 @@ public class PenaltyModelController
   	
  	@Subscribe public void onPenaltyModifRequest(PenaltyModifRequest request) {
   		if (request.getPenalty().getTeam() != side) return;
-  		modifyPenalty(request.getNewValues(), request.getPenalty());
+  		modifyPenalty(request);
   	}
   	
  	@Subscribe public void onPenaltyCompleteRequest(PenaltyCompleteRequest request) {
   		if (request.getPenalty().getTeam() != side) return;
-  		completePenalty(request.getNewValues(), request.getPenalty());
+  		completePenalty(request.getNewValues());
   	}
   	
   	@Subscribe public void onResetPlayRequest(ResetPlayRequest request) {
@@ -168,18 +169,18 @@ public class PenaltyModelController
 	}
 
 	private void addPenalty(PenaltySnapshot input) { 
-		PenaltyVolatile penaltyVolatile = PenaltyVolatile.of(input);
-		penaltyVolatile.setTeam(side);
-		penaltyVolatile.setPenaltyTime(cumulativeTimeProperty.get());
-		penaltyVolatile.setStartTime(penaltyVolatile.isPending() ? Integer.MIN_VALUE : cumulativeTimeProperty.get());
-		penaltyVolatile.setStopTime(Integer.MIN_VALUE);
-		penaltyVolatile.setPeriod(periodCountProperty.get());
+		PenaltyVolatile penalty = PenaltyVolatile.of(input);
+		penalty.setTeam(side);
+		penalty.setPenaltyTime(cumulativeTimeProperty.get());
+		penalty.setStartTime(penalty.isPending() ? Integer.MIN_VALUE : cumulativeTimeProperty.get());
+		penalty.setStopTime(Integer.MIN_VALUE);
+		penalty.setPeriod(periodCountProperty.get());
 		// penalty.setRemainder(penalty.getDuration() * 60);
-		updateRemainder(penaltyVolatile);		
-		model.getPenaltyMainList().add(penaltyVolatile);
+		updateRemainder(penalty);		
+		model.getPenaltyMainList().add(penalty);
 		
 		context.postEvent(new PenaltyCreationNotif()
-			.setPenalty(PenaltySnapshot.of(penaltyVolatile)));
+			.setPenalty(PenaltySnapshot.of(penalty)));
 	}
 
 	private void playTimeChanged() {
@@ -203,7 +204,7 @@ public class PenaltyModelController
 		int time = cumulativeTimeProperty.get();
 		int previousRemainingTime = penaltyVolatile.getRemainder();
 		int durationSeconds = penaltyVolatile.getDuration() * 60;
-		int newRemainingTime = durationSeconds - (time - penaltyVolatile.getStartTime());
+		int newRemainingTime = penaltyVolatile.getStartTime() - time + durationSeconds;
 		newRemainingTime = newRemainingTime < 0 ? 0 : newRemainingTime;
 		
 		if (time == penaltyVolatile.getStartTime() && playTimeRunningProperty.get()) {
@@ -239,54 +240,73 @@ public class PenaltyModelController
 			.setPenalty(PenaltySnapshot.of(penaltyVolatile)));
 	}
 
-	private void changePenalty(PenaltyVolatile penaltyVolatile, PenaltySnapshot newValue, PenaltySnapshot previous) {
+	private void changePenalty(final PenaltyVolatile penalty, final PenaltySnapshot newValue,
+			final boolean timeModif, final boolean liveModif) {
 		// Reset the penalty start time if the penalty became runnable
 		// so that the remaining time can be computed correctly.
-		if (penaltyVolatile.isPending() && ! newValue.isPending()) {
+		if (penalty.isPending() && ! newValue.isPending()) {
 			newValue.setStartTime(cumulativeTimeProperty.get());
 		}
 		
-		penaltyVolatile.copy(newValue);
-		updateRemainder(penaltyVolatile);
+		penalty.setOnStoppage(newValue.isOnStoppage());
+		penalty.setPending(newValue.isPending());
+		penalty.setPlayer(newValue.getPlayer());
+		penalty.setCode(newValue.getCode());
+		penalty.setDuration(newValue.getDuration());
+		
+		if (timeModif) {
+			penalty.setPenaltyTime(penalty.getPenaltyTime() - penalty.getRemainder() + newValue.getRemainder());
+			penalty.setStartTime(penalty.getStartTime() - penalty.getRemainder() + newValue.getRemainder());
+			
+			if (penalty.isValidated()) {
+				penalty.setStopTime(newValue.getStartTime() + penalty.getDuration() * 60);
+			}
+		}
+
+		if (! liveModif) {
+			penalty.setPeriod(newValue.getPeriod());
+		}
+		
+		updateRemainder(penalty);
 	}
 
-	private void modifyPenalty(PenaltySnapshot input, PenaltySnapshot previous) {
-		PenaltyVolatile penaltyVolatile = findPenalty(input.getUid());
-		if (penaltyVolatile == null) return;
-		changePenalty(penaltyVolatile, input, previous);
+	private void modifyPenalty(PenaltyModifRequest request) {
+		PenaltyVolatile penalty = findPenalty( request.getNewValues().getUid());
+		if (penalty == null) return;
+		changePenalty(penalty, request.getNewValues(), request.isTimeModification(), request.getModifMode() == ModifMode.LIVE);
 		context.postEvent(new PenaltyModificationNotif()
-			.setPenalty(PenaltySnapshot.of(penaltyVolatile)));
+			.setPenalty(PenaltySnapshot.of(penalty)));
 	}
 	
-	private void completePenalty(PenaltySnapshot input, PenaltySnapshot previous) {
-		PenaltyVolatile penaltyVolatile = findPenalty(input.getUid());
-		if (penaltyVolatile == null) return;
-		int oldRemainder = penaltyVolatile.getRemainder();
-		changePenalty(penaltyVolatile, input, previous);
+	private void completePenalty(PenaltySnapshot input) {
+		PenaltyVolatile penalty = findPenalty(input.getUid());
+		if (penalty == null) return;
+		int oldRemainder = penalty.getRemainder();
+		changePenalty(penalty, input, false, true);
 
 		int effectiveDuration = Math.min(
-				cumulativeTimeProperty.get()- penaltyVolatile.getStartTime(), 
-				penaltyVolatile.getDuration() * 60);
-		penaltyVolatile.setStopTime(penaltyVolatile.getStartTime() + effectiveDuration);
-		penaltyVolatile.setValidated(true);
+				cumulativeTimeProperty.get()- penalty.getStartTime(), 
+				penalty.getDuration() * 60);
+		penalty.setStopTime(penalty.getStartTime() + effectiveDuration);
+		penalty.setValidated(true);
 		
 		// Forces lists refresh.
 		// TODO call listener without remove / add 
 		// and refresh on validate modification (add listener).
-		int idx = model.getPenaltyMainList().indexOf(penaltyVolatile);
+		int idx = model.getPenaltyMainList().indexOf(penalty);
 		if (idx >= 0) {
 			model.getPenaltyMainList().remove(idx);
-			model.getPenaltyMainList().add(idx, penaltyVolatile);
+			model.getPenaltyMainList().add(idx, penalty);
 		}
 		
 		// Notifies that the penalty has changed.
 		context.postEvent(new PenaltyModificationNotif()
-			.setPenalty(PenaltySnapshot.of(penaltyVolatile)));
+			.setPenalty(PenaltySnapshot.of(penalty)));
 
 		// Notifies the penalty end if the end has not been reached previously.
 		if (oldRemainder > 0) {
 			context.postEvent(new PenaltyStopNotif()
-			     .setPenalty(PenaltySnapshot.of(penaltyVolatile)));
+			     .setPenalty(PenaltySnapshot.of(penalty)));
 		}
 	}
 

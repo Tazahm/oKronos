@@ -76,7 +76,7 @@ public class PlayerInputController extends ModalController {
 		stage.hide();
 	}
 	
-	protected void doShowModal() {
+	protected void preShowModal() {
 		shallDelete = false;
 		KronoHelper.setManaged(deleteButton, inputMode == InputMode.MODIFICATION);
 	}

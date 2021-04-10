@@ -51,7 +51,7 @@ public class SettingsInputController extends ModalController {
 	}
 	
     @PostConstruct 
-    public void init()  {
+    public void postinit()  {
 //		propertySheet.setMode(PropertySheet.Mode.CATEGORY);
 		propertySheet.setMode(PropertySheet.Mode.NAME);
 		propertySheet.setModeSwitcherVisible(false);
@@ -75,8 +75,8 @@ public class SettingsInputController extends ModalController {
 	}
 	
 	@Override
-	protected void doValidateAction(ActionEvent event) {
-		super.doValidateAction(event);
+	protected void postValidateAction(ActionEvent event) {
+		super.postValidateAction(event);
 		updateProperties();
 	}
 	

@@ -102,8 +102,7 @@ public class KronoContext {
 	@Getter private ResourceBundle resourceBundle;
 	
 	@Setter @Getter private Stage primaryStage;	
-	//@Setter @Getter private OperatorSceneController operatorSceneController;
-	//@Setter @Getter private ScoreSceneController scoreSceneController;
+
 	
 	/**
 	 * Find a configuration property.

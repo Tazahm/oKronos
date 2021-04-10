@@ -21,6 +21,7 @@ import tz.okronos.controller.penalty.event.notif.PenaltyNotif;
 import tz.okronos.controller.penalty.event.request.PenaltyCompleteRequest;
 import tz.okronos.controller.penalty.event.request.PenaltyModifRequest;
 import tz.okronos.controller.penalty.event.request.PenaltyRemoveRequest;
+import tz.okronos.controller.penalty.event.request.PenaltyModifRequest.ModifMode;
 import tz.okronos.controller.penalty.model.PenaltySnapshot;
 import tz.okronos.controller.penalty.model.PenaltyVolatile;
 import tz.okronos.controller.team.model.PlayerSnapshot;
@@ -112,8 +113,11 @@ public class LivePenaltySceneController extends AbstractSceneController implemen
     		context.postEvent(new PenaltyCompleteRequest()
     			.setNewValues(PenaltySnapshot.of(newValue)).setPenalty(oldValue));
     	} else if (! penaltyInputController.isCancelled()) {
-    		context.postEvent(new PenaltyModifRequest().
-    			setNewValues(PenaltySnapshot.of(newValue)).setPenalty(oldValue));
+    		context.postEvent(new PenaltyModifRequest()
+    			.setModifMode(isLiveTable ? ModifMode.LIVE : ModifMode.HISTORY)
+    			.setTimeModification(penaltyInputController.getPenaltyTimeInputController().isValidated())
+    			.setNewValues(PenaltySnapshot.of(newValue))
+    			.setPenalty(oldValue));
     	}
     }
     

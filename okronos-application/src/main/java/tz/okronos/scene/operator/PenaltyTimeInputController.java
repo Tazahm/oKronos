@@ -2,7 +2,6 @@ package tz.okronos.scene.operator;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import tz.okronos.controller.penalty.model.PenaltyVolatile;
 
 /**
@@ -10,34 +9,34 @@ import tz.okronos.controller.penalty.model.PenaltyVolatile;
  */
 public class PenaltyTimeInputController extends TimeInputAbstractController {
 	
-	private PenaltyVolatile penaltyVolatile;
+	private PenaltyVolatile penalty;
+	private PenaltyInputController penaltyInputController;
 	
+	public PenaltyTimeInputController() {}
 	
 	public void setPenalty(PenaltyVolatile input) {
-		this.penaltyVolatile = input;
+		this.penalty = input;
 	}
 	
-	@Override
-	public void doShowModal() {
-		super.doShowModal();
-	    hide = false;
+	protected void doHide() {
+		stage.setScene(penaltyInputController.getScene());
 	}
 	
-	@FXML protected void validateAction(ActionEvent event) {
-		cancelled = false;
-		doValidateAction(event);
-		toggleScene();
+	protected void postValidateAction(ActionEvent event) {
+		stage.setScene(penaltyInputController.getScene());
 	}
-
-	@FXML protected void cancelAction(ActionEvent event) {
-		cancelled = true;
-		doCancelAction(event);
-		toggleScene();
+	
+	protected void postCancelAction(ActionEvent event) {
+		stage.setScene(penaltyInputController.getScene());
 	}
 	
 	@Override
 	protected SimpleIntegerProperty getSourceProperty() {
-		return penaltyVolatile.remainderProperty();
+		return penalty.remainderProperty();
+	}
+
+	public void setPenaltyInputController(PenaltyInputController penaltyInputController) {
+		this.penaltyInputController = penaltyInputController; 
 	}
 
 }

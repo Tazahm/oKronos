@@ -26,111 +26,125 @@
 <?import org.controlsfx.control.PropertySheet?>
 
 
-<SplitPane
-   id="root"
-   xmlns="http://javafx.com/javafx/11.0.1"
-   xmlns:fx="http://javafx.com/fxml/1"
-   fx:controller="tz.okronos.scene.operator.OperatorSceneController"
-   prefWidth="1040"
-   dividerPositions="0.66">
-   <items>
-      <!-- Left panel -->
-      <SplitPane
-         id="mainPanel"
-         orientation="VERTICAL">
-         <!-- dividerPositions="0.4" -->
-         <items>
-			<fx:include fx:id="topMainPane" source="operator/topMainPane.fxml" />
-            <BorderPane id="bottomMainPanel">
-               <padding>
-                  <Insets
-                     bottom="10.0"
-                     left="10.0"
-                     right="10.0" />
-               </padding>
-               <top>
-                  <fx:include fx:id="topButtonsPane" source="operator/topButtonPane.fxml" />
-               </top>
-               <center>
-                  <fx:include fx:id="livePenaltyPane" source="operator/livePenaltyPane.fxml" />
-               </center>
-               <bottom>
-                  <fx:include fx:id="bottomButtonsPane" source="operator/bottomButtonPane.fxml" />
-               </bottom>
-            </BorderPane>
-         </items>
-      </SplitPane>
-      <Accordion fx:id="sideAccordion" expandedPane="$historyPane">
-         <panes>
-            <TitledPane
-               fx:id="historyPane"
-               styleClass="side-table"
-               animated="false"
-               text="%operator.history.label">
-               <content>
-				 <fx:include fx:id="historyTable" source="operator/historyPane.fxml" />
-               </content>
-            </TitledPane>
-            <TitledPane
-               fx:id="leftScorePane"
-               animated="false"
-               text="%operator.scores.label.left">
-               <content>
-                  <fx:include fx:id="leftScorePane" source="operator/scorePane.fxml" />
-               </content>
-            </TitledPane>
-            <TitledPane
-               fx:id="rightScorePane"
-               animated="false"
-               text="%operator.scores.label.right">
-               <content>
-				 <fx:include fx:id="rightScorePane" source="operator/scorePane.fxml" />
-               </content>
-            </TitledPane>
-            <TitledPane
-               fx:id="leftPenaltyPane"
-               animated="false"
-               text="%operator.penalties.label.left">
-               <content>
-                  <fx:include fx:id="leftPenaltyPane" source="operator/penaltyPane.fxml" />
-               </content>
-            </TitledPane>
-            <TitledPane
-               fx:id="rightPenaltyPane"
-               animated="false"
-               text="%operator.penalties.label.right">
-               <content>
-				  <fx:include fx:id="rightPenaltyPane" source="operator/penaltyPane.fxml" />
-               </content>
-            </TitledPane>
-            <TitledPane
-               fx:id="leftPlayerPane"
-               animated="false"
-               text="%operator.players.label.left">
-               <content>
-				  <fx:include fx:id="leftPlayerPane" source="operator/playerPane.fxml" />
-               </content>
-            </TitledPane>
-            <TitledPane
-               fx:id="rightPlayerPane"
-               animated="false"
-               text="%operator.players.label.right">
-               <content>
-				  <fx:include fx:id="rightPlayerPane" source="operator/playerPane.fxml" />
-               </content>
-            </TitledPane>
-            <TitledPane                  
-                  animated="false"
-                  text="%match.label">
-               <content>
-                  <fx:include fx:id="matchpane" source="operator/matchPane.fxml" />
-               </content>
-            </TitledPane>
-         </panes>
-      </Accordion>
-   </items>
+<SplitPane id="root" xmlns="http://javafx.com/javafx/11.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="tz.okronos.scene.operator.OperatorSceneController"
+	prefWidth="1050" dividerPositions="0.66">
+	<items>
+		<!-- Left panel -->
+		<SplitPane id="mainPanel" orientation="VERTICAL">
+			<!-- dividerPositions="0.4" -->
+			<items>
+				<fx:include fx:id="topMainPane"
+					source="operator/topMainPane.fxml" />
+				<BorderPane id="bottomMainPanel">
+					<padding>
+						<Insets bottom="10.0" left="10.0" right="10.0" />
+					</padding>
+					<top>
+						<fx:include fx:id="topButtonsPane"
+							source="operator/topButtonPane.fxml" />
+					</top>
+					<center>
+						<fx:include fx:id="livePenaltyPane"
+							source="operator/livePenaltyPane.fxml" />
+					</center>
+					<bottom>
+						<fx:include fx:id="bottomButtonsPane"
+							source="operator/bottomButtonPane.fxml" />
+					</bottom>
+				</BorderPane>
+			</items>
+		</SplitPane>
+		<Accordion fx:id="sideAccordion" expandedPane="$historyTP">
+			<panes>
+				<TitledPane fx:id="historyTP" styleClass="side-table"
+					animated="true" text="%operator.history.label">
+					<content>
+						<fx:include fx:id="historyTable"
+							source="operator/historyPane.fxml" />
+					</content>
+				</TitledPane>
+				<TitledPane fx:id="leftTeamTP" animated="true"
+					text="%operator.team.label.left">
+					<content>
+						<Accordion fx:id="scoreAccordion"
+							expandedPane="$leftScoreTP">
+							<padding>
+								<Insets top="0" right="0" left="10" bottom="0" />
+							</padding>
+							<panes>
+								<TitledPane fx:id="leftScoreTP" id="leftScoreTP"
+									animated="true" text="%operator.scores.label.left">
+									<content>
+										<fx:include fx:id="leftScorePane"
+											source="operator/scorePane.fxml" />
+									</content>
+								</TitledPane>
+								<TitledPane fx:id="leftPenaltyTP" id="leftPenaltyTP"
+									animated="true" text="%operator.penalties.label.left">
+									<content>
+										<fx:include fx:id="leftPenaltyPane"
+											source="operator/penaltyPane.fxml" />
+									</content>
+								</TitledPane>
+								<TitledPane fx:id="leftPlayerTP" id="leftPlayerTP"
+									animated="true" text="%operator.players.label.left">
+									<content>
+										<fx:include fx:id="leftPlayerPane"
+											source="operator/playerPane.fxml" />
+									</content>
+								</TitledPane>
+							</panes>
+						</Accordion>
+					</content>
+				</TitledPane>
+				<TitledPane fx:id="rightTeamTP" animated="true"
+					text="%operator.team.label.right">
+					<content>
+						<Accordion fx:id="scoreAccordion"
+							expandedPane="$rightScoreTP">
+							<padding>
+								<Insets top="0" right="0" left="10" bottom="0" />
+							</padding>
+							<panes>
+								<TitledPane fx:id="rightScoreTP" id="rightScoreTP"
+									animated="true" text="%operator.scores.label.right">
+									<content>
+										<fx:include fx:id="rightScorePane"
+											source="operator/scorePane.fxml" />
+									</content>
+								</TitledPane>
+								<TitledPane fx:id="rightPenaltyTP" animated="true"
+									text="%operator.penalties.label.right">
+									<content>
+										<fx:include fx:id="rightPenaltyPane"
+											id="rightPenaltyPane" source="operator/penaltyPane.fxml" />
+									</content>
+								</TitledPane>
+								<TitledPane fx:id="rightPlayerTP" id="rightPlayerTP"
+									animated="true" text="%operator.players.label.right">
+									<content>
+										<fx:include fx:id="rightPlayerPane"
+											source="operator/playerPane.fxml" />
+									</content>
+								</TitledPane>
+							</panes>
+						</Accordion>
+					</content>
+				</TitledPane>
+				<TitledPane fx:id="matchTP" animated="true"
+					text="%match.label">
+					<content>
+						<fx:include fx:id="matchPane"
+							source="operator/matchPane.fxml" />
+					</content>
+				</TitledPane>
+			</panes>
+		</Accordion>
+	</items>
 
-   <stylesheets>
-      <URL value="@operator.css" />
-   </stylesheets>
+	<stylesheets>
+		<URL value="@operator.css" />
+	</stylesheets>
 </SplitPane>

@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.beans.property.SimpleListProperty;
@@ -67,6 +68,11 @@ public class KronoHelper {
         alert.setTitle(title);
         alert.setContentText(message);
         alert.initOwner(stage.getOwner());
+        
+        Platform.runLater(() -> {
+	        alert.setX(stage.getX() + (stage.getWidth() - alert.getWidth()) / 2);
+	        alert.setY(stage.getY() + (stage.getHeight() - alert.getHeight()) / 2); });	
+        
         Optional<ButtonType> res = alert.showAndWait();
        
         return ! res.isPresent() || ! res.get().equals(ButtonType.CANCEL);

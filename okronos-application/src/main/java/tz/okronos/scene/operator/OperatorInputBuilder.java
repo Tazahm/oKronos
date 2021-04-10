@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Scope;
 import javafx.beans.property.ReadOnlyListProperty;
 import tz.okronos.controller.breach.model.BreachDesc;
 import tz.okronos.core.KronoContext;
-import tz.okronos.scene.ModalControllerMultiScenes;
 import tz.okronos.scene.SceneBuilderHelper;
 
 /**
@@ -52,19 +51,20 @@ public class OperatorInputBuilder {
     @Bean
 	@Scope("prototype")
     public PenaltyInputController penaltyInputController() throws Exception {
-    	PenaltyInputController controller = sceneBuilderHelper.buildModalStage(context.getPrimaryStage(), "penalty.fxml", "penalty.title");
-    	ModalControllerMultiScenes penaltyTimeController = penaltyTimeInputController();
-    	controller.setSecondaryController(penaltyTimeController);
-    	penaltyTimeController.setSecondaryController(controller);
-    	penaltyTimeController.setStage(controller.getStage());
-    	controller.setBreaches(breachListProperty);
+    	PenaltyInputController penaltyInputController = sceneBuilderHelper.buildModalStage(context.getPrimaryStage(), "penalty.fxml", "penalty.title");
+    	PenaltyTimeInputController penaltyTimeInputController = penaltyTimeInputController();
     	
-    	return controller;
+    	penaltyInputController.setPenaltyTimeInputController(penaltyTimeInputController);
+    	penaltyTimeInputController.setPenaltyInputController(penaltyInputController);
+    	penaltyTimeInputController.setStage(penaltyInputController.getStage());
+    	penaltyInputController.setBreaches(breachListProperty);
+    	
+    	return penaltyInputController;
     }
 
     @Bean
  	@Scope("prototype")
-     public PenaltyTimeInputController penaltyTimeInputController() throws Exception {
+    public PenaltyTimeInputController penaltyTimeInputController() throws Exception {
     	return sceneBuilderHelper.buildStageAndController("penaltyTime.fxml", "penalty.time.title");
      }
 

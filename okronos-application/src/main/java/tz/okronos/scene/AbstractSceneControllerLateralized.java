@@ -12,7 +12,10 @@ import tz.okronos.core.Lateralized;
 import tz.okronos.core.PlayPosition;
 
 /**
- *  A controller linked to a position.
+ *  A controller linked to a position. This controller is intended to be referenced in a fxml
+ *  file includes into a main file. The controller assesses its position (left or right) by walking
+ *  up into the control tree. The first parent whose id begins with "left" or "right" determines
+ *  the position.
  */
 public abstract class AbstractSceneControllerLateralized extends AbstractSceneController
 		implements Initializable, Lateralized {
@@ -31,6 +34,9 @@ public abstract class AbstractSceneControllerLateralized extends AbstractSceneCo
 		});
 	}
 
+	/**
+	 * Walk up inside parent to find the side the control belong to.
+	 */
 	protected void initSide() {
 		final Node node = getNodeForInitialization();
 		Parent parent = node.getParent();
@@ -49,8 +55,16 @@ public abstract class AbstractSceneControllerLateralized extends AbstractSceneCo
 		}
 	}
 
+	/**
+	 * Gives the node used to walk up into the tree of controls.
+	 * @return the node.
+	 */
 	protected abstract Node getNodeForInitialization();
 
+	/**
+	 * Used to initialized the controllers once build.
+	 * @throws Exception any initialization error.
+	 */
 	protected void postInit() throws Exception {
 		// nop
 	}

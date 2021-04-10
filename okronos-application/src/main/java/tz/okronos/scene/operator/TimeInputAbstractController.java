@@ -15,7 +15,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import tz.okronos.core.KronoHelper;
-import tz.okronos.scene.ModalControllerMultiScenes;
+import tz.okronos.scene.ModalController;
 import tz.okronos.scene.control.TimeField;
 import tz.okronos.scene.control.TimeKeyboard;
 
@@ -34,7 +34,7 @@ import tz.okronos.scene.control.TimeKeyboard;
  *  The field that have the input uses the style "selected-field".
  */
 @Component
-public abstract class TimeInputAbstractController extends ModalControllerMultiScenes {
+public abstract class TimeInputAbstractController extends ModalController {
 	public enum InputMode {
 		DIRECT,
 		DIFF;
@@ -67,14 +67,8 @@ public abstract class TimeInputAbstractController extends ModalControllerMultiSc
 	 */
 	protected abstract ReadOnlyIntegerProperty getSourceProperty();
 
-	private void bind() {
-		// The unbind method shall have been used before, but their is many hole
-		// in the management of the show / hide methods of the ModalControllerMultiScenes
-		// so that it is possible that the listener are not removed.
-		// TODO remove ModalControllerMultiScenes.
-		if (timeListener != null) {
-			unbind();
-		}
+	private void bind() {		
+		unbind();
 		
 		final ReadOnlyIntegerProperty timeSourceProperty = getSourceProperty();
 		timeListener = o->timeField.setValue(timeSourceProperty.get());
@@ -113,6 +107,10 @@ public abstract class TimeInputAbstractController extends ModalControllerMultiSc
 	}
 
 	private void unbind() {
+		if (timeListener == null) {
+			return;
+		}
+		
 		final ReadOnlyIntegerProperty timeSourceProperty = getSourceProperty();
 		timeSourceProperty.removeListener(timeListener);
 		timeKeyboard.unbindWithField(inputField);
@@ -135,11 +133,11 @@ public abstract class TimeInputAbstractController extends ModalControllerMultiSc
 		return inputMode;
 	}	
 
-	protected void doCancelAction(ActionEvent event) {
+	protected void postCancelAction(ActionEvent event) {
 		// timeKeyboard.setTime(0);
 	}
 
-	public void doShowModal() {
+	public void preShowModal() {
 		inputMode = playTimeRunningProperty.get() ? InputMode.DIFF : InputMode.DIRECT;
 		KronoHelper.setStyle(modifiedField, inputMode == InputMode.DIRECT, "selected-field");
 		KronoHelper.setStyle(diffField, inputMode == InputMode.DIFF, "selected-field");
@@ -147,11 +145,11 @@ public abstract class TimeInputAbstractController extends ModalControllerMultiSc
 		bind();
 	}
 	
-	protected void doValidateAction(ActionEvent event) {
-		super.doValidateAction(event);
-	}
+//	protected void postValidateAction(ActionEvent event) {
+//		super.postValidateAction(event);
+//	}
 	
-	protected void doHideModal() {
+	protected void preHideModal() {
 		unbind();
 	}
 }

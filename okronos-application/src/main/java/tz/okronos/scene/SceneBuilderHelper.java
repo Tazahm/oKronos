@@ -110,7 +110,7 @@ public class SceneBuilderHelper {
     	
         Stage stage = ctrl.getStage();
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initOwner(primary.getOwner());
+        stage.initOwner(primary);
 
         return ctrl;
     }

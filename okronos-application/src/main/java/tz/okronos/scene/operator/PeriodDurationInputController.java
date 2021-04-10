@@ -30,14 +30,15 @@ public class PeriodDurationInputController extends ModalController {
 	}
 
 	
-	protected void doShowModal() {
+	protected void preShowModal() {
 		init();
 	}
 	
-	protected void doCancelAction(ActionEvent event) {
+	protected void postCancelAction(ActionEvent event) {
 	}
 	
-	private void init() {
+	public void init() {
+		super.init();
 		if (! keyboard.isBound()) {
 			keyboard.bindWithField(durationField);
 			keyboard.setShowSign(false);

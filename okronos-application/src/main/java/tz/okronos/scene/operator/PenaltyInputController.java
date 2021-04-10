@@ -18,12 +18,14 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
 import javafx.util.StringConverter;
+import lombok.Getter;
+import lombok.Setter;
 import tz.okronos.controller.penalty.model.PenaltyVolatile;
 import tz.okronos.controller.team.model.PlayerSnapshot;
 import tz.okronos.core.KronoHelper;
 import tz.okronos.controller.breach.model.BreachDesc;
 import tz.okronos.controller.penalty.model.PenaltySnapshot;
-import tz.okronos.scene.ModalControllerMultiScenes;
+import tz.okronos.scene.ModalController;
 import tz.okronos.scene.control.IntegerField;
 import tz.okronos.scene.control.PlayerSelector;
 import tz.okronos.scene.control.TimeField;
@@ -32,7 +34,7 @@ import tz.okronos.scene.control.TimeField;
 /**
  *  Handles the input of penalties. Allows the modify the remaining time into a secondary controller.
  */
-public class PenaltyInputController extends ModalControllerMultiScenes {
+public class PenaltyInputController extends ModalController {
 	public enum InputMode {
 		CREATION,
 		LIVE_MODIF,
@@ -59,6 +61,7 @@ public class PenaltyInputController extends ModalControllerMultiScenes {
 	private boolean shallDelete;
 	private boolean shallComplete;
 	private Map<Integer, Toggle> durationToToggleMap;
+	@Getter @Setter private PenaltyTimeInputController penaltyTimeInputController;
 	
 	@FXML private PlayerSelector playerSelector;
 	@FXML private ChoiceBox<BreachDesc> codeChoiceBox;
@@ -76,9 +79,9 @@ public class PenaltyInputController extends ModalControllerMultiScenes {
     @FXML private Label stopLabel;
     @FXML private TimeField stopField;
      
-	public PenaltyInputController() {
-	}
+	public PenaltyInputController() {}
     
+	
 	public void setPlayers(List<PlayerSnapshot> players) {
 		playerSelector.setPlayers(players);
 	}
@@ -110,15 +113,13 @@ public class PenaltyInputController extends ModalControllerMultiScenes {
 			stopField.setValue(penalty.getStopTime());
 		}
 		
-		PenaltyTimeInputController timeCtrl = (PenaltyTimeInputController) getSecondaryController();
-		timeCtrl.setPenalty(penalty);
+		penaltyTimeInputController.setPenalty(penalty);
 	}
 	
 	public PenaltySnapshot getPenalty() {
-		PenaltySnapshot output =  PenaltySnapshot.of(penalty);
-		PenaltyTimeInputController timeCtrl = (PenaltyTimeInputController) getSecondaryController();
-		if (! timeCtrl.isCancelled()) {
-		    output.setRemainder(timeCtrl.getModifiedTime());
+		PenaltySnapshot output =  PenaltySnapshot.of(penalty);		
+		if (! penaltyTimeInputController.isCancelled()) {
+		    output.setRemainder(penaltyTimeInputController.getModifiedTime());
 		}
 		return output;
 	}
@@ -153,7 +154,7 @@ public class PenaltyInputController extends ModalControllerMultiScenes {
 		durationGroup.selectToggle(toggle);
 	}
 	
-	protected void doValidateAction(ActionEvent event) {
+	protected void postValidateAction(ActionEvent event) {
 		penalty.setDuration(getDuration());
 		penalty.setPlayer(playerSelector.getSelectedPlayer() == null ? 0 : playerSelector.getSelectedPlayer().getShirt());
 		penalty.setOnStoppage(onStoppageCheckbox.isSelected());
@@ -167,17 +168,23 @@ public class PenaltyInputController extends ModalControllerMultiScenes {
 			penalty.setPeriod(periodField.getValue());
 			penalty.setStartTime(startField.getValue());
 			penalty.setStopTime(stopField.getValue());
+		} else if (penaltyTimeInputController.isValidated()) {
+			int newTime = penaltyTimeInputController.getModifiedTime();
+			if (newTime >= 0 && newTime <= penalty.getDuration() * 60) {
+				penalty.setRemainder(penaltyTimeInputController.getModifiedTime());				
+			}
 		}
 		
-		PenaltyTimeInputController timeCtrl = (PenaltyTimeInputController) getSecondaryController();
-		if (! timeCtrl.isCancelled()) {
-			int newTime = timeCtrl.getModifiedTime();
-			if (newTime >= 0 && newTime <= penalty.getDuration() * 60) {				
-				penalty.setStartTime(penalty.getStartTime() + newTime
-						- penalty.getRemainder());
-				penalty.setRemainder(newTime);
-			}
-		}				
+		// TODO set flag : time modif request y/n + requet type : live / histo request.
+//		PenaltyTimeInputController timeCtrl = (PenaltyTimeInputController) getSecondaryController();
+//		if (! timeCtrl.isCancelled()) {
+//			int newTime = timeCtrl.getModifiedTime();
+//			if (newTime >= 0 && newTime <= penalty.getDuration() * 60) {				
+//				penalty.setStartTime(penalty.getStartTime() + newTime
+//						- penalty.getRemainder());
+//				penalty.setRemainder(newTime);
+//			}
+//		}				
 	}
 
 	@FXML private void deleteAction(ActionEvent event) {
@@ -186,7 +193,9 @@ public class PenaltyInputController extends ModalControllerMultiScenes {
 	}
 
 	@FXML private void modifRemainigAction(ActionEvent event) {
-		toggleScene();
+		penaltyTimeInputController.preShowModal();		
+		stage.setScene(penaltyTimeInputController.getScene());
+		stage.sizeToScene();
 	}
 	
 	
@@ -195,8 +204,9 @@ public class PenaltyInputController extends ModalControllerMultiScenes {
 		validateAction(event);
 	}
 
-	public void doShowModal() {
-		super.doShowModal();
+	public void preShowModal() {
+		super.preShowModal();
+		getPenaltyTimeInputController().init();
 		boolean isModif = inputMode == InputMode.LIVE_MODIF || inputMode == InputMode.VALID_MODIF;
 		if (! isModif) {
 			playerSelector.selectPlayer(null);
