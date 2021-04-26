@@ -51,30 +51,48 @@ public class OperatorInputBuilder {
     @Bean
 	@Scope("prototype")
     public PenaltyInputController penaltyInputController() throws Exception {
-    	PenaltyInputController penaltyInputController = sceneBuilderHelper.buildModalStage(context.getPrimaryStage(), "penalty.fxml", "penalty.title");
-    	PenaltyTimeInputController penaltyTimeInputController = penaltyTimeInputController();
+    	final PenaltyInputController penaltyController = sceneBuilderHelper.buildModalStage(context.getPrimaryStage(), "penalty.fxml", "penalty.title");
+    	final TimeInputController timeController = timeInputPenaltyController();
+    	final  TimeInputPenaltyDelegate timeDelegate = timeInputPenaltyDelegate();
     	
-    	penaltyInputController.setPenaltyTimeInputController(penaltyTimeInputController);
-    	penaltyTimeInputController.setPenaltyInputController(penaltyInputController);
-    	penaltyTimeInputController.setStage(penaltyInputController.getStage());
-    	penaltyInputController.setBreaches(breachListProperty);
+    	penaltyController.setTimeInputController(timeController);
+    	penaltyController.setBreaches(breachListProperty);
     	
-    	return penaltyInputController;
+    	timeController.setStage(penaltyController.getStage());    	
+    	timeController.setDelegate(timeDelegate);
+    	timeDelegate.setPenaltyInputController(penaltyController);
+    	
+    	return penaltyController;
     }
 
     @Bean
  	@Scope("prototype")
-    public PenaltyTimeInputController penaltyTimeInputController() throws Exception {
-    	return sceneBuilderHelper.buildStageAndController("penaltyTime.fxml", "penalty.time.title");
+    public TimeInputController timeInputPenaltyController() throws Exception {
+    	return sceneBuilderHelper.buildStageAndController("time.fxml", "penalty.time.title");
      }
 
-
+    @Bean
+ 	@Scope("prototype")
+    public TimeInputPenaltyDelegate timeInputPenaltyDelegate() {
+    	return new TimeInputPenaltyDelegate();
+    }
+    
     @Bean
 	@Scope("prototype")
     public TimeInputController timeInputController() throws Exception {
-    	return sceneBuilderHelper.buildModalStage(context.getPrimaryStage(), "time.fxml", "time.title");
+    	final TimeInputController controller = sceneBuilderHelper.buildModalStage(context.getPrimaryStage(), "time.fxml", "time.title");
+    	final TimeInputDelegate timeDelegate = timeInputDelegate();
+    	controller.setDelegate(timeDelegate);
+    	
+    	return controller;
     }
     
+    @Bean
+ 	@Scope("prototype")
+    public TimeInputDelegate timeInputDelegate() {
+    	return new TimeInputDelegate();
+    }
+
     @Bean
 	@Scope("prototype")
     public PeriodDurationInputController periodDurationInputController() throws Exception {

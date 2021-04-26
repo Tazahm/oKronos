@@ -87,7 +87,7 @@ public class PenaltySceneController extends AbstractSceneControllerLateralized {
     	} else if (! penaltyInputController.isCancelled()) {
     		context.postEvent(new PenaltyModifRequest()
     				.setModifMode(isLiveTable ? ModifMode.LIVE : ModifMode.HISTORY)
-    				.setTimeModification(penaltyInputController.getPenaltyTimeInputController().isValidated())
+    				.setTimeModification(penaltyInputController.getTimeInputController().isValidated())
     				.setNewValues(PenaltySnapshot.of(newValue))
     				.setPenalty(oldValue));
     	}

@@ -61,7 +61,7 @@ public class PenaltyInputController extends ModalController {
 	private boolean shallDelete;
 	private boolean shallComplete;
 	private Map<Integer, Toggle> durationToToggleMap;
-	@Getter @Setter private PenaltyTimeInputController penaltyTimeInputController;
+	@Getter @Setter private TimeInputController timeInputController;
 	
 	@FXML private PlayerSelector playerSelector;
 	@FXML private ChoiceBox<BreachDesc> codeChoiceBox;
@@ -113,13 +113,13 @@ public class PenaltyInputController extends ModalController {
 			stopField.setValue(penalty.getStopTime());
 		}
 		
-		penaltyTimeInputController.setPenalty(penalty);
+		((TimeInputPenaltyDelegate) timeInputController.getDelegate()).setPenalty(penalty);
 	}
 	
 	public PenaltySnapshot getPenalty() {
 		PenaltySnapshot output =  PenaltySnapshot.of(penalty);		
-		if (! penaltyTimeInputController.isCancelled()) {
-		    output.setRemainder(penaltyTimeInputController.getModifiedTime());
+		if (! timeInputController.isCancelled()) {
+		    output.setRemainder(timeInputController.getModifiedTime());
 		}
 		return output;
 	}
@@ -168,23 +168,12 @@ public class PenaltyInputController extends ModalController {
 			penalty.setPeriod(periodField.getValue());
 			penalty.setStartTime(startField.getValue());
 			penalty.setStopTime(stopField.getValue());
-		} else if (penaltyTimeInputController.isValidated()) {
-			int newTime = penaltyTimeInputController.getModifiedTime();
+		} else if (timeInputController.isValidated()) {
+			int newTime = timeInputController.getModifiedTime();
 			if (newTime >= 0 && newTime <= penalty.getDuration() * 60) {
-				penalty.setRemainder(penaltyTimeInputController.getModifiedTime());				
+				penalty.setRemainder(timeInputController.getModifiedTime());				
 			}
 		}
-		
-		// TODO set flag : time modif request y/n + requet type : live / histo request.
-//		PenaltyTimeInputController timeCtrl = (PenaltyTimeInputController) getSecondaryController();
-//		if (! timeCtrl.isCancelled()) {
-//			int newTime = timeCtrl.getModifiedTime();
-//			if (newTime >= 0 && newTime <= penalty.getDuration() * 60) {				
-//				penalty.setStartTime(penalty.getStartTime() + newTime
-//						- penalty.getRemainder());
-//				penalty.setRemainder(newTime);
-//			}
-//		}				
 	}
 
 	@FXML private void deleteAction(ActionEvent event) {
@@ -193,8 +182,8 @@ public class PenaltyInputController extends ModalController {
 	}
 
 	@FXML private void modifRemainigAction(ActionEvent event) {
-		penaltyTimeInputController.preShowModal();		
-		stage.setScene(penaltyTimeInputController.getScene());
+		timeInputController.preShowModal();		
+		stage.setScene(timeInputController.getScene());
 		stage.sizeToScene();
 	}
 	
@@ -206,7 +195,7 @@ public class PenaltyInputController extends ModalController {
 
 	public void preShowModal() {
 		super.preShowModal();
-		getPenaltyTimeInputController().init();
+		timeInputController.init();
 		boolean isModif = inputMode == InputMode.LIVE_MODIF || inputMode == InputMode.VALID_MODIF;
 		if (! isModif) {
 			playerSelector.selectPlayer(null);

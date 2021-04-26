@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- Layout of the input window fort the penalties.                                                                          -->
+<!--                                                                                                                         -->
+<!--        +............................+                                                                                   -->
+<!--        | Player      P1 P2 P3 P3    |                                                                                   -->
+<!--        |             P5 ...         |                                                                                   -->
+<!--        | Code        combo v        |                                                                                   -->
+<!--        | Duration    2  4  5  10    |                                                                                   -->
+<!--        |                            |                                                                                   -->  
+<!--        |             x on stoppage  |                                                                                   -->
+<!--        |             x suspended    |                                                                                   -->
+<!--        +............................+                                                                                   -->
+<!--        | Validate            Cancel |                                                                                   -->
+<!--        +............................+                                                                                   -->
+<!--                                                                                                                         -->
+
 <?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>

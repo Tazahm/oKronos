@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- Layout for the window of the scores.                                                                                    -->
+<!-- The window of the score display the teams name and icon, the current period, the scores for both teams, the remaining   --> 
+<!-- play time, and the running penalties.                                                                                   -->
+<!--                                                                                                                         -->
+<!--        +...............................................................+                                                -->
+<!--        | Left team name                               Right Team name  |                                                -->
+<!--        |    Icone                                           Icone      |                                                -->
+<!--        |                            Period                             |                                                -->
+<!--        |                                                               |                                                -->
+<!--        | Left score                  Clock                 Right score |                                                -->
+<!--        |                                                               |                                                -->
+<!--        | Penalty 1  Penalty 3                     Penalty 3  Penalty 1 |                                                -->
+<!--        | Penalty 2  Penalty 4                     Penalty 4  Penalty 2 |                                                -->
+<!--        +...............................................................+                                                -->
+<!--                                                                                                                         -->
+
 <?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>

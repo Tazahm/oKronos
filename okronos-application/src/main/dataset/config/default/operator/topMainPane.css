@@ -1,0 +1,24 @@
+/** to debug layout 
+#topMainPane {
+	-fx-background-color: blue;
+}
+#TeamNamePane {
+	-fx-background-color: lightblue;
+}
+#topPaneBottomTop {
+	-fx-background-color: salmon;
+}
+#leftTopPane{
+	-fx-background-color: yellow;
+}
+#rightTopPane {
+	-fx-background-color: yellow;
+}
+#centerTopPane {
+    -fx-background-color: orange;
+}
+#clocksPane {
+    -fx-background-color: lightblue;
+}
+*/
+

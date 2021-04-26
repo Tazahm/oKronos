@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- Layout of the input window for the players.                                                                             -->
+<!--                                                                                                                         -->
+<!--        +.......................................+                                                                        -->
+<!--        | Name      [ Input field             ] |                                                                        -->
+<!--        | Licence   [ Input field             ] |                                                                        -->
+<!--        | Shirt no  [ Input field             ] |                                                                        -->
+<!--        |           x goalkeeper                |                                                                        -->
+<!--        |           x official                  |                                                                        -->
+<!--        +.......................................+                                                                        -->
+<!--        | Validate                       Cancel |                                                                        -->
+<!--        +.......................................+                                                                        -->
+<!--                                                                                                                         -->
+
 <?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import tz.okronos.scene.control.IntegerField ?>
+
 
 <BorderPane
    id="mainPane"

@@ -1,9 +1,18 @@
+/*
+@font-face {
+    font-family: "Josefin Sans Thin";
+    src: url("../../fonts/default/JosefinSans-VariableFont_wght.ttf");
+}
+*/
+
 root { 
     display: block;
 }
 
 .root {
 	-fx-background-color: black;
+	/** -fx-font-family: "Josefin Sans Thin"; */	
+	/** -fx-font-weight: bold */
 }
 
 .label {
@@ -46,6 +55,7 @@ root {
 	-fx-text-fill: black;
     -fx-background-radius: 10 10 10 10;
 }
+
 
 /* for layout debug
 #teamAndPeriodPanel {

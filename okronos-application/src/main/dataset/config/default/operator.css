@@ -71,42 +71,7 @@
 	-fx-cursor: hand;
 }
 
-
-/** for layout debug
-#mainPanel {
-	-fx-background-color: blue;
-}
-#topMainPanel {
-	-fx-background-color: lightblue;
-}
-#bottomMainPanel{
-	-fx-background-color: lightblue;
-}
-#penaltyTablesPanel{
-	-fx-background-color: red;
-}
-#periodAndTeamPanel {
-    -fx-background-color: orange;
-}
-#clocksPanel {
-    -fx-background-color: red;
+.tooltip {
+	-fx-font-size: 10px;
 }
 
-#topButtonsPanel {
-	-fx-background-color: yellow;
-}
-#bottomButtonsPanel {
-	-fx-background-color: yellow;
-}
-*/
-/* 
-#topButtonsLeftPanel {
-	-fx-background-color: orange;
-}
-#topButtonsCenterPanel {
-	-fx-background-color: yellow;
-}
-#topButtonsRightPanel {
-	-fx-background-color: orange;
-}
-*/

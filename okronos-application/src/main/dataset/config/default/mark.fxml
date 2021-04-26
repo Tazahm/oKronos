@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- Layout of the input window for the scores.                                                                              -->
+<!--                                                                                                                         -->
+<!--        +.......................................+                                                                        -->
+<!--        |    Scorer      Assist 1     Assist 2  |                                                                        -->
+<!--        | P1 P2 P3 P4   P1 P2 P3 P4   P1 P2 P2  |                                                                        -->
+<!--        | P5 ...        P5 ...        P5 ...    |                                                                        -->
+<!--        +.......................................+                                                                        -->
+<!--        | Validate                       Cancel |                                                                        -->
+<!--        +.......................................+                                                                        -->
+<!--                                                                                                                         -->
+
 <?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>

@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- Layout of the input window for the match parameters.                                                                    -->
+<!-- Mainly a placeholder for the property sheet.                                                                            -->
+<!--                                                                                                                         -->
+<!--        +.......................................+                                                                        -->
+<!--        | Propery 1   Input field               |                                                                        -->
+<!--        | Propery 2   Input field               |                                                                        -->
+<!--        | Propery 3   Input field               |                                                                        -->
+<!--        | ...                                   |                                                                        -->
+<!--        +.......................................+                                                                        -->
+<!--        | Validate                       Cancel |                                                                        -->
+<!--        +.......................................+                                                                        -->
+<!--                                                                                                                         -->
+
 <?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>

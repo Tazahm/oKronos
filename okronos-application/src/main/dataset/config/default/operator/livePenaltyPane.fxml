@@ -30,7 +30,7 @@
 	xmlns="http://javafx.com/javafx/11.0.1"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="tz.okronos.scene.operator.LivePenaltySceneController"
-	hgap="20.0" BorderPane.alignment="CENTER" prefHeight="220">
+	hgap="20.0" BorderPane.alignment="CENTER" prefHeight="275">
 	<columnConstraints>
 		<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
 			prefWidth="100.0" />
@@ -46,7 +46,7 @@
 			styleClass="bottom-table" onMouseClicked="#leftPenaltyTableAction">
 			<columns>
 				<TableColumn
-					text="%operator.livePenalties.header.remainder" prefWidth="105">
+					text="%operator.livePenalties.header.remainder" prefWidth="110">
 					<cellValueFactory>
 						<ValueFactoryTransformer
 							property="remainder"
@@ -81,7 +81,7 @@
 			GridPane.columnIndex="1">
 			<columns>
 				<TableColumn
-					text="%operator.livePenalties.header.remainder" prefWidth="105">
+					text="%operator.livePenalties.header.remainder" prefWidth="110">
 					<cellValueFactory>
 						<ValueFactoryTransformer
 							property="remainder"

@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- Layout of the operator main window.                                                                                     -->
+<!--   - A the left hand top , the top main panel contains teams name and icons, the clocks, and the scores.                 -->
+<!--   - Above the top button pane contains some buttons for penalty and timeout (right and left), and correction and beep.  -->
+<!--   - Above the live penalty pane contains the penalty that are currently running.                                        -->
+<!--   - Above the bottom button pane contains buttons for reset or media start and stop.                                    -->
+<!--   - A the right of the window, some accordions contains the history, teams related data and match data.                 -->
+<!--                                                                                                                         -->
+<!--        +.....................................................................+......................+                   -->
+<!--        | Left team name                                     Right Team name  |                      |                   -->
+<!--        |    Icone                                                 Icone      |                      |                   -->
+<!--        |                               Period                                |    Side accordions   |                   -->
+<!--        |                                                                     |                      |                   -->
+<!--        | Left score                   Main clock                 Right score |                      |                   -->
+<!--        |                        clock 2      clock 3                         |                      |                   -->
+<!--        +.....................................................................|                      |                   -->
+<!--        | Penalty Timeout            correct. beep            Penalty Timeout |                      |                   -->
+<!--        +.....................................................................|                      |                   -->
+<!--        |                                  |                                  |                      |                   -->
+<!--        |         Left penalties           |         Right penalties          |                      |                   -->
+<!--        |                                  |                                  |                      |                   -->
+<!--        +.....................................................................|                      |                   -->
+<!--        | Reset                                                Play Animation |                      |                   -->
+<!--        +.....................................................................+......................+                   -->
+<!--                                                                                                                         -->
+
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.text.Font?>
-<?import tz.okronos.scene.control.ValueFactoryTransformer?>
-<?import tz.okronos.scene.control.PenaltySAValueFactory?>
-<?import tz.okronos.scene.control.PlayerGOValueFactory?>
-<?import org.controlsfx.control.PropertySheet?>
 
 
 <SplitPane id="root" xmlns="http://javafx.com/javafx/11.0.1"
@@ -38,9 +45,6 @@
 				<fx:include fx:id="topMainPane"
 					source="operator/topMainPane.fxml" />
 				<BorderPane id="bottomMainPanel">
-					<padding>
-						<Insets bottom="10.0" left="10.0" right="10.0" />
-					</padding>
 					<top>
 						<fx:include fx:id="topButtonsPane"
 							source="operator/topButtonPane.fxml" />

@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- Layout of the input window for the play time.                                                                          -->
+<!-- Provides a numeric keyboard for time input.                                                                            -->
+<!--                                                                                                                        -->
+<!--        +...............................+                                                                               -->
+<!--        | Time          [ input field ] |                                                                               -->
+<!--        | Corrected     [ input field ] |                                                                               -->
+<!--        | Differential  [ input field ] |                                                                               -->
+<!--        |                               |                                                                               -->
+<!--        |                1   2   3   4  |                                                                               -->
+<!--        |                5   6   7   8  |                                                                               -->
+<!--        |                9   0   E   +  |                                                                               -->
+<!--        +...............................+                                                                               -->
+<!--        | Validate               Cancel |                                                                               -->
+<!--        +...............................+                                                                               -->
+<!--                                                                                                                        -->
+
 <?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -7,6 +23,7 @@
 <?import javafx.scene.text.*?>
 <?import tz.okronos.scene.control.TimeKeyboard ?>
 <?import tz.okronos.scene.control.TimeField ?>
+
 
 <BorderPane
    id="mainPane"

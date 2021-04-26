@@ -11,6 +11,7 @@
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -54,6 +55,7 @@
 							</image>
 						</ImageView>
 					</graphic>
+					<tooltip><Tooltip text="%operator.button.reset.tooltip" /></tooltip>
 				</Button>
 			</children>
 		</HBox>
@@ -71,6 +73,7 @@
 							</image>
 						</ImageView>
 					</graphic>
+					<tooltip><Tooltip text="%operator.button.music.tooltip" /></tooltip>
 				</ToggleButton>
 				<ToggleButton id="animationBottomButton"
 					fx:id="animationBottomButton" mnemonicParsing="false">
@@ -81,6 +84,7 @@
 							</image>
 						</ImageView>
 					</graphic>
+					<tooltip><Tooltip text="%operator.button.animation.tooltip" /></tooltip>
 				</ToggleButton>
 			</children>
 		</HBox>

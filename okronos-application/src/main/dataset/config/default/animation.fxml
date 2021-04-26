@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- Layout of the animation window.                                                                                     -->
+<!--  Just a placeholder for the media view.                                                                             -->
+<!--                                                                                                                     -->
+<!--        +.......................................+                                                                    -->
+<!--        |                                       |                                                                    -->
+<!--        |            Media View                 |                                                                    -->
+<!--        |                                       |                                                                    -->
+<!--        +.......................................+                                                                    -->
+<!--                                                                                                                     -->
+
 <?import java.net.URL?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.media.MediaView?>

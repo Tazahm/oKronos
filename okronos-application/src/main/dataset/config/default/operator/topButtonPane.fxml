@@ -11,6 +11,7 @@
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -49,6 +50,7 @@
 							</image>
 						</ImageView>
 					</graphic>
+					<tooltip><Tooltip text="%operator.button.penalty.left.tooltip" /></tooltip>
 				</Button>
 				<Button id="timeoutLeftButton" mnemonicParsing="false"
 					onAction="#timeoutLeftAction">
@@ -59,6 +61,7 @@
 							</image>
 						</ImageView>
 					</graphic>
+					<tooltip><Tooltip text="%operator.button.timeout.left.tooltip" /></tooltip>
 				</Button>
 				<ToggleButton id="musicLeftButton"
 					fx:id="musicLeftButton" mnemonicParsing="false">
@@ -69,6 +72,7 @@
 							</image>
 						</ImageView>
 					</graphic>
+					<tooltip><Tooltip text="%operator.button.music.left.tooltip" /></tooltip>
 				</ToggleButton>
 				<ToggleButton id="animationLeftButton"
 					fx:id="animationLeftButton" mnemonicParsing="false">
@@ -79,6 +83,7 @@
 							</image>
 						</ImageView>
 					</graphic>
+					<tooltip><Tooltip text="%operator.button.animation.left.tooltip" /></tooltip>
 				</ToggleButton>
 			</children>
 		</HBox>
@@ -94,6 +99,7 @@
 							</image>
 						</ImageView>
 					</graphic>
+					<tooltip><Tooltip text="%operator.button.correction.tooltip" /></tooltip>
 				</Button>
 				<Button id="beep" mnemonicParsing="false"
 					onAction="#beepAction" alignment="CENTER">
@@ -104,6 +110,7 @@
 							</image>
 						</ImageView>
 					</graphic>
+					<tooltip><Tooltip text="%operator.button.beeper.tooltip" /></tooltip>
 				</Button>
 			</children>
 			<padding>
@@ -122,6 +129,7 @@
 							</image>
 						</ImageView>
 					</graphic>
+					<tooltip><Tooltip text="%operator.button.animation.right.tooltip" /></tooltip>
 				</ToggleButton>
 				<ToggleButton id="musicRightButton"
 					fx:id="musicRightButton" mnemonicParsing="false">
@@ -142,6 +150,7 @@
 							</image>
 						</ImageView>
 					</graphic>
+					<tooltip><Tooltip text="%operator.button.timeout.right.tooltip" /></tooltip>
 				</Button>
 				<Button id="addPenaltyRight" fx:id="addPenaltyRight"
 					mnemonicParsing="false" onAction="#addPenaltyRightAction">
@@ -152,6 +161,7 @@
 							</image>
 						</ImageView>
 					</graphic>
+					<tooltip><Tooltip text="%operator.button.penalty.right.tooltip" /></tooltip>
 				</Button>
 			</children>
 		</HBox>
