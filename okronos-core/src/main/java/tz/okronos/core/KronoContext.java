@@ -361,7 +361,8 @@ public class KronoContext {
 	    	// Get the location of the jar file.
 	    	URL jarUrl = getClass().getProtectionDomain().getCodeSource().getLocation();
 	    	File jarFile = new File(jarUrl.getFile());
-	    	configFile = new File(jarFile.getParentFile(), "init.properties");
+	    	File iniDir = new File(jarFile.getParentFile(), "datasets");
+	    	configFile = new File(iniDir, "init.properties");
     	}
     	appDirectory  = configFile.getParentFile();
     	// System.out.println("Config file: " + pathToString(configFile));

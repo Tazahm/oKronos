@@ -38,10 +38,10 @@
   <!-- Should not be changed.                   -->
   <!-- ......... ......... ......... .........  -->
   <property name="dir.src.java" value="src/main/java"/>
-  <property name="dir.src.resources" value="src/main/resources"/>
+  <property name="dir.src.resources" value="../../resources"/>
   <property name="dir.src.build" value="src/main/build"/>
-  <property name="dir.src.javafx.unix" value="../resources/linux/javafx-sdk-11.0.2"/>
-  <property name="dir.src.javafx.windows" value="../resources/windows/javafx-sdk-11.0.2"/>
+  <property name="dir.src.javafx.unix" value="${dir.src.resources}/linux/javafx-sdk-11.0.2"/>
+  <property name="dir.src.javafx.windows" value="${dir.src.resources}/windows/javafx-sdk-11.0.2"/>
   <property name="dir.src.dataset" value="src/main/dataset"/>
   <property name="dir.src.doc" value="../doc/gen"/>
   <property name="dir.src.lib" value="lib"/>
@@ -52,7 +52,7 @@
   <property name="dir.gen.dist.windows" value="${dir.gen.dist}/okronos-win-${app.version}"/>
   <property name="file.src.jar" value="${dir.gen.target}/okronos-application-${app.version}.jar"/>
   <property name="file.gen.jar" value="okronos.jar"/>
-  <property name="dir.launch4j" location="../resources/${platform}/launch4j" />
+  <property name="dir.launch4j" location="${dir.src.resources}/${platform}/launch4j" />
 
   <!-- Puts in the library path all the jar files contains into the 'lib' directory. -->
   <path id="env.libpath">
@@ -98,7 +98,7 @@
   <target name="package-common">
   <echo message="Build delivery in ${dest}"/>
     <!-- Copies the dataset. -->
-    <copy todir="${dest}">
+    <copy todir="${dest}/datasets">
       <fileset dir="${dir.src.dataset}"/>
     </copy>
     <!-- Copies jar generated file. -->
