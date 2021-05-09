@@ -14,6 +14,8 @@ import javafx.scene.Node;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import tz.okronos.annotation.fxsubscribe.FxSubscribe;
+import tz.okronos.controller.team.event.notif.TeamPlayerModificationNotif;
 import tz.okronos.controller.team.event.request.TeamExportRequest;
 import tz.okronos.controller.team.event.request.TeamImportExportRequest;
 import tz.okronos.controller.team.event.request.TeamImportRequest;
@@ -57,11 +59,16 @@ public class PlayerSceneController extends AbstractSceneControllerLateralized {
     	importOrExportPlayerAction(true);
     }
     
+    @FxSubscribe public void onTeamPlayerModificationNotif(TeamPlayerModificationNotif notif) {
+    	playerTable.refresh();
+    }
+    
 	@Override
 	protected Node getNodeForInitialization() {
 		return playerPane;
 	}
 
+	@Override
     protected void postInit() throws Exception {
     	playerTable.setItems(playerListProperties.getFromPosition(side));
     	// TODO use an unique input ctrl
