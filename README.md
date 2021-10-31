@@ -36,10 +36,10 @@ Before any build, you shall install some resources into the folder 'resources' :
 The application uses maven. Maven download some java library: you shall have got a valid connection to internet.
 Build commands: 
 - Into the directory okronos-parent: mvn clean install
-- Into the directory okronos-annotations: mvn clean install
+- Into the directory okronos-core: mvn clean install
 - Into the directory okronos-application: mvn clean package -DskipTests
 
-The final delivery is generated into the folder okronos-application/dist .
+The final delivery is generated into the folder okronos-application/target/dist .
 
 ## Installation
 Once build, the delivery is contain into files names okronos-\<system\>-\<version\>.zip
@@ -50,8 +50,15 @@ Simply unzip the file.
 - On Linux : use okronos.sh file.
  
 ## Modification 
-You can use any editor or IDE, the sources are provided into eclipse projects.
-NB : build can be perform with eclipse.
+You can use any editor or IDE.
+
+Modifications can be perform with eclipse, but to prevent inline compilation errors:
+- the package javax.xml shall been removed from the library xml-apis-1.0.b2.jar into the maven repository (usually $OME/.m2/repository/xml-apis/xml-apis/1.0.b2).
+- lombok shall be added to eclipse: see https://projectlombok.org/setup/eclipse.
+
+To run oKronos via eclipse : 
+- add a new java application run configuration.
+- add following vm arguments: "--module-path "../../resources/linux/javafx-sdk-11.0.2/lib" --add-modules=ALL-MODULE-PATH -Dconfigfile=src/test/dataset/init.properties"
 
 ## User documentation
 You will find a general presentation into the folder doc/gen.

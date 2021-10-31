@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>tz.okronos</groupId>
 		<artifactId>okronos-parent</artifactId>
-		<version>0.11</version>
+		<version>0.12</version>
 	</parent>
 
 	<properties>
@@ -141,8 +141,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
 				<configuration>
-					<source>11</source>
-					<target>11</target>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
 				</configuration>
 			</plugin>
 

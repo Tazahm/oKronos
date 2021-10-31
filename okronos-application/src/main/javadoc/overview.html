@@ -12,7 +12,7 @@ oKronos is written in java with the help of javafx graphics packages, the spring
 Any 64 bits modern O.S. can be used.
 </p>
 <p>
-The project uses maven to build the sources and can create a delivery for the Windows systemsS and another for Linux systems.
+The project uses maven to build the sources and can create a delivery for the Windows systems and another for Linux systems.
 </p>
 <h2>Prerequisites</h2>
 <ul>
@@ -23,7 +23,7 @@ The project uses maven to build the sources and can create a delivery for the Wi
 <h2>Project structure</h2>
 <ul>
 <li>okronos-parent: parent maven projet, contains no code by itself.</li>
-<li>okronos-annotations: defines annotations and annotation processors used by the project.</li>
+<li>okronos-core: defines annotations and annotation processors used by the project.</li>
 <li>okronos-application: contains the appliation core.</li>
 <li>resources: contains graphical resources, tools used to build the application as well as external libraries (javafx).</li>
 <li>doc: the user documentation sources and generated files.</li>
@@ -90,6 +90,6 @@ The class KronoContext contains all data that the controllers shall have in comm
   <li>the event bus.</li>
 </ul>
 The context contains also some shortcut methods, among other for property access, event sending, and file retrieval.
-The context is injected to the controllers by spring framework.
+The context is injected to the controllers by the spring framework.
 </body>
 </html>
