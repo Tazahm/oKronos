@@ -40,8 +40,8 @@
   <property name="dir.src.java" value="src/main/java"/>
   <property name="dir.src.resources" value="../../resources"/>
   <property name="dir.src.build" value="src/main/build"/>
-  <property name="dir.src.javafx.unix" value="${dir.src.resources}/linux/javafx-sdk-11.0.2"/>
-  <property name="dir.src.javafx.windows" value="${dir.src.resources}/windows/javafx-sdk-11.0.2"/>
+  <property name="dir.src.javafx.unix" value="${dir.src.resources}/linux/javafx-sdk-17.0.1"/>
+  <property name="dir.src.javafx.windows" value="${dir.src.resources}/windows/javafx-sdk-17.0.1"/>
   <property name="dir.src.dataset" value="src/main/dataset"/>
   <property name="dir.src.doc" value="../doc/gen"/>
   <property name="dir.src.lib" value="lib"/>
