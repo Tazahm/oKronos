@@ -26,9 +26,9 @@ and another for the Linux system.
 ## Build
 
 Before any build, you shall install some resources into the folder 'resources' :
-- the javafx sdk 11.0.2 (https://gluonhq.com/products/javafx/)
-    - for Linux: into resources/linux/javafx-sdk-11.0.2
-    - for Windows: into resources/windows/javafx-sdk-11.0.2
+- the javafx sdk 17.0.1 (https://gluonhq.com/products/javafx/)
+    - for Linux: into resources/linux/javafx-sdk-17.0.1
+    - for Windows: into resources/windows/javafx-sdk-17.0.1
 - the launch4j cross-platform Java executable wrapper (https://sourceforge.net/projects/launch4j/files/launch4j-3/3.13/).
      - for Linux: into resources/linux/launch4j (required only to build on a Linux system).
      - for Windows: into resources/windows/launch4j (required only to build on a Windows system).
