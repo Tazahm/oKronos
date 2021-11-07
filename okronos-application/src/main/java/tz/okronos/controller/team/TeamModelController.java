@@ -218,7 +218,16 @@ public class TeamModelController
 	private void modifyPlayer(PlayerSnapshot input) {
 		PlayerSnapshot player = model.getPlayerListWrapper().stream()
 			.filter(p -> p.getUid() == input.getUid()).findFirst().orElse(null);
-		if (player == null) return;
+		if (player == null) {
+			log.warn("Player not found: " + input.getUid());
+			return;
+		}
+		// A player shall have at least a shirt number.
+		if (player.getShirt() < 0)  {
+			log.warn("Player has not shirt number: " + input.getUid());
+			return;
+		}
+		
 		player.copy(input);
 		
 		// Force ordering recomputation.
@@ -232,7 +241,10 @@ public class TeamModelController
 	private void deletePlayer(PlayerSnapshot input) {
 		PlayerSnapshot player = model.getPlayerListWrapper().stream()
 				.filter(p -> p.getUid() == input.getUid()).findFirst().orElse(null);
-		if (player == null) return;
+		if (player == null) {
+			log.warn("Player not found: " + input.getUid());
+			return;
+		}
 		model.getPlayerListWrapper().remove(player);
         context.postEvent(new TeamPlayerDeletionNotif()
         	.setPlayer(PlayerSnapshot.of(player)).setSide(side));

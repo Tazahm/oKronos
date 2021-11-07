@@ -43,6 +43,10 @@ public class PlayerInputController extends ModalController {
     public void init()  {
 		goalkeeperCheckbox.selectedProperty().addListener((o,p,n) -> unselect(officialCheckbox, goalkeeperCheckbox));
 		officialCheckbox.selectedProperty().addListener((o,p,n) -> unselect(goalkeeperCheckbox, officialCheckbox));
+		
+		// Shirt number is mandatory.
+		shirtField.addContentListener((s,o,n)->modifyButton.setDisable(shirtField.getText() == null 
+				|| shirtField.getText().isBlank()));
 	}
 	
 	public void setPlayer(PlayerSnapshot player) {

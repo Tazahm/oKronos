@@ -95,6 +95,7 @@
          GridPane.halignment="CENTER"
          alignment="center">
          <Button
+            fx:id="modifyButton"
             styleClass="main-button"
             HBox.hgrow="ALWAYS"
             maxWidth="1000"

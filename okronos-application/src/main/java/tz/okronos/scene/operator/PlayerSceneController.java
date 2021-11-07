@@ -71,7 +71,6 @@ public class PlayerSceneController extends AbstractSceneControllerLateralized {
 	@Override
     protected void postInit() throws Exception {
     	playerTable.setItems(playerListProperties.getFromPosition(side));
-    	// TODO use an unique input ctrl
     	playerInputController = inputsBuilder.playerInputController();
     	
     	context.registerEventListener(this);
