@@ -45,6 +45,9 @@
 				<fx:include fx:id="topMainPane"
 					source="operator/topMainPane.fxml" />
 				<BorderPane id="bottomMainPanel">
+				    <padding>
+				       <Insets bottom="5.0" left="5.0" right="5.0" top="0.0" />
+				    </padding> 
 					<top>
 						<fx:include fx:id="topButtonsPane"
 							source="operator/topButtonPane.fxml" />
