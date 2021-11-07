@@ -45,6 +45,7 @@ public class PenaltyInputController extends ModalController {
 
 		@Override
 		public String toString(BreachDesc breach) {
+			if (breach == null) return "";
 			if (breach.getCode().isEmpty()) return breach.getLabel();
 			return breach.getCode() + " - " + breach.getLabel();
 		}
@@ -87,8 +88,8 @@ public class PenaltyInputController extends ModalController {
 	}
 	
 	public void setBreaches(ObservableList<BreachDesc> breaches) {
-		codeChoiceBox.setItems(breaches);
 		codeChoiceBox.setConverter(new BreachConverter());
+		codeChoiceBox.setItems(breaches);
 	}
 	
 	public void setPenalty(PenaltyVolatile penalty) {

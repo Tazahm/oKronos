@@ -66,7 +66,7 @@ public class AbstractField<T, F extends AbstractFieldFormatter<T>> extends TextF
 	
 	/**
 	 * Adds a display listener. The listener will be called each time the input is 
-	 * changed, even if the value is not commit and the value still unchanged.
+	 * changed, even if the value is not committed and the value still unchanged.
 	 * @param listener the listener.
 	 */
 	public void addContentListener(ChangeListener<String> listener) {

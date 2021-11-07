@@ -56,7 +56,7 @@ public class BreachModelController extends AbstractModelController<BreachModel> 
 			.build();
 		  CsvMapper mapper = new CsvMapper();
 		  ObjectReader objectReader = mapper.readerFor(BreachDesc.class).with(schema);
-		  ArrayList<BreachDesc> breaches = new ArrayList<>();
+		  final ArrayList<BreachDesc> breaches = new ArrayList<>();
 		  try (Reader reader = new FileReader(file)) {
 		     MappingIterator<BreachDesc> mi = objectReader.readValues(reader);
 		     while (mi.hasNext()) {
