@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tz.okronos</groupId>
 	<artifactId>okronos-parent</artifactId>
-	<version>0.12</version>
+	<version>0.13-dev</version>
 	<packaging>pom</packaging>
 	<name>okronos-parent</name>
 	<description>Parent pom for oKronos project</description>
