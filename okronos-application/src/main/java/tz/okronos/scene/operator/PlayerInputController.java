@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 import tz.okronos.controller.team.model.PlayerSnapshot;
 import tz.okronos.core.KronoHelper;
+import tz.okronos.core.property.BindingHelper;
 import tz.okronos.scene.ModalController;
 import tz.okronos.scene.control.IntegerField;
 
@@ -86,11 +87,11 @@ public class PlayerInputController extends ModalController {
 	}
 		
 	private int nullToUndef(Integer input) {
-		return input == null ? Integer.MIN_VALUE : input;
+		return input == null ? BindingHelper.NO_VALUE : input;
 	}
 	
 	private Integer undefToNull(int input) {
-		return input == Integer.MIN_VALUE ? null : input;
+		return input == BindingHelper.NO_VALUE ? null : input;
 	}
 
 	private void unselect(CheckBox target, CheckBox origin) {

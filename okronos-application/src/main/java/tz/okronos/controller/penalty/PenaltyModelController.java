@@ -43,6 +43,7 @@ import tz.okronos.core.Lateralized;
 import tz.okronos.core.PhaseOfPlay;
 import tz.okronos.core.PlayPosition;
 import tz.okronos.core.SideAware;
+import tz.okronos.core.property.BindingHelper;
 
 /**
  *  Handles penalties creation and modification, for one team (left or right).
@@ -172,8 +173,8 @@ public class PenaltyModelController
 		PenaltyVolatile penalty = PenaltyVolatile.of(input);
 		penalty.setTeam(side);
 		penalty.setPenaltyTime(cumulativeTimeProperty.get());
-		penalty.setStartTime(penalty.isPending() ? Integer.MIN_VALUE : cumulativeTimeProperty.get());
-		penalty.setStopTime(Integer.MIN_VALUE);
+		penalty.setStartTime(penalty.isPending() ? BindingHelper.NO_VALUE : cumulativeTimeProperty.get());
+		penalty.setStopTime(BindingHelper.NO_VALUE);
 		penalty.setPeriod(periodCountProperty.get());
 		// penalty.setRemainder(penalty.getDuration() * 60);
 		updateRemainder(penalty);		

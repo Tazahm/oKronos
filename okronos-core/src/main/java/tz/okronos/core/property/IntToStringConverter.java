@@ -7,7 +7,7 @@ public class IntToStringConverter implements OneWayConverter<Number, String> {
 
 	@Override
 	public String convert(Number source) {
-		if (source.intValue() == Integer.MIN_VALUE) return "";
+		if (source.intValue() == BindingHelper.NO_VALUE) return "";
 		
 		return Integer.toString(source.intValue());
 	}

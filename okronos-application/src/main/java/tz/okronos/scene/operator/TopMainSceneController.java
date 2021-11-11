@@ -314,9 +314,9 @@ public class TopMainSceneController extends AbstractSceneController implements I
 	    	mark = markInputController.getMark();
 		} else {
 			mark = new ScoreSnapshot();
-			mark.setScorer(Integer.MIN_VALUE);
-			mark.setAssist1(Integer.MIN_VALUE);
-			mark.setAssist2(Integer.MIN_VALUE);
+			mark.setScorer(BindingHelper.NO_VALUE);
+			mark.setAssist1(BindingHelper.NO_VALUE);
+			mark.setAssist2(BindingHelper.NO_VALUE);
 		}
 		
 		mark.setTeam(position);

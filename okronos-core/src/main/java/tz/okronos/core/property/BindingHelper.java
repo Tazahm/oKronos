@@ -20,7 +20,9 @@ public class BindingHelper
 	public static final OneWayConverter<Number, String> IntToString2D = new Int2DToStringConverter();
 	/** An instance of integer to time converter. */
 	public static final OneWayConverter<Number, String> SecondsToTime = new SecondsToTimeConverter();
-
+	/** No values, for positive integer. **/
+	public static final int NO_VALUE = -1;
+	
 	/**
 	 * Binds from dst to src. Use unbind to prevent memory leak before all rebind.
 	 * @param <S> the type of src.

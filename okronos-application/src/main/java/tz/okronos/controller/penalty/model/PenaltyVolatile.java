@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import tz.okronos.core.PlayPosition;
+import tz.okronos.core.property.BindingHelper;
 
 /**
  *  The living version of a penalty : its values can change during the time.
@@ -67,7 +68,7 @@ public class PenaltyVolatile implements PenaltyContract, Comparable<PenaltyVolat
 		durationProperty.set(duration);
 		remainderProperty.set(duration * 60);
 		startTimeProperty.set(startTime);
-		stopTimeProperty.set(Integer.MIN_VALUE);
+		stopTimeProperty.set(BindingHelper.NO_VALUE);
 		codeProperty.set(code);
 		this.team = team;
 	}

@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import tz.okronos.core.PlayPosition;
+import tz.okronos.core.property.BindingHelper;
 
 /**
  *  Records a goal. Contains the time and the scorers as properties, the value
@@ -32,9 +33,9 @@ public class ScoreVolatile implements Comparable<ScoreVolatile>, ScoreContract {
 		timeProperty = new SimpleIntegerProperty();
 		periodProperty = new SimpleIntegerProperty();
 		systemTimeProperty = new SimpleLongProperty();
-		scorerProperty = new SimpleIntegerProperty(Integer.MIN_VALUE);
-		assist1Property = new SimpleIntegerProperty(Integer.MIN_VALUE);
-		assist2Property = new SimpleIntegerProperty(Integer.MIN_VALUE);
+		scorerProperty = new SimpleIntegerProperty(BindingHelper.NO_VALUE);
+		assist1Property = new SimpleIntegerProperty(BindingHelper.NO_VALUE);
+		assist2Property = new SimpleIntegerProperty(BindingHelper.NO_VALUE);
 	}
 	
 	public ScoreVolatile() {

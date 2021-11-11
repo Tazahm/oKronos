@@ -14,6 +14,7 @@ import tz.okronos.controller.score.model.ScoreContract;
 import tz.okronos.controller.score.model.ScoreSnapshot;
 import tz.okronos.controller.team.model.PlayerSnapshot;
 import tz.okronos.core.KronoHelper;
+import tz.okronos.core.property.BindingHelper;
 import tz.okronos.scene.ModalController;
 import tz.okronos.scene.control.IntegerField;
 import tz.okronos.scene.control.PlayerSelector;
@@ -102,11 +103,11 @@ public class MarkInputController extends ModalController {
 	}
 	
 	private int nullToUndef(PlayerSnapshot input) {
-		return input == null ? Integer.MIN_VALUE : input.getShirt();
+		return input == null ? BindingHelper.NO_VALUE : input.getShirt();
 	}
 	
 	private Integer undefToNull(int input) {
-		return input == Integer.MIN_VALUE ? null : input;
+		return input == BindingHelper.NO_VALUE ? null : input;
 	}
 	
 }
