@@ -9,7 +9,7 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 
 // WARNING to prevent compilation errors with eclipse, the javax.xml package has been removed
-// from xml-apis-1.0.b2.jar
+// from jar xml-apis 1.4.01
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;

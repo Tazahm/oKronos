@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -299,7 +300,7 @@ public class ExportActionController extends AbstractController {
 				//log.debug("Row {}", row.getRowNum());
 				for (Cell cell : row) {
 					//log.debug("Cell type {}", cell.getCellType());
-					if (Cell.CELL_TYPE_STRING == cell.getCellType()) {						
+					if (CellType.STRING == cell.getCellType()) {						
 						String value = cell.getStringCellValue();
 						//log.debug("Cell value {}", cell.getStringCellValue());
 						if (value.startsWith("{") && value.endsWith("}")) {
@@ -321,7 +322,7 @@ public class ExportActionController extends AbstractController {
 			|| replaceBoolean(cell, key) ;
 		if (! res) {
 			log.debug("No mapping for {}", key);
-			cell.setCellType(Cell.CELL_TYPE_BLANK);
+			cell.setBlank();
 		}
 	}
 	
