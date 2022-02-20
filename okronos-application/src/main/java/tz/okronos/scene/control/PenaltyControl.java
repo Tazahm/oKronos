@@ -34,7 +34,7 @@ public class PenaltyControl extends HBox {
     /**
      * Initializes the minimum size of a control. The size shall be computed at initialization with
      * the style sheets that will applied to. This size is computed so that penalty number and time
-     * are align when display vertically.
+     * are align when displayed vertically.
      * 
      * @param stylesheets the style sheets.
      */

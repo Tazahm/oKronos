@@ -201,8 +201,6 @@ public class PenaltyVolatile implements PenaltyContract, Comparable<PenaltyVolat
 			return 0;
 		if (other == null)
 			return 1;
-		int res = other.getRemainder() - getRemainder();
-		if (res != 0) return res;
 		return (int) (uid - other.uid);
 	}
 	

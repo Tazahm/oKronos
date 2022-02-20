@@ -127,10 +127,7 @@ public class ScoreSceneController extends AbstractSceneController {
     	for (int i = 0; i < controlList.size(); i++) {
     		PenaltyControl control = controlList.get(i);
     		PenaltyVolatile penalty = i < penaltyList.size() ? penaltyList.get(i) : null;
-    		// Test by reference !
-    		if (penalty != control.getPenalty())  {
-    		    control.setPenalty(penalty);
-    		}
+    			control.setPenalty(penalty);
     	}
     }
 	
