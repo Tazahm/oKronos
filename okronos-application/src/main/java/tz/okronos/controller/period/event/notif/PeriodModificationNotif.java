@@ -14,4 +14,5 @@ public class PeriodModificationNotif extends PeriodNotif {
 	private PlayPosition requester;
 	private boolean incremented;
 	private boolean decremented;
+	private String label;
 }

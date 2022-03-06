@@ -26,7 +26,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
-import lombok.extern.slf4j.Slf4j;
 import tz.okronos.annotation.fxsubscribe.FxSubscribe;
 import tz.okronos.application.ResetPlayRequest;
 import tz.okronos.controller.period.event.request.PeriodCurrentDurationModifiationcRequest;
@@ -50,7 +49,6 @@ import tz.okronos.scene.AbstractSceneController;
  *   The controller for the top pane that contains the clocks, score, team name and logo 
  *   as well as the phase label.
  */
-@Slf4j
 @Component
 @Scope("prototype")
 public class TopMainSceneController extends AbstractSceneController implements Initializable  {
@@ -357,16 +355,10 @@ public class TopMainSceneController extends AbstractSceneController implements I
     	setTeamImage(file, position);
     }
 
-    private void setTeamImage(File file, PlayPosition position) {
-    	String url = file == null || ! file.canRead() ? null : KronoHelper.toExternalForm(file);    	    		
-    	if (file != null && url == null) {
-			log.warn("Cannot read image " + file.getAbsolutePath());
-		} else {
-			Image image = file == null ? null : new Image(url);	
-			TeamImageModificationRequest request = new TeamImageModificationRequest().setImage(image);	
-			context.postEvent(request.setSide(position));
-		}
-    }
+	private void setTeamImage(File file, PlayPosition position) {
+		final TeamImageModificationRequest request = TeamImageModificationRequest.builbRequestFromFile(file);
+		context.postEvent(request.setSide(position));
+	}
 
 	private void reset() {
 		setTeamImage(null, PlayPosition.LEFT);

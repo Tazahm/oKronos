@@ -82,6 +82,7 @@ public class PeriodModelController extends AbstractModelController<PeriodModel> 
 			notif.setDecremented(isPhaseDecremented);
 			notif.setCumulativeTime(cumulativeTimeProperty.get());
 			notif.setRequester(requester);
+			notif.setLabel(periodModel.getPeriodLabelWrapper().get());
 	    	context.postEvent(notif);
 	    	isPhaseIncremented = false;
 	    	isPhaseDecremented = false;

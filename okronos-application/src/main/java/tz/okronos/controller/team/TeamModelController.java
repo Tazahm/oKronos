@@ -28,6 +28,7 @@ import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import tz.okronos.annotation.fxsubscribe.FxSubscribe;
 import tz.okronos.annotation.lateralizedbean.LateralizedBean;
 import tz.okronos.annotation.lateralizedbean.LateralizedConfiguration;
 import tz.okronos.annotation.lateralizedbean.LateralizedPostConstruct;
@@ -35,6 +36,8 @@ import tz.okronos.application.ResetPlayRequest;
 import tz.okronos.controller.report.event.notif.ReportBuildAnswer;
 import tz.okronos.controller.report.event.request.ReportBuildRequest;
 import tz.okronos.controller.report.event.request.ReportReinitRequest;
+import tz.okronos.controller.team.event.notif.TeamImageModificationNotif;
+import tz.okronos.controller.team.event.notif.TeamNameModificationNotif;
 import tz.okronos.controller.team.event.notif.TeamPlayerCreationNotif;
 import tz.okronos.controller.team.event.notif.TeamPlayerDeletionNotif;
 import tz.okronos.controller.team.event.notif.TeamPlayerModificationNotif;
@@ -85,6 +88,8 @@ public class TeamModelController
 		model = teamModel();
 		resetTeamName();
 		context.registerEventListener(this);
+
+		teamNameProperty().addListener((o, p, n) -> notifyTeamNameChange());
 	}
 
 	@LateralizedBean
@@ -102,18 +107,22 @@ public class TeamModelController
     	return model.getPlayerSortedListWrapper().getReadOnlyProperty();
     }
 
-  	@Subscribe public void onResetPlayRequest(ResetPlayRequest request) {
+  	@FxSubscribe public void onResetPlayRequest(ResetPlayRequest request) {
   		reset();
   	}
 	
 	@Subscribe public void onTeamNameModificationRequest(TeamNameModificationRequest request) {
 		if (side != request.getSide()) return;
 		model.getTeamNameWrapper().set(request.getTeamName());
+		// The change notification is perform by the team name change listener.
 	}
 	
 	@Subscribe public void onTeamImageModificationRequest(TeamImageModificationRequest request) {
 		if (side != request.getSide()) return;
-		model.getTeamImageWrapper().set(request.getImage());
+		model.getTeamImageWrapper().set(request.buildImage());
+		
+		TeamImageModificationNotif notif = TeamImageModificationNotif.buildFromEvent(request);
+		context.postEvent(notif);
 	}
 
 	@Subscribe public void onTeamPlayerCreationRequest(TeamPlayerCreationRequest request) {
@@ -200,6 +209,10 @@ public class TeamModelController
 	
 	
 	private void resetTeamName() {
+		// Set to null in order to causes an event at initialization.
+		// If not set, the team name would be empty into the score scene
+		// because that scene is initialized after the call to this method. 
+		model.getTeamNameWrapper().set(null);
 		String teamProp = side == PlayPosition.LEFT ? "leftTeamName" : "rightTeamName";
 		String defaultName = side == PlayPosition.LEFT ? "Locaux" : "Visiteurs";
 		String teamName = context.getProperty(teamProp, defaultName);
@@ -311,9 +324,12 @@ public class TeamModelController
 		return model;
 	}
 
-
+	private void notifyTeamNameChange() {
+		context.postEvent(new TeamNameModificationNotif()
+			.setSide(getSide())
+			.setTeamName(model.getTeamNameWrapper().get()));
+	}
 	
-
 }
 
 

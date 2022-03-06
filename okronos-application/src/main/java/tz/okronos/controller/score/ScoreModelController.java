@@ -207,6 +207,7 @@ public class ScoreModelController
 		mark.setTeam(side);
 		
 		context.postEvent(new ScoreNotif()
+			.setSide(side)
 			.setPreviousScore(previous)
 			.setScore(model.getScoreWrapper().get())
 			.setReset(reset)

@@ -1,4 +1,4 @@
-package tz.okronos.controller.team.event.request;
+package tz.okronos.controller.team.event.notif;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,5 +7,5 @@ import tz.okronos.controller.team.event.TeamNameEvent;
 
 @Accessors(chain = true)
 @Getter @Setter
-public class TeamNameModificationRequest extends TeamNameEvent {
+public class TeamNameModificationNotif extends TeamNameEvent {
 }
