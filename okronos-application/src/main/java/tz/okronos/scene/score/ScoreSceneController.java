@@ -12,9 +12,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javafx.beans.property.ReadOnlyListProperty;
-import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
@@ -25,6 +25,7 @@ import javafx.scene.input.MouseEvent;
 import tz.okronos.annotation.fxsubscribe.FxSubscribe;
 import tz.okronos.controller.animation.AnimationActionController;
 import tz.okronos.controller.penalty.event.notif.PenaltyNotif;
+import tz.okronos.controller.penalty.event.notif.PenaltyScoreListNotif;
 import tz.okronos.controller.penalty.model.PenaltyVolatile;
 import tz.okronos.controller.period.event.notif.PeriodModificationNotif;
 import tz.okronos.controller.playtime.event.notif.PlayTimeChangeNotif;
@@ -33,6 +34,7 @@ import tz.okronos.controller.score.event.notif.ScoreNotif;
 import tz.okronos.controller.shutdown.event.request.ShutdownRequest;
 import tz.okronos.controller.team.event.notif.TeamImageModificationNotif;
 import tz.okronos.controller.team.event.notif.TeamNameModificationNotif;
+import tz.okronos.core.KronoHelper;
 import tz.okronos.core.SimpleLateralizedPair;
 import tz.okronos.core.property.BindingHelper;
 import tz.okronos.scene.AbstractSceneController;
@@ -61,9 +63,8 @@ public class ScoreSceneController extends AbstractSceneController {
     @FXML private ImageView teamLeftImageView;
     @FXML private ImageView teamRightImageView;
     
-    @Autowired @Qualifier("penaltyScoreListPropertyLateralized") 
-    private SimpleLateralizedPair<ReadOnlyListProperty<PenaltyVolatile>> penaltyScoreListProperties;
-  
+    private SimpleLateralizedPair<SimpleListProperty<PenaltyVolatile>> penaltyScoreListProperties 
+        = new SimpleLateralizedPair<>(KronoHelper.createListProperty(), KronoHelper.createListProperty());
     private SimpleBooleanProperty playTimeRunningProperty = new SimpleBooleanProperty(); 
     private SimpleIntegerProperty backwardTimeProperty = new SimpleIntegerProperty();
     private SimpleLateralizedPair<SimpleIntegerProperty> scoreProperties 
@@ -73,11 +74,10 @@ public class ScoreSceneController extends AbstractSceneController {
     private SimpleStringProperty periodLabelProperty = new SimpleStringProperty();
     private SimpleLateralizedPair<SimpleObjectProperty<Image>> teamImageProperties 
         = new SimpleLateralizedPair<>(new SimpleObjectProperty<Image>(), new SimpleObjectProperty<Image>());
+    private SimpleLateralizedPair<List<PenaltyControl>> penaltyControls;
     @Autowired AnimationActionController animationActionController;
 
-    private SimpleLateralizedPair<List<PenaltyControl>> penaltyControls;
-    
-    
+
     @PostConstruct 
     public void init()  {
 		penaltyControls = new SimpleLateralizedPair<>(
@@ -110,9 +110,9 @@ public class ScoreSceneController extends AbstractSceneController {
   		timeResumed();
   	}
 
- 	@FxSubscribe public void onPenaltyNotif(PenaltyNotif event) {
-  		bindScores();
-  	}
+// 	@FxSubscribe public void onPenaltyNotif(PenaltyNotif event) {
+//  		bindScores();
+//  	}
 
  	@FxSubscribe public void onShutdownRequest(final ShutdownRequest event) {
 		getStage().hide();
@@ -136,6 +136,13 @@ public class ScoreSceneController extends AbstractSceneController {
 
 	@FxSubscribe public void onPeriodModificationNotif(PeriodModificationNotif event) {
 		periodLabelProperty.set(event.getLabel());
+	}
+	
+	@FxSubscribe public void onPenaltyScoreListNotif(PenaltyScoreListNotif event) {
+		SimpleListProperty<PenaltyVolatile> penaltyList = penaltyScoreListProperties.getFromPosition(event.getSide());
+		penaltyList.clear();
+		penaltyList.addAll(event.getPenaltyList().stream().map(p->PenaltyVolatile.of(p, true)).toList());
+		bindScores(penaltyList, penaltyControls.getFromPosition(event.getSide()));
 	}
 	
     private void timeResumed() {

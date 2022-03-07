@@ -32,8 +32,12 @@ public class PenaltyVolatile implements PenaltyContract, Comparable<PenaltyVolat
 	private SimpleLongProperty systemTimeProperty;
 	
 	public static PenaltyVolatile of(PenaltyContract prototype) {
+		return of(prototype, false);
+	}
+	
+	public static PenaltyVolatile of(PenaltyContract prototype, boolean includeUid) {
 		PenaltyVolatile penaltyVolatile = new PenaltyVolatile();
-		PenaltyContract.copy (prototype, penaltyVolatile, false);
+		PenaltyContract.copy (prototype, penaltyVolatile, includeUid);
 		return penaltyVolatile;
 	}
 	

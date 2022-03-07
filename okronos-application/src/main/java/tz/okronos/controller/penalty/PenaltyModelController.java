@@ -12,6 +12,9 @@ import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import lombok.extern.slf4j.Slf4j;
 import tz.okronos.annotation.fxsubscribe.FxSubscribe;
 import tz.okronos.annotation.lateralizedbean.LateralizedBean;
 import tz.okronos.annotation.lateralizedbean.LateralizedConfiguration;
@@ -21,6 +24,7 @@ import tz.okronos.controller.penalty.event.notif.PenaltyCreationNotif;
 import tz.okronos.controller.penalty.event.notif.PenaltyListNotif;
 import tz.okronos.controller.penalty.event.notif.PenaltyModificationNotif;
 import tz.okronos.controller.penalty.event.notif.PenaltyRemovalNotif;
+import tz.okronos.controller.penalty.event.notif.PenaltyScoreListNotif;
 import tz.okronos.controller.penalty.event.notif.PenaltyStartNotif;
 import tz.okronos.controller.penalty.event.notif.PenaltyStopNotif;
 import tz.okronos.controller.penalty.event.request.PenaltyAddRequest;
@@ -75,6 +79,18 @@ public class PenaltyModelController
 	public void init() {
 		model = new PenaltyModel();
 		context.registerEventListener(this);
+		
+		ListChangeListener<PenaltyVolatile> scoreListListener = c->scoreListChanged();
+		model.getPenaltyScoreListWrapper().addListener(scoreListListener);
+	}
+	
+	private void scoreListChanged() {
+		List<PenaltySnapshot> penalties = model.getPenaltyScoreListWrapper().get().stream()
+			.map(p->PenaltySnapshot.of(p)).toList();
+		
+		context.postEvent(new PenaltyScoreListNotif()
+			.setSide(getSide())
+			.setPenaltyList(penalties));
 	}
 	
 	@LateralizedBean
@@ -196,6 +212,7 @@ public class PenaltyModelController
 		 
 		 if (modified) {
 			 context.postEvent(new PenaltyListNotif().setSide(side));
+			scoreListChanged();
 		 }
 	}
 	
@@ -269,6 +286,7 @@ public class PenaltyModelController
 		}
 		
 		updateRemainder(penalty);
+		scoreListChanged();
 	}
 
 	private void modifyPenalty(PenaltyModifRequest request) {
