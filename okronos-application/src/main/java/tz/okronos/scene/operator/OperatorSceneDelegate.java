@@ -60,8 +60,8 @@ public class OperatorSceneDelegate {
 	public void buildMusicHandler(String listName, ToggleButton button) {
     	MediaButtonHandler.builder()
     		.context(context)
-		    .startAction(i->context.postEvent(new MusicStartRequest().setUrl(i.getUrl())))
-		    .stopAction(i->context.postEvent(new MusicStopRequest().setUrl(i.getUrl())))
+		    .startAction(i->context.postEvent(new MusicStartRequest().setFileName(i.getFileName())))
+		    .stopAction(i->context.postEvent(new MusicStopRequest().setFileName(i.getFileName())))
 	   	    .listName(listName)
     	    .mediaButton(button)
     	    .build()
@@ -89,7 +89,7 @@ public class OperatorSceneDelegate {
     	AnimationRequest request = start
     		? new AnimationStartRequest()
     		: new AnimationStopRequest();    		
-    	context.postEvent(request.setUrl(item.getUrl()));
+    	context.postEvent(request.setFileName(item.getFileName()));
     }
 
     public void startOrStopPlayTime() {

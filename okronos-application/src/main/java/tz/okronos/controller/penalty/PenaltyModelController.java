@@ -13,8 +13,6 @@ import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import lombok.extern.slf4j.Slf4j;
 import tz.okronos.annotation.fxsubscribe.FxSubscribe;
 import tz.okronos.annotation.lateralizedbean.LateralizedBean;
 import tz.okronos.annotation.lateralizedbean.LateralizedConfiguration;

@@ -1,8 +1,5 @@
 package tz.okronos.scene.operator.media;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -15,10 +12,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Side;
 import javafx.scene.control.ToggleButton;
 import lombok.Builder;
-import lombok.extern.slf4j.Slf4j;
 import tz.okronos.core.KronoContext;
 import tz.okronos.core.KronoHelper;
-import tz.okronos.core.KronoContext.ResourceType;
 
 /**
  *  Handles a media popup. A media popup is associated with a button. When the button is
@@ -44,7 +39,6 @@ import tz.okronos.core.KronoContext.ResourceType;
  * </pre>
  */
 @Builder
-@Slf4j
 public class MediaButtonHandler {
 
 	@Autowired private KronoContext context;
@@ -81,25 +75,9 @@ public class MediaButtonHandler {
     	mediaButton.setContextMenu(popup);
     }
 
-	private MediaItem buildMediaItem(final String name) {
-		File target = context.getLocalFile(name, ResourceType.MEDIA);
-		if (target == null) return null;
-		if (! target.canRead() || ! target.isFile()) { 
-			log.warn("Cannot read : '{}'", name);
-			return null;
-		}
-		
-		URL url = null;
-		try {
-			url = target.toURI().toURL();
-		} catch (MalformedURLException ex) {
-			log.error(ex.getMessage(), ex);
-			return null;
-		}
-		
+	private MediaItem buildMediaItem(final String name) {		
 		MediaItem item = new MediaItem(buildName(name));
-		item.setFile(target);
-		item.setUrl(url);
+		item.setFileName(name);
 		return item;
 	}
 	

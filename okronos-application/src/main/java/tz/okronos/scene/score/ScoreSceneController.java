@@ -7,7 +7,6 @@ import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +23,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import tz.okronos.annotation.fxsubscribe.FxSubscribe;
 import tz.okronos.controller.animation.AnimationActionController;
-import tz.okronos.controller.penalty.event.notif.PenaltyNotif;
 import tz.okronos.controller.penalty.event.notif.PenaltyScoreListNotif;
 import tz.okronos.controller.penalty.model.PenaltyVolatile;
 import tz.okronos.controller.period.event.notif.PeriodModificationNotif;

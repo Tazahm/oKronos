@@ -1,6 +1,6 @@
 package tz.okronos.controller.animation;
 
-import java.net.URL;
+import java.io.File;
 
 import javax.annotation.PostConstruct;
 
@@ -9,10 +9,12 @@ import org.springframework.stereotype.Component;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import tz.okronos.annotation.fxsubscribe.FxSubscribe;
 import tz.okronos.controller.animation.event.request.AnimationStartRequest;
 import tz.okronos.controller.animation.event.request.AnimationStopRequest;
 import tz.okronos.core.AbstractController;
+import tz.okronos.core.KronoContext.ResourceType;
 import tz.okronos.scene.score.AnimationSceneController;
 import tz.okronos.scene.score.ScoreSceneController;
 
@@ -23,6 +25,7 @@ import tz.okronos.scene.score.ScoreSceneController;
  *  the score scene.
  */
 @Component
+@Slf4j
 public class AnimationActionController extends AbstractController {
    private MediaPlayer player;
    
@@ -36,21 +39,27 @@ public class AnimationActionController extends AbstractController {
     }
  
  	@FxSubscribe public void onAnimationStartRequest(AnimationStartRequest event) {
-  		startAnimation(event.getUrl());
+  		startAnimation(event.getFileName());
   	}
   	
   	@FxSubscribe public void onAnimationStopRequest(AnimationStopRequest event) {
-  		stopAnimation(event.getUrl());
+  		stopAnimation();
   	}
   	
     public MediaPlayer getPlayer() {
     	return player;
     }
     
-    private void startAnimation(URL url) {
+    private void startAnimation(String fileName) {
     	if (player != null) return;
  	
-		Media media =  new Media(url.toExternalForm());
+    	File target = context.getLocalFile(fileName, ResourceType.MEDIA);
+		if (target == null || ! target.canRead() || ! target.isFile()) { 
+			log.warn("Cannot read : '{}'", fileName);
+			return;
+		}
+		
+		Media media = new Media(target.toURI().toASCIIString());
 		player = new MediaPlayer(media);
 		animationSceneController.getMediaView().setMediaPlayer(player);
 
@@ -59,7 +68,7 @@ public class AnimationActionController extends AbstractController {
     	player.play();
     }
     
-    private void stopAnimation(URL url) {
+    private void stopAnimation() {
     	if (player == null) return;
     	
     	player.stop();
